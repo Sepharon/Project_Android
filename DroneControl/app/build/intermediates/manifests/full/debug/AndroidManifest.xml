@@ -32,6 +32,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name="com.iha.group2.dronecontrol.DroneControl"
+            android:label="@string/title_activity_drone_control" >
+        </activity>
     </application>
 
 </manifest>

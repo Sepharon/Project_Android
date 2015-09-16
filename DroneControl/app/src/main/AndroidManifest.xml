@@ -15,7 +15,8 @@
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="miss_temps"/>
+                <action android:name="miss_temps" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,6 +26,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".DroneControl"
+            android:label="@string/title_activity_drone_control" >
+        </activity>
     </application>
 
 </manifest>
