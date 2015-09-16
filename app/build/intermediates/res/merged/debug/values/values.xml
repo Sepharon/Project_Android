@@ -219,6 +219,11 @@
     <!-- From: file:/home/sergi/aarhus_sp/DroneControl/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <!-- From: file:/home/sergi/aarhus_sp/DroneControl/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="title_activity_drone_control">DroneControl</string>
+    <!-- From: file:/home/sergi/aarhus_sp/DroneControl/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

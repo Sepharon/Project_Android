@@ -30,8 +30,15 @@ public class InitActivity extends AppCompatActivity {
     boolean state = false;
     boolean packet_received = false;
     String result = "";
+    String rec_msg = "";
+
+    // Timeout value
+    static final int timeout = 10000;
+
+    // Default port and ip values, need to be user input
     static final int port = 8888;
     static final String _ip = "192.168.1.8";
+
     // Functions start
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +60,11 @@ public class InitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (state){
+                    state = false;
                     // TODO: IMPLEMENT SECOND ACTIVITY
-                    //Intent second_act = new Intent(InitActivity.this, SecondActivity.class);
+                    Intent second_act = new Intent(InitActivity.this, DroneControl.class);
                     Toast.makeText(InitActivity.this, "Starting second activity", Toast.LENGTH_LONG).show();
-                    //startActivity(second_act);
+                    startActivity(second_act);
                 }
                 else Toast.makeText(InitActivity.this,"You must click connect first",Toast.LENGTH_LONG).show();
             }
@@ -66,17 +74,24 @@ public class InitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Once clicked send message to arduino using a service
                 Toast.makeText(InitActivity.this, "Sending message to Arduino", Toast.LENGTH_LONG).show();
+                // We are going to start a thread to act asa  timeout
+                time_out();
                 try {
-                    result = client("Alive",_ip);
-                    Log.v("Activity One",result);
+                    result = client("Alive", _ip);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (result.equals("alive")){
-                    state=true;
-                    Toast.makeText(InitActivity.this,"aliveeee",Toast.LENGTH_LONG).show();
+                rec_msg = "";
+                Log.v("Activity One result", result);
+                if (result.equals("alive")) {
+                    state = true;
+                    Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
+                    state = false;
                 }
-                else Toast.makeText(InitActivity.this,"Error",Toast.LENGTH_LONG).show();
+                Log.v("Activity one value: ","" + state);
             }
         });
 
@@ -115,20 +130,24 @@ public class InitActivity extends AppCompatActivity {
         int msg_length = msg.length();
         byte[] message = msg.getBytes();
         byte[] recieve_data = new byte[5];
-        String rec_msg = "not";
+
         Log.v("Activity:", "Sending packet");
         DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, port);
         client_socket.send(p);
 
         Log.v("Activity:", "Recieving packet");
         DatagramPacket recieve_pkt = new DatagramPacket(recieve_data,recieve_data.length);
+        Log.v("Activity",""+packet_received);
+        packet_received=false;
         while (!packet_received){
             client_socket.receive(recieve_pkt);
             rec_msg = new String(recieve_pkt.getData());
             Log.v("Service:","Data recieved :" + rec_msg);
+            Log.v("Service:","Data recieved :" + packet_received);
 
-        if (rec_msg != null || rec_msg.equals("") == false) packet_received = true;
+            if (rec_msg != null || !rec_msg.equals("")) packet_received = true;
         }
+        if (rec_msg.equals("")) packet_received = false;
         // Might not be needed (waiting for answer)
         Log.v("Service:", "Out of loop");
         client_socket.close();
@@ -136,11 +155,28 @@ public class InitActivity extends AppCompatActivity {
         return rec_msg;
     }
 
+    public void time_out(){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.v("Thread Activity One","Starting thread");
+                try {
+                    Thread.sleep(timeout);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!state){
+                    Log.v("Thread Activity One","Timeout");
+                    packet_received = true;
+                    client_socket.close();
+                }
+            }
+        });
+        t.start();
+    }
     @Override
     public void onPause(){
         super.onPause();
-        client_socket.close();
         packet_received = true;
-
     }
 }
