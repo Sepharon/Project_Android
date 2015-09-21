@@ -183,4 +183,5 @@ public class SQL_IP_Data_Base extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return affected_rows;
     }
+
 }
