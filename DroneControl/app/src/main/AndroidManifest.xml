@@ -15,7 +15,7 @@
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="miss_temps" />
+                <action android:name="broadcast" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

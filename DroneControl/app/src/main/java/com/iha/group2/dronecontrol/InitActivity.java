@@ -19,7 +19,10 @@ right now I'm testing this in an activity.
  */
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,12 +54,18 @@ public class InitActivity extends AppCompatActivity {
 
     // Default port and ip values, need to be user input
     static final int port = 8888;
+    final String action = "connect";
+
+
 
     // Functions start
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
+
+        IntentFilter filter = new IntentFilter("broadcast");
+        this.registerReceiver(new MyReceiver(), filter);
 
         // UDP NECESSARY
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -90,25 +99,12 @@ public class InitActivity extends AppCompatActivity {
                 // Once clicked send message to arduino using a service
                 Toast.makeText(InitActivity.this, "Sending message to Arduino", Toast.LENGTH_LONG).show();
                 // We are going to start a thread to act as a timeout
-                time_out();
-                try {
-                    // Start client connection
-                    result = client("Alive", ip.getText().toString());
-                    // Needed since if there's a timeout we close the socket
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                // Put this empty again ,  don't think is needed tho
-                rec_msg = "";
-                Log.v("Activity One result", result);
-                if (result.equals("alive")) {
-                    state = true;
-                    Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
-                    state = false;
-                }
-                Log.v("Activity one value: ","" + state);
+                //time_out();
+                Intent intent = new Intent(getBaseContext(), UDPconnection.class);
+                intent.putExtra("ip", ip.getText().toString());
+                intent.putExtra("value","");
+                intent.putExtra("action", action);
+                startService(intent);
             }
         });
 
@@ -185,15 +181,43 @@ public class InitActivity extends AppCompatActivity {
         return rec_msg;
     }
 
+    // If we pause the app we get out of the loop (cancel connection attempt)
+    @Override
+    public void onPause(){
+        super.onPause();
+        packet_received = true;
+    }
+
+    public class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra("result");
+            // Put this empty again ,  don't think is needed tho
+            Log.v("Activity One result", result);
+            if (result.equals("alive")) {
+                state = true;
+                Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
+                //state = false;
+            }
+            Log.v("Activity one value: ", "" + state);
+
+
+        }
+    }
+
+
+    /*
     public void time_out(){
-        /*
+
         This works the following way -> packet_received is set to false , the client function gets in a loop
         waiting to receive a packet.
 
         The timeout start, after ten second sets the variable packet_received to true, this making the loop
         from the client() function stop.
 
-         */
+
 
         // So, we create thread since this will sleep for X seconds.
         Thread t = new Thread(new Runnable() {
@@ -215,11 +239,5 @@ public class InitActivity extends AppCompatActivity {
             }
         });
         t.start();
-    }
-    // If we pause the app we get out of the loop (cancel connection attempt)
-    @Override
-    public void onPause(){
-        super.onPause();
-        packet_received = true;
-    }
+    }*/
 }

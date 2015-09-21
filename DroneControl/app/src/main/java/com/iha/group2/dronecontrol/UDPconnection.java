@@ -111,12 +111,16 @@ public class UDPconnection extends Service {
 
         while (!pck_rec){
             try {
-                Log.v("Service:","Waiting for data");
+                Log.v("Service:", "Waiting for data");
                 socket.receive(recieve_pkt);
                 Log.v("Service:", "Data received");
                 rec_msg = new String(recieve_pkt.getData());
                 Log.v("Service", "Data recieved :" + rec_msg);
                 pck_rec = true;
+                Intent broadcast = new Intent();
+                broadcast.setAction("broadcast");
+                broadcast.putExtra("result",rec_msg);
+                sendBroadcast(broadcast);
             }
             catch (SocketTimeoutException e){
                 Log.v("Service:", "Timeout");
