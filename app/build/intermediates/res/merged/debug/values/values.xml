@@ -223,6 +223,7 @@
     <!-- From: file:/home/silvia/Android%20Studio/Projects/aarhus_sp/DroneControl/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="title_activity_drone_control">DroneControl</string>
+    <string name="title_activity_list_ips">ListIPs</string>
     <string name="up_button">Up</string>
     <!-- From: file:/home/silvia/Android%20Studio/Projects/aarhus_sp/DroneControl/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>

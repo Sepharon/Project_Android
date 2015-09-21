@@ -57,7 +57,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
     static int DATABASE_VERSION = 1;
     static final String CREATE_DB_TABLE =
             " CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    " IP TEXT NOT NULL);";
+                    " IP TEXT NOT NULL, UNIQUE(IP));";
 
     private static class  DatabaseHelper extends SQLiteOpenHelper{
 
