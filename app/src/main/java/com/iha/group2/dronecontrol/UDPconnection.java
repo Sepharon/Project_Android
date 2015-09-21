@@ -128,7 +128,9 @@ public class UDPconnection extends Service {
                 pck_rec = true;
                 Intent broadcast = new Intent();
                 broadcast.setAction("broadcast");
-                broadcast.putExtra("result", rec_msg.split("\n"));
+                String messageR = rec_msg.split("\n")[0];
+                Log.v("receivedMessage", messageR);
+                broadcast.putExtra("result", messageR);
                 sendBroadcast(broadcast);
             }
             catch (SocketTimeoutException e){
