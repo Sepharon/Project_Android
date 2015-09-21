@@ -75,6 +75,9 @@ public class InitActivity extends AppCompatActivity {
         Button on = (Button) findViewById(R.id.button_on);
         final EditText ip = (EditText) findViewById(R.id.ip_field);
 
+        // TODO: ADD IP TO DB
+        // TODO: SHOW IP WHEN WRITING IP
+
         // In order for the On button to do something connect has to be pressed first
 
         on.setOnClickListener(new View.OnClickListener() {

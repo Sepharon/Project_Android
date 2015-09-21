@@ -21,7 +21,8 @@ import java.net.SocketTimeoutException;
 
 public class UDPconnection extends Service {
 
-    static final int port = 8888;
+    static final int movment_port = 8888;
+    static final int camera_port = 8889;
     static final String _ip = "192.168.1.8";
     static final int timeout = 10000;
 
@@ -46,9 +47,17 @@ public class UDPconnection extends Service {
                     e.printStackTrace();
                 }
                 break;
+            case "camera":
+                try {
+                    msg = get_msg(ip,action,camera_port);
+                    Log.v("Service:", "Msg = " + msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
                 try {
-                    msg = get_msg(ip,action);
+                    msg = get_msg(ip,action,movment_port);
                     Log.v("Service:", "Msg = " + msg);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -74,14 +83,14 @@ public class UDPconnection extends Service {
         InetAddress IPAddress = InetAddress.getByName(Ip);
 
         Log.v("Service:", "Sending packet");
-        DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, port);
+        DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, movment_port);
         client_socket.send(p);
         Log.v("Service:","Packet sent");
         client_socket.close();
 
     }
 
-    public String get_msg (String ip, String msg) throws IOException{
+    public String get_msg (String ip, String msg, int port) throws IOException{
         // TODO: FIX MESSAGE GARBAGE AT THE END
         /*
         Variables declaration
@@ -119,7 +128,7 @@ public class UDPconnection extends Service {
                 pck_rec = true;
                 Intent broadcast = new Intent();
                 broadcast.setAction("broadcast");
-                broadcast.putExtra("result",rec_msg);
+                broadcast.putExtra("result", rec_msg);
                 sendBroadcast(broadcast);
             }
             catch (SocketTimeoutException e){
