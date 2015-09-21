@@ -49,12 +49,13 @@ public class UDPconnection extends Service {
             default:
                 try {
                     msg = get_msg(ip,action);
+                    Log.v("Service:", "Msg = " + msg);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
         }
-        Log.v("Service:", "Msg = " + msg);
+
         stopSelf();
         return START_STICKY;
     }
@@ -81,6 +82,7 @@ public class UDPconnection extends Service {
     }
 
     public String get_msg (String ip, String msg) throws IOException{
+        // TODO: FIX MESSAGE GARBAGE AT THE END
         /*
         Variables declaration
          */
@@ -119,9 +121,7 @@ public class UDPconnection extends Service {
             catch (SocketTimeoutException e){
                 Log.v("Service:", "Timeout");
                 pck_rec = true;
-
             }
-
         }
         Log.v("Client:", "Out of loop");
         socket.close();

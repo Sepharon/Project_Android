@@ -33,7 +33,7 @@ public class DroneControl extends AppCompatActivity {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("F", ip,"");
+                send_data("F", ip,"s");
             }
         });
         backward.setOnClickListener(new View.OnClickListener() {
