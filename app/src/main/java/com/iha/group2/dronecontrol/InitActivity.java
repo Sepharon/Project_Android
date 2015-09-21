@@ -11,9 +11,13 @@ What does this do :
 Click connect button -> Send message to "Arduino" (or whatever udp server) -> waits for a message ->
 if message received YEAAAH everything is good . If no message received that fuck. There's a timeout implemented that after
 10 seconds it will close the connection (if any of my teachers see's how i implemented that, I'm sorry)
-
-
  */
+
+/*
+I know that the "network" tasks should be done in a service, this si begin implemented in the UDPconnection class,
+right now I'm testing this in an activity.
+ */
+
 
 import android.content.Intent;
 import android.os.StrictMode;
@@ -47,7 +51,6 @@ public class InitActivity extends AppCompatActivity {
 
     // Default port and ip values, need to be user input
     static final int port = 8888;
-    static final String _ip = "192.168.1.8";
 
     // Functions start
     @Override
@@ -73,6 +76,7 @@ public class InitActivity extends AppCompatActivity {
                 if (state){
                     state = false;
                     Intent second_act = new Intent(InitActivity.this, DroneControl.class);
+                    second_act.putExtra("ip",ip.getText().toString());
                     // You won't be able to see this toast but whatever
                     Toast.makeText(InitActivity.this, "Starting second activity", Toast.LENGTH_LONG).show();
                     startActivity(second_act);
@@ -89,12 +93,12 @@ public class InitActivity extends AppCompatActivity {
                 time_out();
                 try {
                     // Start client connection
-                    result = client("Alive", _ip);
+                    result = client("Alive", ip.getText().toString());
                     // Needed since if there's a timeout we close the socket
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                // Put this empty again , it's extremely shity and i don't think is needed
+                // Put this empty again ,  don't think is needed tho
                 rec_msg = "";
                 Log.v("Activity One result", result);
                 if (result.equals("alive")) {
@@ -132,6 +136,13 @@ public class InitActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    /*
+    Here is the part that you should look at, the client function sends and waits for a message
+    I know that this should be implemented in a service, that's why i'm porting this code to the
+    UDPconnection service.
+     */
+
     public String client (String msg, String Ip) throws IOException {
         /*
         Might have to go to a service
@@ -149,7 +160,7 @@ public class InitActivity extends AppCompatActivity {
         // Starting to do actual things
         Log.v("Activity:", "Sending packet");
         DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, port);
-        // AAAAAAnd we send a message
+        // And we send a message
         client_socket.send(p);
 
         Log.v("Activity:", "Recieving packet");
@@ -158,24 +169,32 @@ public class InitActivity extends AppCompatActivity {
 
         // This is actually needed since the timeout fucked me over with this
         packet_received=false;
+
         // We wait until we receive a packet or timeout happens
         while (!packet_received){
             client_socket.receive(recieve_pkt);
             rec_msg = new String(recieve_pkt.getData());
-            Log.v("Service:","Data recieved :" + rec_msg);
-            Log.v("Service:","Data recieved :" + packet_received);
-
+            Log.v("Client","Data recieved :" + rec_msg);
+            // If we receive a packet we exit the loop.
             if (rec_msg != null || !rec_msg.equals("")) packet_received = true;
         }
-        if (rec_msg.equals("")) packet_received = false;
-        // Might not be needed (waiting for answer)
-        Log.v("Service:", "Out of loop");
+
+        Log.v("Client:", "Out of loop");
         client_socket.close();
         Log.v("msg", rec_msg);
         return rec_msg;
     }
 
     public void time_out(){
+        /*
+        This works the following way -> packet_received is set to false , the client function gets in a loop
+        waiting to receive a packet.
+
+        The timeout start, after ten second sets the variable packet_received to true, this making the loop
+        from the client() function stop.
+
+         */
+
         // So, we create thread since this will sleep for X seconds.
         Thread t = new Thread(new Runnable() {
             @Override
@@ -188,7 +207,9 @@ public class InitActivity extends AppCompatActivity {
                 }
                 if (!state){
                     Log.v("Thread Activity One","Timeout");
+                    // Change the boolean variable so the client function exits the loop.
                     packet_received = true;
+                    // For some reason i have to close to socket here else it blocks the whole app
                     client_socket.close();
                 }
             }

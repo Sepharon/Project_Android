@@ -5,5 +5,7 @@
     <string name="hint_ip">Write the Arduino IP here</string>
     <string name="connect_button">Connect</string>
     <string name="on_button">On</string>
+    <string name="up_button">Up</string>
+    <string name="down_button">Down</string>
     <string name="title_activity_drone_control">DroneControl</string>
 </resources>
