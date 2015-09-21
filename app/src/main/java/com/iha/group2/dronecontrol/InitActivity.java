@@ -57,7 +57,6 @@ public class InitActivity extends AppCompatActivity {
     final String action = "connect";
 
 
-
     // Functions start
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +81,15 @@ public class InitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // If we clicked connected first and everything was OK...
-                if (state){
+                if (state) {
                     state = false;
                     Intent second_act = new Intent(InitActivity.this, DroneControl.class);
-                    second_act.putExtra("ip",ip.getText().toString());
+                    second_act.putExtra("ip", ip.getText().toString());
                     // You won't be able to see this toast but whatever
                     Toast.makeText(InitActivity.this, "Starting second activity", Toast.LENGTH_LONG).show();
                     startActivity(second_act);
-                }
-                else Toast.makeText(InitActivity.this,"You must click connect first",Toast.LENGTH_LONG).show();
+                } else
+                    Toast.makeText(InitActivity.this, "You must click connect first", Toast.LENGTH_LONG).show();
             }
         });
         connect.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +101,7 @@ public class InitActivity extends AppCompatActivity {
                 //time_out();
                 Intent intent = new Intent(getBaseContext(), UDPconnection.class);
                 intent.putExtra("ip", ip.getText().toString());
-                intent.putExtra("value","");
+                intent.putExtra("value", "");
                 intent.putExtra("action", action);
                 startService(intent);
             }
@@ -133,57 +132,9 @@ public class InitActivity extends AppCompatActivity {
     }
 
 
-    /*
-    Here is the part that you should look at, the client function sends and waits for a message
-    I know that this should be implemented in a service, that's why i'm porting this code to the
-    UDPconnection service.
-     */
-
-    public String client (String msg, String Ip) throws IOException {
-        /*
-        Might have to go to a service
-         */
-
-        // We get the IP address
-        InetAddress IPAddress = InetAddress.getByName(Ip);
-        // Create socket
-        client_socket = new DatagramSocket();
-        // Init variables
-        int msg_length = msg.length();
-        byte[] message = msg.getBytes();
-        byte[] recieve_data = new byte[5];
-
-        // Starting to do actual things
-        Log.v("Activity:", "Sending packet");
-        DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, port);
-        // And we send a message
-        client_socket.send(p);
-
-        Log.v("Activity:", "Recieving packet");
-        DatagramPacket recieve_pkt = new DatagramPacket(recieve_data,recieve_data.length);
-        Log.v("Activity",""+packet_received);
-
-        // This is actually needed since the timeout fucked me over with this
-        packet_received=false;
-
-        // We wait until we receive a packet or timeout happens
-        while (!packet_received){
-            client_socket.receive(recieve_pkt);
-            rec_msg = new String(recieve_pkt.getData());
-            Log.v("Client","Data recieved :" + rec_msg);
-            // If we receive a packet we exit the loop.
-            if (rec_msg != null || !rec_msg.equals("")) packet_received = true;
-        }
-
-        Log.v("Client:", "Out of loop");
-        client_socket.close();
-        Log.v("msg", rec_msg);
-        return rec_msg;
-    }
-
     // If we pause the app we get out of the loop (cancel connection attempt)
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         packet_received = true;
     }
@@ -206,38 +157,5 @@ public class InitActivity extends AppCompatActivity {
 
         }
     }
-
-
-    /*
-    public void time_out(){
-
-        This works the following way -> packet_received is set to false , the client function gets in a loop
-        waiting to receive a packet.
-
-        The timeout start, after ten second sets the variable packet_received to true, this making the loop
-        from the client() function stop.
-
-
-
-        // So, we create thread since this will sleep for X seconds.
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.v("Thread Activity One","Starting thread");
-                try {
-                    Thread.sleep(timeout);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (!state){
-                    Log.v("Thread Activity One","Timeout");
-                    // Change the boolean variable so the client function exits the loop.
-                    packet_received = true;
-                    // For some reason i have to close to socket here else it blocks the whole app
-                    client_socket.close();
-                }
-            }
-        });
-        t.start();
-    }*/
 }
+
