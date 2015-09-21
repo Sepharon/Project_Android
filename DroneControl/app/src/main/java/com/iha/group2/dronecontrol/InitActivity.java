@@ -34,6 +34,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -60,6 +62,9 @@ public class InitActivity extends AppCompatActivity {
     static final int port = 8888;
     final String action = "connect";
     ContentValues values;
+    AutoCompleteTextView ip;
+    ArrayAdapter<String> myAdapter;
+
 
     // Functions start
     @Override
@@ -70,7 +75,7 @@ public class InitActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter("broadcast");
         this.registerReceiver(new MyReceiver(), filter);
 
-        values = new ContentValues();
+
 
         // UDP NECESSARY
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -81,10 +86,29 @@ public class InitActivity extends AppCompatActivity {
         // Selecting buttons and text input
         Button connect = (Button) findViewById(R.id.button_con);
         Button on = (Button) findViewById(R.id.button_on);
-        final EditText ip = (EditText) findViewById(R.id.ip_field);
+        ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
+        //final EditText ip = (EditText) findViewById(R.id.ip_field);
 
         // TODO: ADD IP TO DB
         // TODO: SHOW IP WHEN WRITING IP
+
+
+
+        values = new ContentValues();
+
+        try {
+            String[] ips = getAllEntries();
+            for (int i = 0; i < ips.length; i++) {
+                Log.i(this.toString(), ips[i]);
+            }
+            // set our adapter
+            myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, ips);
+            ip.setAdapter(myAdapter);
+        }
+        catch (NullPointerException es){
+            es.printStackTrace();
+        }
+
 
         // In order for the On button to do something connect has to be pressed first
 
@@ -184,5 +208,42 @@ public class InitActivity extends AppCompatActivity {
     public void listIPs(){
         Intent intent = new Intent(this, ListIPs.class);
         startActivity(intent);
+    }
+
+    public String[] getAllEntries(){
+        String URL = "content://com.example.group13.provider.IPs/db";
+        Uri notesText = Uri.parse(URL);
+        Cursor c = managedQuery(notesText, null, null, null, null);
+        if (c.getCount() > 0){
+            String[] ips = new String[c.getCount()];
+            int i = 0;
+            while (c.moveToNext()){
+                ips[i] = c.getString(c.getColumnIndexOrThrow(SQL_IP_Data_Base.IP));
+                i++;
+            }
+            c.moveToFirst();
+            return ips;
+        }
+        else {
+            c.moveToFirst();
+            return new String[] {};
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            String[] ips = getAllEntries();
+            for (int i = 0; i < ips.length; i++) {
+                Log.i(this.toString(), ips[i]);
+            }
+            // set our adapter
+            myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, ips);
+            ip.setAdapter(myAdapter);
+        }
+        catch (NullPointerException es){
+            es.printStackTrace();
+        }
     }
 }
