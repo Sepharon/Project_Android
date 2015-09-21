@@ -30,6 +30,7 @@
         <activity
             android:name=".DroneControl"
             android:label="@string/title_activity_drone_control" >
+            android:screenOrientation="landscape" >
         </activity>
     </application>
 
