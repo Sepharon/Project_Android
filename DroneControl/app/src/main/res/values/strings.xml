@@ -8,4 +8,5 @@
     <string name="up_button">Up</string>
     <string name="down_button">Down</string>
     <string name="title_activity_drone_control">DroneControl</string>
+    <string name="title_activity_list_ips">ListIPs</string>
 </resources>

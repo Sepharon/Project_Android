@@ -3,6 +3,7 @@
     package="com.iha.group2.dronecontrol" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -39,6 +40,16 @@
             android:enabled="true"
             android:exported="true" >
         </provider>
+
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="false" />
+
+        <activity
+            android:name=".ListIPs"
+            android:label="@string/title_activity_list_ips"
+            android:theme="@android:style/Theme.DeviceDefault.Light" >
+        </activity>
     </application>
 
 </manifest>

@@ -20,9 +20,13 @@ right now I'm testing this in an activity.
 
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,7 +59,7 @@ public class InitActivity extends AppCompatActivity {
     // Default port and ip values, need to be user input
     static final int port = 8888;
     final String action = "connect";
-
+    ContentValues values;
 
     // Functions start
     @Override
@@ -66,9 +70,13 @@ public class InitActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter("broadcast");
         this.registerReceiver(new MyReceiver(), filter);
 
+        values = new ContentValues();
+
         // UDP NECESSARY
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+
 
         // Selecting buttons and text input
         Button connect = (Button) findViewById(R.id.button_con);
@@ -102,6 +110,15 @@ public class InitActivity extends AppCompatActivity {
                 Toast.makeText(InitActivity.this, "Sending message to Arduino", Toast.LENGTH_LONG).show();
                 // We are going to start a thread to act as a timeout
                 //time_out();
+                try{
+                    values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
+                    Uri uri = getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
+                    //Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_SHORT).show();
+                }
+                catch (SQLException se){
+                    se.printStackTrace();
+                }
+
                 Intent intent = new Intent(getBaseContext(), UDPconnection.class);
                 intent.putExtra("ip", ip.getText().toString());
                 intent.putExtra("value", "");
@@ -129,6 +146,9 @@ public class InitActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.ListIPs){
+            listIPs();
         }
 
         return super.onOptionsItemSelected(item);
@@ -160,5 +180,9 @@ public class InitActivity extends AppCompatActivity {
 
         }
     }
-}
 
+    public void listIPs(){
+        Intent intent = new Intent(this, ListIPs.class);
+        startActivity(intent);
+    }
+}
