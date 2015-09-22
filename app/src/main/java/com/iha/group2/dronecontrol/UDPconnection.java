@@ -56,7 +56,7 @@ public class UDPconnection extends Service {
                     e.printStackTrace();
                 }
                 break;
-            case "GPD":
+            case "GPS":
                 try{
                     msg = get_msg(ip,action,gps_port);
                     Log.v("Service:" , "GPS = "+msg);
