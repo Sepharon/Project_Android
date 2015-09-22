@@ -23,6 +23,7 @@ public class UDPconnection extends Service {
 
     static final int movment_port = 8888;
     static final int camera_port = 8889;
+    static final int gps_port = 8890;
     static final String _ip = "192.168.1.8";
     static final int timeout = 10000;
 
@@ -55,6 +56,14 @@ public class UDPconnection extends Service {
                     e.printStackTrace();
                 }
                 break;
+            case "GPD":
+                try{
+                    msg = get_msg(ip,action,gps_port);
+                    Log.v("Service:" , "GPS = "+msg);
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
             default:
                 try {
                     msg = get_msg(ip,action,movment_port);

@@ -118,7 +118,7 @@ public class InitActivity extends AppCompatActivity {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
-                    Intent second_act = new Intent(InitActivity.this, DroneControl.class);
+                    Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
                     second_act.putExtra("ip", ip.getText().toString());
                     // You won't be able to see this toast but whatever
                     Toast.makeText(InitActivity.this, "Starting second activity", Toast.LENGTH_LONG).show();
@@ -132,12 +132,10 @@ public class InitActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Once clicked send message to arduino using a service
                 Toast.makeText(InitActivity.this, "Sending message to Arduino", Toast.LENGTH_LONG).show();
-                // We are going to start a thread to act as a timeout
-                //time_out();
+
                 try{
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
                     Uri uri = getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
-                    //Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_SHORT).show();
                 }
                 catch (SQLException se){
                     se.printStackTrace();
@@ -194,6 +192,7 @@ public class InitActivity extends AppCompatActivity {
             Log.v("Activity One result", result);
             if (result.equals("alive")) {
                 state = true;
+                context.unregisterReceiver(this);
                 Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
