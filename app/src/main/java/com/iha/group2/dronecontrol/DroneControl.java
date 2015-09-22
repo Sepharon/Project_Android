@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 
 
-// TODO : NOT IMPLEMENTED YET
+/**
+ * OUTDATED, MapsActivity.java is the new class that does what this used to do
+ */
 
 public class DroneControl extends AppCompatActivity {
 
