@@ -121,7 +121,7 @@ public class InitActivity extends AppCompatActivity {
                     Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
                     second_act.putExtra("ip", ip.getText().toString());
                     // You won't be able to see this toast but whatever
-                    Toast.makeText(InitActivity.this, "Starting second activity", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(InitActivity.this, "Starting second activity", Toast.LENGTH_LONG).show();
                     startActivity(second_act);
                 } else
                     Toast.makeText(InitActivity.this, "You must click connect first", Toast.LENGTH_LONG).show();
@@ -141,7 +141,7 @@ public class InitActivity extends AppCompatActivity {
                     se.printStackTrace();
                 }
 
-                Intent intent = new Intent(getBaseContext(), UDPconnection.class);
+                Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
                 intent.putExtra("ip", ip.getText().toString());
                 intent.putExtra("value", "");
                 intent.putExtra("action", action);

@@ -44,7 +44,7 @@ public class MapsActivity extends FragmentActivity {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("F", ip, "s");
+                send_data("F", ip, "");
             }
         });
         backward.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +74,7 @@ public class MapsActivity extends FragmentActivity {
         down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("D",ip,"");
+                send_data("D", ip, "");
             }
         });
 
@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity {
 
             }
             public void onFinish(){
-                send_data("",ip,"GPS");
+                receive_data("GPS",ip);
                 start();
             }
         }.start();
@@ -142,11 +142,20 @@ public class MapsActivity extends FragmentActivity {
         startService(intent);
 
     }
+
+    public void receive_data (String action, String ip){
+        Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
+        intent.putExtra("ip",ip);
+        intent.putExtra("action",action);
+        startService(intent);
+    }
+
+
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String result = intent.getStringExtra("result");
-            Log.v("Activity One result", result);
+            Log.v("Map Activity: ", result);
 
         }
     }

@@ -22,10 +22,7 @@ import java.net.SocketTimeoutException;
 public class UDPconnection extends Service {
 
     static final int movment_port = 8888;
-    static final int camera_port = 8889;
-    static final int gps_port = 8890;
-    static final String _ip = "192.168.1.8";
-    static final int timeout = 10000;
+
 
 
     @Override
@@ -34,44 +31,15 @@ public class UDPconnection extends Service {
     }
 
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        String ip = intent.getStringExtra("ip");
-        String v = intent.getStringExtra("value");
-        String action = intent.getStringExtra("action");
-        String msg = null;
+        final String ip = intent.getStringExtra("ip");
+        final String v = intent.getStringExtra("value");
         Log.v("Service ip: ",ip);
         Log.v("Service value: ",v);
-        switch (action) {
-            case "":
-                try {
-                    send_msg(v, ip);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "camera":
-                try {
-                    msg = get_msg(ip,action,camera_port);
-                    Log.v("Service:", "Msg = " + msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "GPS":
-                try{
-                    msg = get_msg(ip,action,gps_port);
-                    Log.v("Service:" , "GPS = "+msg);
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-            default:
-                try {
-                    msg = get_msg(ip,action,movment_port);
-                    Log.v("Service:", "Msg = " + msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
+
+        try {
+            send_msg(v, ip);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         stopSelf();
@@ -99,56 +67,4 @@ public class UDPconnection extends Service {
 
     }
 
-    public String get_msg (String ip, String msg, int port) throws IOException{
-        // TODO: FIX MESSAGE GARBAGE AT THE END
-        /*
-        Variables declaration
-         */
-        byte[] recieve_data = new byte[64];
-        String rec_msg = "";
-        boolean pck_rec = false;
-        int msg_length = msg.length();
-        byte[] message = msg.getBytes();
-        InetAddress IPAddress = InetAddress.getByName(ip);
-        // Create new socket
-        final DatagramSocket socket = new DatagramSocket();
-
-        Log.v("Service:", "Sending connection packet");
-        // Sending msg to server, the msg will tell which data do we want
-        DatagramPacket p = new DatagramPacket(message, msg_length,IPAddress, port);
-        socket.send(p);
-
-        Log.v("Service:","Connection data sent");
-
-        Log.v("Service:", "Recieving packet");
-        // Preparing packet to receive data
-        DatagramPacket recieve_pkt = new DatagramPacket(recieve_data,recieve_data.length);
-        // Timeout
-        socket.setSoTimeout(timeout);
-        // We wait until we receive a packet or timeout happens
-
-        while (!pck_rec){
-            try {
-                Log.v("Service:", "Waiting for data");
-                socket.receive(recieve_pkt);
-                Log.v("Service:", "Data received");
-                rec_msg = new String(recieve_pkt.getData());
-                Log.v("Service", "Data recieved :" + rec_msg);
-                pck_rec = true;
-                Intent broadcast = new Intent();
-                broadcast.setAction("broadcast");
-                String messageR = rec_msg.split("\n")[0];
-                Log.v("receivedMessage", messageR);
-                broadcast.putExtra("result", messageR);
-                sendBroadcast(broadcast);
-            }
-            catch (SocketTimeoutException e){
-                Log.v("Service:", "Timeout");
-                pck_rec = true;
-            }
-        }
-        Log.v("Client:", "Out of loop");
-        socket.close();
-        return rec_msg;
-    }
 }

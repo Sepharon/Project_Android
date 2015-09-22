@@ -36,8 +36,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.iha.group2.dronecontrol.InitActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="landscape" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="broadcast" />
@@ -87,6 +86,12 @@
             android:label="@string/title_activity_maps"
             android:screenOrientation="landscape" >
         </activity>
+
+        <service
+            android:name="com.iha.group2.dronecontrol.UDP_Receiver"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

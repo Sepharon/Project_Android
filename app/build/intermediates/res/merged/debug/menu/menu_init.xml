@@ -6,4 +6,4 @@
     <item android:id="@+id/ListIPs" android:title="@string/title_activity_list_ips"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
-<!-- From: file:/home/sergi/aarhus_sp/DroneControl/app/src/main/res/menu/menu_init.xml -->
+<!-- From: file:/home/sergi/aarhus_sp/Drone%20Project/Drone%20Project/app/src/main/res/menu/menu_init.xml -->
