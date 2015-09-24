@@ -187,7 +187,7 @@ public class InitActivity extends AppCompatActivity {
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String result = intent.getStringExtra("result");
+            String result = intent.getStringExtra("result").split("\n")[0];
             // Put this empty again ,  don't think is needed tho
             Log.v("Activity One result", result);
             if (result.equals("alive")) {

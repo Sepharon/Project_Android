@@ -12,15 +12,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+// TODO: STILL NEED TO FIX ISSUE WHERE COMMUNICATION BLOCKED
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-
+    Marker marker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +138,19 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap(int lat , int lng) {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Marker"));
+        LatLng pos = new LatLng(lat,lng);
+        // Needed since first time there's no marker
+        try {
+            marker.remove();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        marker = mMap.addMarker(new MarkerOptions().position(pos).title("Drone"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom( pos, 1));
+        // Change zoom factor if needed
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(14.0f).build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        mMap.moveCamera(cameraUpdate);
     }
 
     public void send_data(String v,String ip, String action){
@@ -155,7 +174,14 @@ public class MapsActivity extends FragmentActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String result = intent.getStringExtra("result");
+            // May need to change
+            // Way to send data = 50,45,
+            String lat = result.split(",")[0];
+            String lng= result.split(",")[0];
             Log.v("Map Activity: ", result);
+            Log.v("Map Activity: ", "lat: "+ lat);
+            Log.v("Map Activity: ", "lng: "+ lng);
+            setUpMap(Integer.parseInt(lat),Integer.parseInt(lng));
 
         }
     }

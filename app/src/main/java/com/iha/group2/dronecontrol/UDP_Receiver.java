@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 public class UDP_Receiver extends Service {
     static final int camera_port = 8889;
-    static final int gps_port = 8080;
+    static final int gps_port = 10000;
     static final int movment_port = 8888;
     static final int timeout = 5000;
 
@@ -44,6 +49,7 @@ public class UDP_Receiver extends Service {
                 break;
             case "GPS":
                 try {
+                    //tcp_client(ip,action,gps_port);
                     get_msg(ip, action, gps_port);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -94,11 +100,12 @@ public class UDP_Receiver extends Service {
                 rec_msg = new String(recieve_pkt.getData());
                 Log.v("Service Receiver", "Data recieved :" + rec_msg);
                 pck_rec = true;
+                socket.close();
                 Intent broadcast = new Intent();
                 broadcast.setAction("broadcast");
-                String messageR = rec_msg.split("\n")[0];
-                Log.v("receivedMessage", messageR);
-                broadcast.putExtra("result", messageR);
+                //String messageR = rec_msg.split("\n")[0];
+                //Log.v("receivedMessage", messageR);
+                broadcast.putExtra("result", rec_msg);
                 sendBroadcast(broadcast);
             }
             catch (SocketTimeoutException e){
@@ -107,7 +114,31 @@ public class UDP_Receiver extends Service {
             }
         }
         Log.v("Client:", "Out of loop");
-        socket.close();
+
         return rec_msg;
+    }
+
+    public String tcp_client(String ip, String msg, int port) throws  IOException{
+        InetAddress IP = InetAddress.getByName(ip);
+        Socket socket = new Socket(IP,port);
+        BufferedReader in;
+        boolean msg_rec = false;
+        String response=null;
+        OutputStream out = socket.getOutputStream();
+        PrintWriter output = new PrintWriter(out);
+
+        output.println(msg);
+        Log.v("TCP_connection:", "Sent msg");
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        socket.setSoTimeout(10000);
+        //while(!msg_rec){
+            response = in.readLine();
+         //   if (response != null){
+                Log.v("TCP_connection:", "Message received");
+          //      msg_rec=true;
+           // }
+        //}
+        Log.v("TCP_connection:" ,response);
+        return response;
     }
 }

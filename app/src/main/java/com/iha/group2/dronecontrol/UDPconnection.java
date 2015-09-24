@@ -48,13 +48,13 @@ public class UDPconnection extends Service {
 
 
     // Sending messages funciont.
-    public void send_msg (String msg, String Ip) throws IOException {
+    public void send_msg (final String msg, final String Ip) throws IOException {
         /*
         Might have to go to a service
          */
 
-        int msg_length = msg.length();
-        byte[] message = msg.getBytes();
+        final int msg_length = msg.length();
+        final byte[] message = msg.getBytes();
 
         DatagramSocket client_socket = new DatagramSocket();
         InetAddress IPAddress = InetAddress.getByName(Ip);
