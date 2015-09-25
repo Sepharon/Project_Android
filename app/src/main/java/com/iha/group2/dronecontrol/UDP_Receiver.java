@@ -39,6 +39,7 @@ public class UDP_Receiver extends Service {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
             case "camera":
                 try {
                     msg = get_msg(ip, action, camera_port);
@@ -85,14 +86,14 @@ public class UDP_Receiver extends Service {
 
         Log.v("Service Receiver:","Connection data sent");
 
-        Log.v("Service Receiver:", "Recieving packet");
+        Log.v("Service Receiver:", "Receiving packet");
         // Preparing packet to receive data
         DatagramPacket recieve_pkt = new DatagramPacket(recieve_data,recieve_data.length);
         // Timeout
         socket.setSoTimeout(timeout);
         // We wait until we receive a packet or timeout happens
 
-        while (!pck_rec){
+        //while (!pck_rec){
             try {
                 Log.v("Service Receiver:", "Waiting for data");
                 socket.receive(recieve_pkt);
@@ -112,7 +113,7 @@ public class UDP_Receiver extends Service {
                 Log.v("Service Receiver:", "Timeout");
                 pck_rec = true;
             }
-        }
+        //}
         Log.v("Client:", "Out of loop");
 
         return rec_msg;

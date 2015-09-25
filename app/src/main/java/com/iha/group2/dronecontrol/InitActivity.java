@@ -140,7 +140,7 @@ public class InitActivity extends AppCompatActivity {
                 catch (SQLException se){
                     se.printStackTrace();
                 }
-
+                Log.v("Activity One:","Starting service");
                 Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
                 intent.putExtra("ip", ip.getText().toString());
                 intent.putExtra("value", "");
