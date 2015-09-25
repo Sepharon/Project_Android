@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-82:12
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-77:12
 	xmlns:android
 		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:11-69
 	package
@@ -64,7 +64,7 @@ ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/Androi
 	android:name
 		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:15:22-76
 application
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:17:5-80:19
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:17:5-75:19
 MERGED from [com.android.support:appcompat-v7:23.0.1] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.0.1] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/7.8.0/AndroidManifest.xml:19:5-20
@@ -165,65 +165,61 @@ MERGED from [com.android.support:support-v4:23.0.1] /home/sergi/aarhus_sp/Drone 
 	android:theme
 		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:21:9-40
 activity#com.iha.group2.dronecontrol.InitActivity
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:22:9-31:20
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:22:9-32:20
+	android:screenOrientation
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:24:13-50
 	android:label
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:24:13-45
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:25:13-45
 	android:name
 		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:23:13-41
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER+broadcast
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:25:13-30:29
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:26:13-31:29
 action#android.intent.action.MAIN
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:26:17-69
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:27:17-69
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:26:25-66
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:27:25-66
 action#broadcast
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:27:17-52
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:28:17-52
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:27:25-49
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:28:25-49
 category#android.intent.category.LAUNCHER
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:29:17-77
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:30:17-77
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:29:27-74
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:30:27-74
 service#com.iha.group2.dronecontrol.UDPconnection
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:33:9-37:19
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:34:9-38:19
 	android:exported
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:36:13-36
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:37:13-36
 	android:enabled
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:35:13-35
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:36:13-35
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:34:13-42
-activity#com.iha.group2.dronecontrol.DroneControl
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:39:9-43:20
-	android:label
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:41:13-65
-	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:40:13-41
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:35:13-42
 provider#com.iha.group2.dronecontrol.SQL_IP_Data_Base
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:45:9-50:20
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:40:9-45:20
 	android:exported
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:49:13-36
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:44:13-36
 	android:authorities
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:47:13-67
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:42:13-67
 	android:enabled
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:48:13-35
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:43:13-35
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:46:13-45
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:41:13-45
 uses-library#com.google.android.wearable
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:52:9-54:40
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:47:9-49:40
 	android:required
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:54:13-37
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:49:13-37
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:53:13-55
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:48:13-55
 activity#com.iha.group2.dronecontrol.ListIPs
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:56:9-60:20
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:51:9-55:20
 	android:label
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:58:13-60
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:53:13-60
 	android:theme
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:59:13-69
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:54:13-69
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:57:13-36
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:52:13-36
 meta-data#com.google.android.gms.version
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:62:9-64:69
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:57:9-59:69
 MERGED from [com.google.android.gms:play-services-base:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/AndroidManifest.xml:21:9-23:69
 MERGED from [com.google.android.gms:play-services-base:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/AndroidManifest.xml:21:9-23:69
 MERGED from [com.google.android.gms:play-services-base:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/AndroidManifest.xml:21:9-23:69
@@ -254,31 +250,31 @@ MERGED from [com.google.android.gms:play-services-base:7.8.0] /home/sergi/aarhus
 MERGED from [com.google.android.gms:play-services-base:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/AndroidManifest.xml:21:9-23:69
 MERGED from [com.google.android.gms:play-services-base:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/AndroidManifest.xml:21:9-23:69
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:63:13-58
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:58:13-58
 	android:value
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:64:13-66
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:59:13-66
 meta-data#com.google.android.maps.v2.API_KEY
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:65:9-67:55
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:60:9-62:55
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:66:13-62
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:61:13-62
 	android:value
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:67:13-52
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:62:13-52
 activity#com.iha.group2.dronecontrol.MapsActivity
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:69:9-73:20
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:64:9-68:20
 	android:screenOrientation
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:72:13-50
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:67:13-50
 	android:label
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:71:13-56
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:66:13-56
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:70:13-41
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:65:13-41
 service#com.iha.group2.dronecontrol.UDP_Receiver
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:75:9-79:19
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:70:9-74:19
 	android:exported
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:78:13-36
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:73:13-36
 	android:enabled
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:77:13-35
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:72:13-35
 	android:name
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:76:13-41
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:71:13-41
 uses-sdk
 INJECTED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.0.1] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:20:5-43
@@ -403,7 +399,7 @@ MERGED from [com.google.android.gms:play-services-maps:7.8.0] /home/sergi/aarhus
 	android:glEsVersion
 		ADDED from [com.google.android.gms:play-services-maps:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.8.0/AndroidManifest.xml:24:8-40
 android:uses-permission#android.permission.READ_EXTERNAL_STORAGE
-IMPLIED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-82:12 reason: com.google.android.gms.maps requested WRITE_EXTERNAL_STORAGE
+IMPLIED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-77:12 reason: com.google.android.gms.maps requested WRITE_EXTERNAL_STORAGE
 uses-permission#com.google.android.c2dm.permission.RECEIVE
 ADDED from [com.google.android.gms:play-services-gcm:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.8.0/AndroidManifest.xml:21:5-82
 	android:name

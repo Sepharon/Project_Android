@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-// TODO: STILL NEED TO FIX ISSUE WHERE COMMUNICATION BLOCKED
 
 public class MapsActivity extends FragmentActivity {
 
@@ -85,10 +84,11 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
-        new CountDownTimer(5000,1000){
-            public void onTick (long millisUntilFinished){
+        // Might need to this in the beginning
+        //receive_data("GPS",ip);
 
-            }
+        new CountDownTimer(20000,1000){
+            public void onTick (long millisUntilFinished){}
             public void onFinish(){
                 receive_data("GPS",ip);
                 start();
@@ -129,6 +129,8 @@ public class MapsActivity extends FragmentActivity {
                 setUpMap(0,0);
             }
         }
+        if (mMap != null) mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
     }
 
     /**
@@ -137,7 +139,7 @@ public class MapsActivity extends FragmentActivity {
      * <p/>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
-    private void setUpMap(int lat , int lng) {
+    private void setUpMap(float lat , float lng) {
         LatLng pos = new LatLng(lat,lng);
         // Needed since first time there's no marker
         try {
@@ -176,13 +178,12 @@ public class MapsActivity extends FragmentActivity {
             String result = intent.getStringExtra("result");
             // May need to change
             // Way to send data = 50,45,
-            String lat = result.split(",")[0];
-            String lng= result.split(",")[0];
+            String lat = result.split("-")[0];
+            String lng= result.split("-")[0];
             Log.v("Map Activity: ", result);
             Log.v("Map Activity: ", "lat: "+ lat);
-            Log.v("Map Activity: ", "lng: "+ lng);
-            setUpMap(Integer.parseInt(lat),Integer.parseInt(lng));
-
+            Log.v("Map Activity: ", "lng: " + lng);
+            setUpMap(Float.parseFloat(lat),Float.parseFloat(lng));
         }
     }
 }

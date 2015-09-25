@@ -19,13 +19,17 @@ import java.net.SocketTimeoutException;
 public class UDP_Receiver extends Service {
     static final int camera_port = 8889;
     static final int gps_port = 10000;
-    static final int movment_port = 8888;
-    static final int timeout = 5000;
-
+    static final int movement_port = 8888;
+    static final int timeout = 20000;
+    boolean first = true;
+    Socket socket_tcp;
+    OutputStream out;
+    PrintWriter output;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+
     public int onStartCommand(final Intent intent, int flags, int startId) {
         final String ip = intent.getStringExtra("ip");
         final String action = intent.getStringExtra("action");
@@ -34,7 +38,7 @@ public class UDP_Receiver extends Service {
         switch (action) {
             case "connect":
                 try {
-                    msg = get_msg(ip, action, movment_port);
+                    msg = get_msg(ip, action, movement_port);
                     Log.v("Service:", "Msg = " + msg);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -50,29 +54,35 @@ public class UDP_Receiver extends Service {
                 break;
             case "GPS":
                 try {
-                    //tcp_client(ip,action,gps_port);
-                    get_msg(ip, action, gps_port);
+                    tcp_client(ip,action,gps_port);
+                    //get_msg(ip, action, gps_port);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
+            case "Stop":
+                // TODO: ADD SENDING MESSAGE TELLING ARDUINO TO STOP
+                try {
+                    tcp_client(ip,action,camera_port);
+                    socket_tcp.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                stopSelf();
             default:
                 Log.v("Service Receiver:", "Unknown Action " + action);
         }
-
-        stopSelf();
         return START_STICKY;
     }
 
 
     public String get_msg (String ip, String msg, int port) throws IOException{
-        // TODO: FIX MESSAGE GARBAGE AT THE END
         /*
         Variables declaration
          */
         byte[] recieve_data = new byte[64];
         String rec_msg = "";
-        boolean pck_rec = false;
         int msg_length = msg.length();
         byte[] message = msg.getBytes();
         InetAddress IPAddress = InetAddress.getByName(ip);
@@ -93,53 +103,49 @@ public class UDP_Receiver extends Service {
         socket.setSoTimeout(timeout);
         // We wait until we receive a packet or timeout happens
 
-        //while (!pck_rec){
-            try {
-                Log.v("Service Receiver:", "Waiting for data");
-                socket.receive(recieve_pkt);
-                Log.v("Service Receiver:", "Data received");
-                rec_msg = new String(recieve_pkt.getData());
-                Log.v("Service Receiver", "Data recieved :" + rec_msg);
-                pck_rec = true;
-                socket.close();
-                Intent broadcast = new Intent();
-                broadcast.setAction("broadcast");
-                //String messageR = rec_msg.split("\n")[0];
-                //Log.v("receivedMessage", messageR);
-                broadcast.putExtra("result", rec_msg);
-                sendBroadcast(broadcast);
-            }
-            catch (SocketTimeoutException e){
-                Log.v("Service Receiver:", "Timeout");
-                pck_rec = true;
-            }
-        //}
-        Log.v("Client:", "Out of loop");
+        try {
+            Log.v("Service Receiver:", "Waiting for data");
+            socket.receive(recieve_pkt);
+            Log.v("Service Receiver:", "Data received");
+            rec_msg = new String(recieve_pkt.getData());
+            Log.v("Service Receiver", "Data recieved :" + rec_msg);
 
+            socket.close();
+            Intent broadcast = new Intent();
+            broadcast.setAction("broadcast");
+            broadcast.putExtra("result", rec_msg);
+            sendBroadcast(broadcast);
+        }
+        catch (SocketTimeoutException e) {
+            Log.v("Service Receiver:", "Timeout");
+        }
+
+        Log.v("Client:", "Out of loop");
         return rec_msg;
     }
 
     public String tcp_client(String ip, String msg, int port) throws  IOException{
+
+
         InetAddress IP = InetAddress.getByName(ip);
-        Socket socket = new Socket(IP,port);
+        if (first) {
+            socket_tcp = new Socket(IP, port);
+            first=false;
+        }
+        out = socket_tcp.getOutputStream();
+        socket_tcp.setSoTimeout(10000);
+        output = new PrintWriter(out);
         BufferedReader in;
-        boolean msg_rec = false;
-        String response=null;
-        OutputStream out = socket.getOutputStream();
-        PrintWriter output = new PrintWriter(out);
+        String response;
 
         output.println(msg);
+        output.flush();
         Log.v("TCP_connection:", "Sent msg");
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        socket.setSoTimeout(10000);
-        //while(!msg_rec){
-            response = in.readLine();
-         //   if (response != null){
-                Log.v("TCP_connection:", "Message received");
-          //      msg_rec=true;
-           // }
-        //}
-        Log.v("TCP_connection:" ,response);
+        in = new BufferedReader(new InputStreamReader(socket_tcp.getInputStream()));
+
+        response = in.readLine();
+        Log.v("TCP_connection:", "Message received");
+        Log.v("TCP_connection:", response);
         return response;
     }
 }

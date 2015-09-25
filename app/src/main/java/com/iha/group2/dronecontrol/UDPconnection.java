@@ -16,13 +16,9 @@ import java.net.SocketTimeoutException;
  FINISHED
 */
 
-
-// TODO : Might need to receive packets?
-
 public class UDPconnection extends Service {
 
     static final int movment_port = 8888;
-
 
 
     @Override
@@ -47,7 +43,6 @@ public class UDPconnection extends Service {
     }
 
 
-    // Sending messages funciont.
     public void send_msg (final String msg, final String Ip) throws IOException {
         /*
         Might have to go to a service
@@ -64,7 +59,5 @@ public class UDPconnection extends Service {
         client_socket.send(p);
         Log.v("Service:","Packet sent");
         client_socket.close();
-
     }
-
 }
