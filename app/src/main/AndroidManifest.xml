@@ -75,10 +75,16 @@
 
         <activity
             android:name=".Streaming_camera"
+            android:label="@string/title_activity_streaming_camera"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:label="@string/title_activity_streaming_camera" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
+
+        <service
+            android:name=".Sensor_Data"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>
