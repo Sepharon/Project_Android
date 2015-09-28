@@ -77,7 +77,7 @@ public class InitActivity extends AppCompatActivity {
 
 
 
-        // UDP NECESSARY
+        // P NECESSARY
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -88,11 +88,6 @@ public class InitActivity extends AppCompatActivity {
         Button on = (Button) findViewById(R.id.button_on);
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
         //final EditText ip = (EditText) findViewById(R.id.ip_field);
-
-        // TODO: ADD IP TO DB
-        // TODO: SHOW IP WHEN WRITING IP
-
-
 
         values = new ContentValues();
 

@@ -27,6 +27,7 @@ public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Marker marker;
+    boolean ask_camera=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,11 @@ public class MapsActivity extends FragmentActivity {
 
         Button up = (Button) findViewById(R.id.up);
         Button down = (Button) findViewById(R.id.down);
+
+        Button photo = (Button) findViewById(R.id.take_photo);
+        Button off = (Button) findViewById(R.id.off_button);
+
+        // TODO: implement off function
 
         Log.v("Drone Control ip: ", ip);
         forward.setOnClickListener(new View.OnClickListener() {
@@ -83,15 +89,22 @@ public class MapsActivity extends FragmentActivity {
                 send_data("D", ip, "");
             }
         });
-
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                receive_data("camera",ip);
+            }
+        });
         // Might need to this in the beginning
         //receive_data("GPS",ip);
 
         new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                receive_data("GPS",ip);
-                start();
+                if (!ask_camera) {
+                    receive_data("GPS", ip);
+                    start();
+                }
             }
         }.start();
     }
@@ -187,7 +200,7 @@ public class MapsActivity extends FragmentActivity {
                     break;
 
                 case 1:
-                    //TODO do whatever it takes
+                    //TODO do whatever it takes for TCP connection (CAMERA)
                     break;
 
                 default:
