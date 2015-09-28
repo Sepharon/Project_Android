@@ -125,9 +125,7 @@ public class MapsActivity extends FragmentActivity {
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap(0,0);
-            }
+            if (mMap != null) setUpMap(0,0);
         }
         if (mMap != null) mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
@@ -161,7 +159,6 @@ public class MapsActivity extends FragmentActivity {
         intent.putExtra("ip",ip);
         intent.putExtra("action",action);
         startService(intent);
-
     }
 
     public void receive_data (String action, String ip){
@@ -175,15 +172,27 @@ public class MapsActivity extends FragmentActivity {
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            int action = intent.getIntExtra("action",2);
             String result = intent.getStringExtra("result");
             // May need to change
-            // Way to send data = 50,45,
-            String lat = result.split("-")[0];
-            String lng= result.split("-")[0];
-            Log.v("Map Activity: ", result);
-            Log.v("Map Activity: ", "lat: "+ lat);
-            Log.v("Map Activity: ", "lng: " + lng);
-            setUpMap(Float.parseFloat(lat),Float.parseFloat(lng));
+            switch (action) {
+                case 0:
+                    // Way to send data = 50,45,
+                    String lat = result.split("-")[0];
+                    String lng = result.split("-")[0];
+                    Log.v("Map Activity: ", result);
+                    Log.v("Map Activity: ", "lat: " + lat);
+                    Log.v("Map Activity: ", "lng: " + lng);
+                    setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
+                    break;
+
+                case 1:
+                    //TODO do whatever it takes
+                    break;
+
+                default:
+                    Log.v("Map Activity:","Unknown action = " +action);
+            }
         }
     }
 }
