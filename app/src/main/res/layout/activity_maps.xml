@@ -70,7 +70,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Photo"
+        android:text="@string/streaming"
         android:id="@+id/take_photo"
         android:layout_alignBottom="@+id/down"
         android:layout_centerHorizontal="true" />

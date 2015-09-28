@@ -369,6 +369,7 @@
     <string name="title_activity_drone_control">DroneControl</string>
     <string name="title_activity_list_ips">ListIPs</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_streaming_camera">Streaming_camera</string>
     <string name="up_button">Up</string>
     <!-- From: file:/home/sergi/aarhus_sp/Drone%20Project/Drone%20Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.8.0/res/values/wallet_strings.xml -->
     <eat-comment/>

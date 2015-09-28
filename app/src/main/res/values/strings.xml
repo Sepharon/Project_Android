@@ -7,7 +7,9 @@
     <string name="on_button">On</string>
     <string name="up_button">Up</string>
     <string name="down_button">Down</string>
+    <string name="streaming">Stream</string>
     <string name="title_activity_drone_control">DroneControl</string>
     <string name="title_activity_list_ips">ListIPs</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_streaming_camera">Streaming_camera</string>
 </resources>
