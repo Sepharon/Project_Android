@@ -192,7 +192,7 @@ public class MapsActivity extends FragmentActivity {
                 case 0:
                     // Way to send data = 50,45,
                     String lat = result.split("-")[0];
-                    String lng = result.split("-")[0];
+                    String lng = result.split("-")[1];
                     Log.v("Map Activity: ", result);
                     Log.v("Map Activity: ", "lat: " + lat);
                     Log.v("Map Activity: ", "lng: " + lng);
