@@ -57,6 +57,8 @@ public class Sensor_Data extends Service implements SensorEventListener {
         //Log.v("Sensor, y = ",""+y);
         //Log.v("Sensor, z = ",""+z);
 
+
+
     }
 
     @Override
