@@ -20,6 +20,12 @@ public class Sensor_Data extends Service implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
 
+    float inital_value;
+    float threshold_high = 0.5f;
+    float threshold_low = -0.5f;
+    boolean first = true;
+
+    String ip;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -30,7 +36,14 @@ public class Sensor_Data extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
+
+        ip= intent.getStringExtra("ip");
+        if (ip.equals("")) {
+            // Unregister from sensor
+            mSensorManager.unregisterListener(this);
+            stopSelf();
+        }
         return START_STICKY;
     }
 
@@ -39,6 +52,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
         super.onDestroy();
         // Unregister from sensor
         mSensorManager.unregisterListener(this);
+        stopSelf();
     }
 
     @Override
@@ -51,14 +65,52 @@ public class Sensor_Data extends Service implements SensorEventListener {
         // Get values from sensor
         // Our interest is in accel_X or accel_Z
         float x = event.values[0];
-        //float y = event.values[1];
-        //float z = event.values[2];
+        float actual_value;
+        int res;
+        String u_d;
         Log.v("Sensor, x = ", "" + x);
-        //Log.v("Sensor, y = ",""+y);
-        //Log.v("Sensor, z = ",""+z);
+        Intent intent = new Intent(getBaseContext(),UDPconnection.class);
+
+        if (first){
+            inital_value = x;
+            first = false;
+        }
+        actual_value = x - inital_value;
+        res = calculate_movement(actual_value);
+        if (res == 2) {
+            u_d = "U";
+            intent.putExtra("value",u_d);
+            intent.putExtra("ip", ip);
+            intent.putExtra("action","");
+            startService(intent);
+        }
+        else if (res == 1) {
+            u_d = "D";
+            intent.putExtra("value",u_d);
+            intent.putExtra("ip", ip);
+            intent.putExtra("action","");
+            startService(intent);
+        }
 
 
+    }
 
+    public int calculate_movement(float value){
+
+        int result;
+        if (value > threshold_high) {
+            Log.v("Sensor a_v:", "high");
+            result = 2;
+        }
+
+        else if (value < threshold_low){
+            Log.v("Sensor a_v:", "low");
+            result = 1;
+        }
+        else return 0;
+        threshold_high = value+0.25f;
+        threshold_low = value-0.5f;
+        return result;
     }
 
     @Override

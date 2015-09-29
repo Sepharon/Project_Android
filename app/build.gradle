@@ -4,9 +4,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'Drone Project'
-            keyPassword System.getenv("KSTOREPWD")
+            keyPassword 'Internet94'
             storeFile file('/home/sergi/aarhus_sp/Keystores/drone.jks')
-            storePassword System.getenv("KEYPWD")
+            storePassword 'Internet94'
         }
     }
     compileSdkVersion 23
