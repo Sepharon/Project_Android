@@ -34,6 +34,9 @@ char  ReplyBuffer[] = "alive\n";       // a string to send back
 
 WiFiUDP Udp;
 
+boolean flagUp = false;
+boolean flagDown = false;
+
 
 
 void setup() {
@@ -120,18 +123,27 @@ void loop() {
     else if (packetBuffer[0]=='F'){
       Serial.println("FORWARD");      
     }
-    else if (packetBuffer[0]=='U'){
-      Serial.println("UP");      
-    }
-    else if (packetBuffer[0]=='D'){
-      Serial.println("DOWN");      
-    }
     else if (packetBuffer[0]=='L' && packetBuffer[1] == 'V'){
       Serial.println("Less Velocity");      
     }
     else if (packetBuffer[0]=='M' && packetBuffer[1]=='V'){
       Serial.println("More Velocity");      
     }
+    if (!flagUp){
+      if (packetBuffer[0]=='U'){
+        Serial.println("UP");
+        flagUp=true;
+        flagDown=false;
+      }
+    }
+    if (!flagDown){
+      if (packetBuffer[0]=='D'){
+        Serial.println("DOWN");  
+        flagUp=false;
+        flagDown=true;
+      } 
+    }
+    
     
       
     
