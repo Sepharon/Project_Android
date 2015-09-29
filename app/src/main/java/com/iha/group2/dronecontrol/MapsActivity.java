@@ -67,7 +67,7 @@ public class MapsActivity extends FragmentActivity {
         save = (Button) findViewById(R.id.save_button);
 
         less_v = (Button)findViewById(R.id.less_button);
-        more_v = (Button)findViewById(R.id.monochrome);
+        more_v = (Button)findViewById(R.id.more_button);
 
         // TODO: implement off function
 
@@ -106,6 +106,19 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 send_data("D", ip, "");
+            }
+        });
+
+        less_v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("LV", ip, "");
+            }
+        });
+        more_v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("MV", ip, "");
             }
         });
         photo.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +202,7 @@ public class MapsActivity extends FragmentActivity {
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
         intent.putExtra("value",v);
         intent.putExtra("ip",ip);
-        intent.putExtra("action",action);
+        intent.putExtra("action", action);
         startService(intent);
     }
 
@@ -237,13 +250,5 @@ public class MapsActivity extends FragmentActivity {
     public void stream(){
         Intent intent = new Intent(this, Streaming_camera.class);
         startActivity(intent);
-    }
-
-    public void less_velocity(){
-        send_data("LV", ip, "");
-    }
-
-    public void more_velocity(){
-        send_data("MV", ip, "");
     }
 }
