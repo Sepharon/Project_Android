@@ -2326,8 +2326,7 @@ containing a value of this type.
         public static final int create_calendar_title=0x7f070043;
         public static final int decline=0x7f070044;
         public static final int down_button=0x7f070045;
-        /** AIzaSyC6AEbpYUFQxJhz9X2zo-nmBHNm0SK_4-Q Sergi API key
-Silvia API key
+        /** AIzaSyAaZ4mA49V79bErLS_NzGnjoHYEcUb2i0k  Silvia API key
          */
         public static final int google_maps_key=0x7f070046;
         public static final int hello_world=0x7f070047;

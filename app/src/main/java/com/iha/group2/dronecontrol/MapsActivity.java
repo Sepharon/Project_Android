@@ -43,6 +43,9 @@ public class MapsActivity extends FragmentActivity {
     Button save;
 
     MyReceiver receiver;
+
+
+    boolean connected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +72,7 @@ public class MapsActivity extends FragmentActivity {
         less_v = (Button)findViewById(R.id.less_button);
         more_v = (Button)findViewById(R.id.more_button);
 
-        // TODO: implement off function
+        connected=true;
 
         Log.v("Drone Control ip: ", ip);
         forward.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +136,7 @@ public class MapsActivity extends FragmentActivity {
         new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                if (!ask_camera) {
+                if (!ask_camera && connected) {
                     receive_data("GPS", ip);
                     start();
                 }
@@ -244,11 +247,18 @@ public class MapsActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        connected=false;
         receive_data("Stop", ip);
     }
 
     public void stream(){
         Intent intent = new Intent(this, Streaming_camera.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        connected=true;
     }
 }
