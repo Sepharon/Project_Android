@@ -2138,7 +2138,6 @@ containing a value of this type.
         public static final int never=0x7f0d0025;
         public static final int none=0x7f0d000f;
         public static final int normal=0x7f0d000b;
-        public static final int off_button=0x7f0d0075;
         public static final int parentPanel=0x7f0d0048;
         public static final int play_pause=0x7f0d007e;
         public static final int production=0x7f0d002a;
@@ -2149,6 +2148,7 @@ containing a value of this type.
         public static final int route_name=0x7f0d0079;
         public static final int sandbox=0x7f0d002b;
         public static final int satellite=0x7f0d0020;
+        public static final int save_button=0x7f0d0075;
         public static final int screen=0x7f0d0015;
         public static final int scrollView=0x7f0d004d;
         public static final int search_badge=0x7f0d005f;
@@ -2324,6 +2324,8 @@ containing a value of this type.
         public static final int create_calendar_title=0x7f070043;
         public static final int decline=0x7f070044;
         public static final int down_button=0x7f070045;
+        /** AIzaSyC6AEbpYUFQxJhz9X2zo-nmBHNm0SK_4-Q
+         */
         public static final int google_maps_key=0x7f070046;
         public static final int hello_world=0x7f070047;
         public static final int hint_ip=0x7f070048;

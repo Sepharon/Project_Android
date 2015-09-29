@@ -28,6 +28,7 @@ public class MapsActivity extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Marker marker;
     boolean ask_camera=false;
+    String ip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class MapsActivity extends FragmentActivity {
         this.registerReceiver(new MyReceiver(), filter);
 
         Intent in = getIntent();
-        final String ip = in.getStringExtra("ip");
+        ip = in.getStringExtra("ip");
         Button forward = (Button) findViewById(R.id.forward);
         Button backward = (Button) findViewById(R.id.backward);
         Button right = (Button) findViewById(R.id.right);
@@ -48,7 +49,7 @@ public class MapsActivity extends FragmentActivity {
         Button down = (Button) findViewById(R.id.down);
 
         Button photo = (Button) findViewById(R.id.take_photo);
-        Button off = (Button) findViewById(R.id.off_button);
+        Button save = (Button) findViewById(R.id.save_button);
 
         // TODO: implement off function
 
@@ -207,5 +208,16 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity:","Unknown action = " +action);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        send_data("OFF", ip, "");
+    }
+
+    public void stream(){
+        Intent intent = new Intent(this, Streaming_camera.class);
+        startActivity(intent);
     }
 }

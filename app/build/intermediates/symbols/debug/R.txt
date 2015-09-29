@@ -660,7 +660,6 @@ int id multiply 0x7f0d0014
 int id never 0x7f0d0025
 int id none 0x7f0d000f
 int id normal 0x7f0d000b
-int id off_button 0x7f0d0075
 int id parentPanel 0x7f0d0048
 int id play_pause 0x7f0d007e
 int id production 0x7f0d002a
@@ -671,6 +670,7 @@ int id right 0x7f0d0071
 int id route_name 0x7f0d0079
 int id sandbox 0x7f0d002b
 int id satellite 0x7f0d0020
+int id save_button 0x7f0d0075
 int id screen 0x7f0d0015
 int id scrollView 0x7f0d004d
 int id search_badge 0x7f0d005f
