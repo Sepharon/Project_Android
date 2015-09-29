@@ -142,6 +142,10 @@ public class MapsActivity extends FragmentActivity {
                 }
             }
         }.start();
+
+        Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
+        intent.putExtra("ip", ip);
+        startService(intent);
     }
 
     @Override
@@ -248,6 +252,9 @@ public class MapsActivity extends FragmentActivity {
     public void onBackPressed() {
         super.onBackPressed();
         connected=false;
+        Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
+        intent.putExtra("ip","");
+        startService(intent);
         receive_data("Stop", ip);
     }
 

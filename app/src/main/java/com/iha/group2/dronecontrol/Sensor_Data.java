@@ -20,7 +20,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
 
-    float inital_value;
+    float initial_value;
     float threshold_high = 0.5f;
     float threshold_low = -0.5f;
     boolean first = true;
@@ -38,7 +38,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
 
-        ip= intent.getStringExtra("ip");
+        ip = intent.getStringExtra("ip");
         if (ip.equals("")) {
             // Unregister from sensor
             mSensorManager.unregisterListener(this);
@@ -72,10 +72,10 @@ public class Sensor_Data extends Service implements SensorEventListener {
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
 
         if (first){
-            inital_value = x;
+            initial_value = x;
             first = false;
         }
-        actual_value = x - inital_value;
+        actual_value = x - initial_value;
         res = calculate_movement(actual_value);
         if (res == 2) {
             u_d = "U";
