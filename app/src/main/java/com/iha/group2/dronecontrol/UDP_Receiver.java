@@ -66,7 +66,8 @@ public class UDP_Receiver extends Service {
             case "Stop":
                 // TODO: ADD SENDING MESSAGE TELLING ARDUINO TO STOP
                 try {
-                    tcp_client(ip,action,TCP_port);
+                    get_msg(ip, action, UDP_port);
+                    tcp_client(ip, action, TCP_port);
                     socket_tcp.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -84,7 +85,7 @@ public class UDP_Receiver extends Service {
         /*
         Variables declaration
          */
-        byte[] recieve_data = new byte[64];
+        byte[] receive_data = new byte[64];
         String rec_msg = "";
         int msg_length = msg.length();
         byte[] message = msg.getBytes();
@@ -101,19 +102,28 @@ public class UDP_Receiver extends Service {
 
         Log.v("Service Receiver:", "Receiving packet");
         // Preparing packet to receive data
-        DatagramPacket recieve_pkt = new DatagramPacket(recieve_data,recieve_data.length);
+        DatagramPacket receive_pkt = new DatagramPacket(receive_data,receive_data.length);
         // Timeout
         socket.setSoTimeout(timeout);
         // We wait until we receive a packet or timeout happens
 
         try {
             Log.v("Service Receiver:", "Waiting for data");
-            socket.receive(recieve_pkt);
+            socket.receive(receive_pkt);
             Log.v("Service Receiver:", "Data received");
-            rec_msg = new String(recieve_pkt.getData());
-            Log.v("Service Receiver", "Data recieved :" + rec_msg);
+            rec_msg = new String(receive_pkt.getData());
+            Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
             socket.close();
-            broadcast_result(rec_msg,0);
+            String ms = rec_msg.split("\n")[0];
+            if (ms.equals("Stop")){
+                broadcast_toInit(rec_msg, 0);
+            }
+            else if (ms.equals("alive")){
+                broadcast_toInit(rec_msg, 0);
+            }
+            else {
+                broadcast_result(rec_msg, 0);
+            }
 
         }
         catch (SocketTimeoutException e) {
@@ -146,13 +156,21 @@ public class UDP_Receiver extends Service {
         response = in.readLine();
         Log.v("TCP_connection:", "Message received");
         Log.v("TCP_connection:", response);
-        broadcast_result(response,1);
+        broadcast_result(response, 1);
         return response;
     }
 
     public void broadcast_result(String msg,int act){
         Intent broadcast = new Intent();
         broadcast.setAction("broadcast");
+        broadcast.putExtra("action",act);
+        broadcast.putExtra("result", msg);
+        sendBroadcast(broadcast);
+    }
+
+    public void broadcast_toInit(String msg,int act){
+        Intent broadcast = new Intent();
+        broadcast.setAction("init");
         broadcast.putExtra("action",act);
         broadcast.putExtra("result", msg);
         sendBroadcast(broadcast);

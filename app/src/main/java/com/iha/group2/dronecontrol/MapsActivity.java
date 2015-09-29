@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ReceiverCallNotAllowedException;
 import android.os.CountDownTimer;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class MapsActivity extends FragmentActivity {
     Marker marker;
     boolean ask_camera=false;
     String ip;
+
+    MyReceiver receiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,8 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
 
         IntentFilter filter = new IntentFilter("broadcast");
-        this.registerReceiver(new MyReceiver(), filter);
+        receiver = new MyReceiver();
+        this.registerReceiver(receiver, filter);
 
         Intent in = getIntent();
         ip = in.getStringExtra("ip");
@@ -191,7 +195,7 @@ public class MapsActivity extends FragmentActivity {
             // May need to change
             switch (action) {
                 case 0:
-                    // Way to send data = 50,45,
+                    // Way to send data = 50.2-45.0-
                     String lat = result.split("-")[0];
                     String lng = result.split("-")[1];
                     Log.v("Map Activity: ", result);
@@ -213,7 +217,7 @@ public class MapsActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        send_data("OFF", ip, "");
+        receive_data("Stop", ip);
     }
 
     public void stream(){
