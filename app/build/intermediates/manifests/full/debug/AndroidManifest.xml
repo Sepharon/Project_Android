@@ -94,6 +94,12 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
+
+        <service
+            android:name="com.iha.group2.dronecontrol.Sensor_Data"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

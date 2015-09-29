@@ -366,6 +366,7 @@
     <string name="store_picture_title">Save image</string>
     <!-- From: file:/home/sergi/aarhus_sp/Drone%20Project/Drone%20Project/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="streaming">Stream</string>
     <string name="title_activity_drone_control">DroneControl</string>
     <string name="title_activity_list_ips">ListIPs</string>
     <string name="title_activity_maps">Map</string>

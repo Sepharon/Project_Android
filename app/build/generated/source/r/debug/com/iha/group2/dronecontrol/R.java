@@ -2342,11 +2342,12 @@ containing a value of this type.
         public static final int status_bar_notification_info_overflow=0x7f070037;
         public static final int store_picture_message=0x7f07004e;
         public static final int store_picture_title=0x7f07004f;
-        public static final int title_activity_drone_control=0x7f070050;
-        public static final int title_activity_list_ips=0x7f070051;
-        public static final int title_activity_maps=0x7f070052;
-        public static final int title_activity_streaming_camera=0x7f070053;
-        public static final int up_button=0x7f070054;
+        public static final int streaming=0x7f070050;
+        public static final int title_activity_drone_control=0x7f070051;
+        public static final int title_activity_list_ips=0x7f070052;
+        public static final int title_activity_maps=0x7f070053;
+        public static final int title_activity_streaming_camera=0x7f070054;
+        public static final int up_button=0x7f070055;
         public static final int wallet_buy_button_place_holder=0x7f070038;
     }
     public static final class style {

@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-84:12
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-90:12
 	xmlns:android
 		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:11-69
 	package
@@ -64,7 +64,7 @@ ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/Androi
 	android:name
 		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:15:22-76
 application
-ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:17:5-82:19
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:17:5-88:19
 MERGED from [com.android.support:appcompat-v7:23.0.1] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.0.1] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/7.8.0/AndroidManifest.xml:19:5-20
@@ -278,13 +278,21 @@ ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/Androi
 activity#com.iha.group2.dronecontrol.Streaming_camera
 ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:76:9-81:20
 	android:screenOrientation
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:78:13-50
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:79:13-50
 	android:label
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:80:13-68
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:78:13-68
 	android:theme
-		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:79:13-71
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:80:13-71
 	android:name
 		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:77:13-45
+service#com.iha.group2.dronecontrol.Sensor_Data
+ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:83:9-87:19
+	android:exported
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:86:13-36
+	android:enabled
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:85:13-35
+	android:name
+		ADDED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:84:13-40
 uses-sdk
 INJECTED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.0.1] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:20:5-43
@@ -409,7 +417,7 @@ MERGED from [com.google.android.gms:play-services-maps:7.8.0] /home/sergi/aarhus
 	android:glEsVersion
 		ADDED from [com.google.android.gms:play-services-maps:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.8.0/AndroidManifest.xml:24:8-40
 android:uses-permission#android.permission.READ_EXTERNAL_STORAGE
-IMPLIED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-84:12 reason: com.google.android.gms.maps requested WRITE_EXTERNAL_STORAGE
+IMPLIED from /home/sergi/aarhus_sp/Drone Project/Drone Project/app/src/main/AndroidManifest.xml:2:1-90:12 reason: com.google.android.gms.maps requested WRITE_EXTERNAL_STORAGE
 uses-permission#com.google.android.c2dm.permission.RECEIVE
 ADDED from [com.google.android.gms:play-services-gcm:7.8.0] /home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.8.0/AndroidManifest.xml:21:5-82
 	android:name
