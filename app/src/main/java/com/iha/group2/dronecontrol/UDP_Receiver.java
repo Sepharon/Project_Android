@@ -74,6 +74,7 @@ public class UDP_Receiver extends Service {
                 }
 
                 stopSelf();
+
             default:
                 Log.v("Service Receiver:", "Unknown Action " + action);
         }

@@ -93,6 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
+        android:onClick="less_velocity"
         android:id="@+id/less_button"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/save_button" />
@@ -102,6 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
+        android:onClick="more_velocity"
         android:id="@+id/more_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />

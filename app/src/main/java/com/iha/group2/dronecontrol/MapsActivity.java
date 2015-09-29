@@ -31,6 +31,17 @@ public class MapsActivity extends FragmentActivity {
     boolean ask_camera=false;
     String ip;
 
+    Button forward;
+    Button backward;
+    Button right;
+    Button left;
+    Button up;
+    Button down;
+    Button less_v;
+    Button more_v;
+    Button photo;
+    Button save;
+
     MyReceiver receiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +55,19 @@ public class MapsActivity extends FragmentActivity {
 
         Intent in = getIntent();
         ip = in.getStringExtra("ip");
-        Button forward = (Button) findViewById(R.id.forward);
-        Button backward = (Button) findViewById(R.id.backward);
-        Button right = (Button) findViewById(R.id.right);
-        Button left = (Button) findViewById(R.id.left);
+        forward = (Button) findViewById(R.id.forward);
+        backward = (Button) findViewById(R.id.backward);
+        right = (Button) findViewById(R.id.right);
+        left = (Button) findViewById(R.id.left);
 
-        Button up = (Button) findViewById(R.id.up);
-        Button down = (Button) findViewById(R.id.down);
+        up = (Button) findViewById(R.id.up);
+        down = (Button) findViewById(R.id.down);
 
-        Button photo = (Button) findViewById(R.id.take_photo);
-        Button save = (Button) findViewById(R.id.save_button);
+        photo = (Button) findViewById(R.id.take_photo);
+        save = (Button) findViewById(R.id.save_button);
+
+        less_v = (Button)findViewById(R.id.less_button);
+        more_v = (Button)findViewById(R.id.monochrome);
 
         // TODO: implement off function
 
@@ -223,5 +237,13 @@ public class MapsActivity extends FragmentActivity {
     public void stream(){
         Intent intent = new Intent(this, Streaming_camera.class);
         startActivity(intent);
+    }
+
+    public void less_velocity(){
+        send_data("LV", ip, "");
+    }
+
+    public void more_velocity(){
+        send_data("MV", ip, "");
     }
 }

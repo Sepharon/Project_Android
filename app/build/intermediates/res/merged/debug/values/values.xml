@@ -336,7 +336,8 @@
     <!-- From: file:/home/silvia/Android%20Studio/Projects/Project_Android/app/src/debug/res/values/google_maps_api.xml -->
     <eat-comment/>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyC6AEbpYUFQxJhz9X2zo-nmBHNm0SK_4-Q
+        <!--AIzaSyC6AEbpYUFQxJhz9X2zo-nmBHNm0SK_4-Q--> <!--Sergi API key-->
+        AIzaSyAaZ4mA49V79bErLS_NzGnjoHYEcUb2i0k <!--Silvia API key-->
     </string>
     <!-- From: file:/home/silvia/Android%20Studio/Projects/Project_Android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
