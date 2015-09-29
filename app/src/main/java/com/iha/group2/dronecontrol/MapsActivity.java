@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ReceiverCallNotAllowedException;
 import android.os.CountDownTimer;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -28,6 +29,20 @@ public class MapsActivity extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Marker marker;
     boolean ask_camera=false;
+    String ip;
+
+    Button forward;
+    Button backward;
+    Button right;
+    Button left;
+    Button up;
+    Button down;
+    Button less_v;
+    Button more_v;
+    Button photo;
+    Button save;
+
+    MyReceiver receiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,20 +50,24 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
 
         IntentFilter filter = new IntentFilter("broadcast");
-        this.registerReceiver(new MyReceiver(), filter);
+        receiver = new MyReceiver();
+        this.registerReceiver(receiver, filter);
 
         Intent in = getIntent();
-        final String ip = in.getStringExtra("ip");
-        Button forward = (Button) findViewById(R.id.forward);
-        Button backward = (Button) findViewById(R.id.backward);
-        Button right = (Button) findViewById(R.id.right);
-        Button left = (Button) findViewById(R.id.left);
+        ip = in.getStringExtra("ip");
+        forward = (Button) findViewById(R.id.forward);
+        backward = (Button) findViewById(R.id.backward);
+        right = (Button) findViewById(R.id.right);
+        left = (Button) findViewById(R.id.left);
 
-        Button up = (Button) findViewById(R.id.up);
-        Button down = (Button) findViewById(R.id.down);
+        up = (Button) findViewById(R.id.up);
+        down = (Button) findViewById(R.id.down);
 
-        Button photo = (Button) findViewById(R.id.take_photo);
-        Button off = (Button) findViewById(R.id.off_button);
+        photo = (Button) findViewById(R.id.take_photo);
+        save = (Button) findViewById(R.id.save_button);
+
+        less_v = (Button)findViewById(R.id.less_button);
+        more_v = (Button)findViewById(R.id.monochrome);
 
         // TODO: implement off function
 
@@ -190,7 +209,7 @@ public class MapsActivity extends FragmentActivity {
             // May need to change
             switch (action) {
                 case 0:
-                    // Way to send data = 50,45,
+                    // Way to send data = 50.2-45.0-
                     String lat = result.split("-")[0];
                     String lng = result.split("-")[1];
                     Log.v("Map Activity: ", result);
@@ -207,5 +226,24 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity:","Unknown action = " +action);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        receive_data("Stop", ip);
+    }
+
+    public void stream(){
+        Intent intent = new Intent(this, Streaming_camera.class);
+        startActivity(intent);
+    }
+
+    public void less_velocity(){
+        send_data("LV", ip, "");
+    }
+
+    public void more_velocity(){
+        send_data("MV", ip, "");
     }
 }

@@ -64,7 +64,7 @@ public class InitActivity extends AppCompatActivity {
     ContentValues values;
     AutoCompleteTextView ip;
     ArrayAdapter<String> myAdapter;
-
+;
 
     // Functions start
     @Override
@@ -72,7 +72,7 @@ public class InitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
 
-        IntentFilter filter = new IntentFilter("broadcast");
+        IntentFilter filter = new IntentFilter("init");
         this.registerReceiver(new MyReceiver(), filter);
 
 
@@ -187,9 +187,13 @@ public class InitActivity extends AppCompatActivity {
             Log.v("Activity One result", result);
             if (result.equals("alive")) {
                 state = true;
-                context.unregisterReceiver(this);
+                //context.unregisterReceiver(this);
                 Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
-            } else {
+            }
+            else if (result.equals("Stop")){
+                Toast.makeText(InitActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
+            }
+            else {
                 Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
                 //state = false;
             }
@@ -240,4 +244,6 @@ public class InitActivity extends AppCompatActivity {
             es.printStackTrace();
         }
     }
+
+
 }

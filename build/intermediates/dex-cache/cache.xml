@@ -2,11 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.8.0/jars/classes.jar"
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.8.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="0124ce31248c0e8acfa2b28283c6d1a4d76e73d2">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-214cf4ae370fabc3d7b9fd9df7b88df57f1771c2.jar" />
+        sha1="1ff30fa49c07a08c3035d7218a3efebf5680d522">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-8bb8d1dc51ed12693c2c6c6b761df82aeecc7ebc.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d11330ea68c0d964d30d5caed1f27e6b1488b189">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-d60d46e85d3a1e938b0e30226b42998665cc36cf.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-7c83303415b004b038ebc5e440838f0d83fc8f1c.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="adebe28e0c0c05d34a3bfd76f3275bf4d8ff87b6">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-2850b0b464c50d0a44db810b29e233fe120d805f.jar" />
     </item>
     <item
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.8.0/jars/classes.jar"
@@ -23,32 +44,18 @@
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-d8dc07eb86bb691e564e65027f79a1182ac0097e.jar" />
     </item>
     <item
-        jar="/home/silvia/android-sdks/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.8.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-9d6d8b0c3d4b237d3e6a2cf6773dee611730e7a3.jar" />
+        sha1="4a135d56554069e5d0ff80e3220e887e57146ee5">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-871b5f65cac160b53bfd28328249a078a8a9b5d5.jar" />
     </item>
     <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.8.0/jars/classes.jar"
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.8.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="1ff30fa49c07a08c3035d7218a3efebf5680d522">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-8bb8d1dc51ed12693c2c6c6b761df82aeecc7ebc.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c0c912d58c9468b1f9d9769c8975afdf2c85d681">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-8fc09898daa4b1c71a427ee4c53c125616af4064.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-8e039e8f29f733400f2ec5d20a34ce289d76cfba.jar" />
+        sha1="0124ce31248c0e8acfa2b28283c6d1a4d76e73d2">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-214cf4ae370fabc3d7b9fd9df7b88df57f1771c2.jar" />
     </item>
     <item
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/7.8.0/jars/classes.jar"
@@ -58,53 +65,11 @@
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-739c9da878238c20f964fcf2fece2c805d96ac94.jar" />
     </item>
     <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/7.8.0/jars/classes.jar"
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="adebe28e0c0c05d34a3bfd76f3275bf4d8ff87b6">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-2850b0b464c50d0a44db810b29e233fe120d805f.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="b99f0b78bbcb76b915bc6529a83b65d4d46990dd">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-08cd742ba077433af0fdb0a3e663e308f33c1a98.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="77a9dcb5f8b1dba36aacaa9c150eb0942dbea158">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-403f22fbd022792341a9acc180558dc5845ecc55.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-7c83303415b004b038ebc5e440838f0d83fc8f1c.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="166e458ee3b5fb5fcff0f936df3f3a788e6c54f3">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-e061b4d31c61b551770a82657cdab9561eaf3607.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c5cafb324568d954780abb858c25db7ce675ab3c">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-3d084562ef6856fec4be6e108f7e05c36755808e.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="42a1ee578b62fd1bd28b3307a679dc9ba0791587">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-9d93a51f6924cb1cd167090cd8945074d1fa6655.jar" />
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-a0874d540713221cf64d584ec35babc8626dbef4.jar" />
     </item>
     <item
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appstate/7.8.0/jars/classes.jar"
@@ -114,25 +79,11 @@
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-6a8f27900c996451eed6113fc3bf6acde1f5100b.jar" />
     </item>
     <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.8.0/jars/classes.jar"
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/7.8.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="cb6fab7a71fa9ec1f483d44c5fca65ab469d8aca">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-82b06b4001cdf9ba9d2b28e4de807e2899f75db6.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="e23ea11124bb700eeddd4ab7aa848c615f493850">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-de4bd9694a4c1f9bd0f5ae1aa06034d80865776f.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="4a135d56554069e5d0ff80e3220e887e57146ee5">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-871b5f65cac160b53bfd28328249a078a8a9b5d5.jar" />
+        sha1="2e24e5f1b11170163028277de63f709e42525db4">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-8f3bcc4c396f32e55e975539afd56ea34eb7c0ef.jar" />
     </item>
     <item
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.8.0/jars/classes.jar"
@@ -142,11 +93,46 @@
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-f4f1215bcef82c3238c5b15484924131cbcf5d09.jar" />
     </item>
     <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c0c912d58c9468b1f9d9769c8975afdf2c85d681">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-8fc09898daa4b1c71a427ee4c53c125616af4064.jar" />
+    </item>
+    <item
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.8.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="c2ac04c5b232f6f0658ee4f1c13be09cd76406e2">
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-53d32a0f7fe50ab3e03f5795fbf45238036c0656.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-8e039e8f29f733400f2ec5d20a34ce289d76cfba.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e23ea11124bb700eeddd4ab7aa848c615f493850">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-de4bd9694a4c1f9bd0f5ae1aa06034d80865776f.jar" />
+    </item>
+    <item
+        jar="/home/silvia/android-sdks/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-9d6d8b0c3d4b237d3e6a2cf6773dee611730e7a3.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="cb6fab7a71fa9ec1f483d44c5fca65ab469d8aca">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-82b06b4001cdf9ba9d2b28e4de807e2899f75db6.jar" />
     </item>
     <item
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/7.8.0/jars/classes.jar"
@@ -156,25 +142,11 @@
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-67be882a5bba56af77abfee0d1238c7f3fa24f87.jar" />
     </item>
     <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/7.8.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-a0874d540713221cf64d584ec35babc8626dbef4.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.8.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d11330ea68c0d964d30d5caed1f27e6b1488b189">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-d60d46e85d3a1e938b0e30226b42998665cc36cf.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-6fd7f9c8b0d541b66f21e97d61890ad4510ceb75.jar" />
+        sha1="166e458ee3b5fb5fcff0f936df3f3a788e6c54f3">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-e061b4d31c61b551770a82657cdab9561eaf3607.jar" />
     </item>
     <item
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/7.8.0/jars/classes.jar"
@@ -184,11 +156,39 @@
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-36614187428fe18acb59e745f4c5671c0f371cca.jar" />
     </item>
     <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/7.8.0/jars/classes.jar"
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="2e24e5f1b11170163028277de63f709e42525db4">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-8f3bcc4c396f32e55e975539afd56ea34eb7c0ef.jar" />
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-6fd7f9c8b0d541b66f21e97d61890ad4510ceb75.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="77a9dcb5f8b1dba36aacaa9c150eb0942dbea158">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-403f22fbd022792341a9acc180558dc5845ecc55.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="42a1ee578b62fd1bd28b3307a679dc9ba0791587">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-9d93a51f6924cb1cd167090cd8945074d1fa6655.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b99f0b78bbcb76b915bc6529a83b65d4d46990dd">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-08cd742ba077433af0fdb0a3e663e308f33c1a98.jar" />
+    </item>
+    <item
+        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c5cafb324568d954780abb858c25db7ce675ab3c">
+        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/debug/classes-3d084562ef6856fec4be6e108f7e05c36755808e.jar" />
     </item>
 
 </items>

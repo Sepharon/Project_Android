@@ -172,16 +172,16 @@ ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/And
 		ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:24:13-45
 	android:name
 		ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:23:13-41
-intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER+broadcast
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER+init
 ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:26:13-31:29
 action#android.intent.action.MAIN
 ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:27:17-69
 	android:name
 		ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:27:25-66
-action#broadcast
-ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:28:17-52
+action#init
+ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:28:17-47
 	android:name
-		ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:28:25-49
+		ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:28:25-44
 category#android.intent.category.LAUNCHER
 ADDED from /home/silvia/Android Studio/Projects/Project_Android/app/src/main/AndroidManifest.xml:30:17-77
 	android:name

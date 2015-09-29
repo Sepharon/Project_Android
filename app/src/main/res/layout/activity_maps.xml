@@ -55,7 +55,8 @@
         android:id="@+id/up"
         android:layout_alignTop="@+id/right"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:text="UP" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -64,13 +65,15 @@
         android:id="@+id/down"
         android:layout_below="@+id/up"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:text="DOWN" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/streaming"
+        android:onClick="stream"
         android:id="@+id/take_photo"
         android:layout_alignBottom="@+id/down"
         android:layout_centerHorizontal="true" />
@@ -79,9 +82,29 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OFF"
-        android:id="@+id/off_button"
+        android:text="SAVE"
+        android:id="@+id/save_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:onClick="less_velocity"
+        android:id="@+id/less_button"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/save_button" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:onClick="more_velocity"
+        android:id="@+id/more_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>
