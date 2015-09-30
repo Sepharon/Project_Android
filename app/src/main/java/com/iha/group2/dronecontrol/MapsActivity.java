@@ -44,6 +44,7 @@ public class MapsActivity extends FragmentActivity {
     Button RR;
     Button RL;
 
+    CountDownTimer t;
     MyReceiver receiver;
     boolean connected;
     @Override
@@ -155,10 +156,10 @@ public class MapsActivity extends FragmentActivity {
         // Might need to this in the beginning
         receive_data("GPS",ip);
 
-        new CountDownTimer(20000,1000){
+        t = new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                if (!ask_camera) {
+                if (!ask_camera && connected ) {
                     receive_data("GPS", ip);
                     start();
                 }
@@ -272,6 +273,7 @@ public class MapsActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        t.cancel();
         connected=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         stopService(intent);
