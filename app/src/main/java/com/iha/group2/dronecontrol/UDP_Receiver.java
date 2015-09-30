@@ -134,7 +134,7 @@ public class UDP_Receiver extends Service {
 
 
         InetAddress IP = InetAddress.getByName(ip);
-        if (first && !socket_tcp.isConnected()) {
+        if (first) {
             Log.v("TCP_connection:", ""+first);
             socket_tcp = new Socket(IP, port);
             first=false;
