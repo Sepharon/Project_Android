@@ -1,15 +1,8 @@
 
 /*
-  WiFi UDP Send and Receive String
- 
- This sketch wait an UDP packet on localPort using a WiFi shield.
- When a packet is received an Acknowledge packet is sent to the client on port remotePort
- 
- Circuit:
- * WiFi shield attached
- 
- created 30 December 2012
- by dlf (Metodo2 srl)
+SOURCE:
+https://www.arduino.cc/en/Tutorial/WiFiSendReceiveUDPString
+
 
  */
 
@@ -20,7 +13,6 @@
 #include <Wire.h>
 #include <stdio.h>
 
-#define LED 13
 
 int status = WL_IDLE_STATUS;
 char ssid[] = "Romesco wifi"; //  your network SSID (name) 
@@ -41,9 +33,7 @@ boolean flagDown = false;
 
 void setup() {
   Wire.begin();
-  Serial.begin(9600); 
-  pinMode(LED, OUTPUT);
-  digitalWrite(LED, LOW);
+  Serial.begin(9600);
   //Initialize serial and wait for port to open:
   
   // check for the presence of the shield:
@@ -72,8 +62,15 @@ void setup() {
 }
 
 void loop() {
-   digitalWrite(LED, HIGH);
-    
+  while ( WiFi.status() != WL_CONNECTED ) {
+    Serial.println("Trying to reconnect");
+    WiFi.begin(ssid, pass);
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.println("Reconnected");
+    }
+    delay(5000);
+  }
+ 
   // if there's data available, read a packet
   int packetSize = Udp.parsePacket();
   if(packetSize)
