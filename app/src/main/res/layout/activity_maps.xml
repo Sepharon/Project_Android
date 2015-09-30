@@ -74,7 +74,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/streaming"
-        android:onClick="stream"
         android:id="@+id/take_photo"
         android:layout_alignBottom="@+id/down"
         android:layout_centerHorizontal="true" />

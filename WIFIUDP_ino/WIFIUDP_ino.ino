@@ -111,7 +111,7 @@ void loop() {
       Udp.endPacket();
       Serial.println("GPS"); 
     }
-    else if (packetBuffer[0]=='R'){
+    else if (packetBuffer[0]=='R' && packetBuffer[1]!='R' && packetBuffer[1]!='L'){
       Serial.println("RIGHT");      
     }
     else if (packetBuffer[0]=='L' && packetBuffer[1]!='V'){
@@ -122,6 +122,12 @@ void loop() {
     }
     else if (packetBuffer[0]=='F'){
       Serial.println("FORWARD");      
+    }
+    else if (packetBuffer[0]=='R' && packetBuffer[1]=='L'){
+      Serial.println("Rotate Left");      
+    }
+    else if (packetBuffer[0]=='R' && packetBuffer[1]=='R'){
+      Serial.println("Rotate Right");      
     }
     else if (packetBuffer[0]=='L' && packetBuffer[1] == 'V'){
       Serial.println("Less Velocity");      

@@ -132,7 +132,9 @@ public class MapsActivity extends FragmentActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                receive_data("camera", ip);
+                Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
+                startActivity(intent);
+                //receive_data("camera", ip);
             }
         });
 
@@ -216,7 +218,7 @@ public class MapsActivity extends FragmentActivity {
             e.printStackTrace();
         }
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Drone"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom( pos, 1));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 1));
         // Change zoom factor if needed
         CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(14.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
@@ -234,7 +236,7 @@ public class MapsActivity extends FragmentActivity {
     public void receive_data (String action, String ip){
         Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
         intent.putExtra("ip",ip);
-        intent.putExtra("action",action);
+        intent.putExtra("action", action);
         startService(intent);
     }
 
@@ -274,11 +276,6 @@ public class MapsActivity extends FragmentActivity {
         intent.putExtra("ip","");
         startService(intent);
         receive_data("Stop", ip);
-    }
-
-    public void stream(){
-        Intent intent = new Intent(this, Streaming_camera.class);
-        startActivity(intent);
     }
 
     @Override
