@@ -38,7 +38,11 @@ public class Sensor_Data extends Service implements SensorEventListener {
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
 
-        ip = intent.getStringExtra("ip");
+        try {
+            ip = intent.getStringExtra("ip");
+        } catch (NullPointerException es){
+            es.printStackTrace();
+        }
         if (ip.equals("")) {
             // Unregister from sensor
             mSensorManager.unregisterListener(this);
