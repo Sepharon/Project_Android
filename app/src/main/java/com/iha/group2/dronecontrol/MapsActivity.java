@@ -131,6 +131,7 @@ public class MapsActivity extends FragmentActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                t.cancel();
                 Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
                 stopService(in);
                 Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
