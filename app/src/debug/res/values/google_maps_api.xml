@@ -13,7 +13,6 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     string in this file.
     -->
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
-        <!--AIzaSyC6AEbpYUFQxJhz9X2zo-nmBHNm0SK_4-Q-->
-        AIzaSyAnKe0HgMyyUsDEGwwpSKJN6WHRWTooxf0 <!--Silvia API key-->
+        AIzaSyCoO1UvnccUcW5rpmopXvvHfx0aFuF0u3k
     </string>
 </resources>

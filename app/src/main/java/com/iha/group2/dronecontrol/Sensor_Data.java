@@ -18,7 +18,6 @@ import android.util.Log;
 public class Sensor_Data extends Service implements SensorEventListener {
 
     private SensorManager mSensorManager;
-    private Sensor mSensor;
 
     float initial_value;
     float threshold_high = 0.5f;
@@ -35,7 +34,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Sensor mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
 
         try {

@@ -15,7 +15,8 @@ public class Streaming_camera extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_streaming_camera);
 
-
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         WebView browser = (WebView) findViewById(R.id.webView);
 

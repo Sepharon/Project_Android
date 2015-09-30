@@ -40,8 +40,10 @@ public class UDP_Receiver extends Service {
         switch (action) {
             case "connect":
                 try {
-                    msg = get_msg(ip, action, UDP_port);
+                    //msg = get_msg(ip, action, UDP_port);
+                    msg = tcp_client(ip,action,TCP_port);
                     Log.v("Service:", "Msg = " + msg);
+                    //Log.v("Service:", "Msg = " + msg);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -64,11 +66,10 @@ public class UDP_Receiver extends Service {
                 }
                 break;
             case "Stop":
-                // TODO: ADD SENDING MESSAGE TELLING ARDUINO TO STOP
                 try {
-                    get_msg(ip, action, UDP_port);
+                    //get_msg(ip, action, UDP_port);
                     tcp_client(ip, action, TCP_port);
-                    socket_tcp.close();
+                    //socket_tcp.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -116,15 +117,9 @@ public class UDP_Receiver extends Service {
             Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
             socket.close();
             String ms = rec_msg.split("\n")[0];
-            if (ms.equals("Stop")){
-                broadcast_toInit(rec_msg, 0);
-            }
-            else if (ms.equals("alive")){
-                broadcast_toInit(rec_msg, 0);
-            }
-            else {
-                broadcast_result(rec_msg, 0);
-            }
+
+            broadcast_result(rec_msg, 0);
+
 
         }
         catch (SocketTimeoutException e) {
@@ -139,7 +134,8 @@ public class UDP_Receiver extends Service {
 
 
         InetAddress IP = InetAddress.getByName(ip);
-        if (first) {
+        if (first && !socket_tcp.isConnected()) {
+            Log.v("TCP_connection:", ""+first);
             socket_tcp = new Socket(IP, port);
             first=false;
         }
@@ -157,7 +153,14 @@ public class UDP_Receiver extends Service {
         response = in.readLine();
         Log.v("TCP_connection:", "Message received");
         Log.v("TCP_connection:", response);
-        broadcast_result(response, 1);
+
+        if (response.equals("Stop")){
+            broadcast_toInit(response,0);
+        }
+        else if (response.equals("alive")){
+            broadcast_toInit(response, 0);
+        }
+
         return response;
     }
 

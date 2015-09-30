@@ -155,7 +155,7 @@ public class MapsActivity extends FragmentActivity {
             }
         });
         // Might need to this in the beginning
-        receive_data("GPS",ip);
+        receive_data("GPS", ip);
 
         t = new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
@@ -259,10 +259,6 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity: ", "lat: " + lat);
                     Log.v("Map Activity: ", "lng: " + lng);
                     setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
-                    break;
-
-                case 1:
-                    //TODO do whatever it takes for TCP connection (CAMERA)
                     break;
 
                 default:
