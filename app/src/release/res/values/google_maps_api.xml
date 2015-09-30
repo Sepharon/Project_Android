@@ -4,15 +4,18 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=DE:60:1A:9E:26:77:94:87:52:29:B6:BD:3A:48:65:E7:EF:61:FD:D7%3Bcom.iha.group2.dronecontrol
+https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=F6:5F:63:E5:16:55:A7:80:6A:55:ED:D4:8E:FB:AD:EC:78:38:B1:40
+%3Bcom.iha.group2.dronecontrol
 
     You can also add your credentials to an existing key, using this line:
+    F6:5F:63:E5:16:55:A7:80:6A:55:ED:D4:8E:FB:AD:EC:78:38:B1:40
+
     DE:60:1A:9E:26:77:94:87:52:29:B6:BD:3A:48:65:E7:EF:61:FD:D7;com.iha.group2.dronecontrol
 
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">
-        AIzaSyC6AEbpYUFQxJhz9X2zo-nmBHNm0SK_4-Q 
+        AIzaSyATSiZTxdDkE4LWXAjW9as3hv6Zkg1viY0
     </string>
 </resources>

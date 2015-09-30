@@ -82,7 +82,7 @@
             android:name=".Streaming_camera"
             android:label="@string/title_activity_streaming_camera"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@style/Theme.AppCompat.Light">
         </activity>
 
         <service
