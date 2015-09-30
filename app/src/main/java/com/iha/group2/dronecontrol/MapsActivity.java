@@ -41,13 +41,8 @@ public class MapsActivity extends FragmentActivity {
     Button more_v;
     Button photo;
     Button save;
-    Button RR;
-    Button RL;
 
     MyReceiver receiver;
-
-
-    boolean connected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +60,7 @@ public class MapsActivity extends FragmentActivity {
         right = (Button) findViewById(R.id.right);
         left = (Button) findViewById(R.id.left);
 
-        up = (Button) findViewById(R.id.up_bt);
+        up = (Button) findViewById(R.id.up);
         down = (Button) findViewById(R.id.down);
 
         photo = (Button) findViewById(R.id.take_photo);
@@ -74,10 +69,7 @@ public class MapsActivity extends FragmentActivity {
         less_v = (Button)findViewById(R.id.less_button);
         more_v = (Button)findViewById(R.id.more_button);
 
-        RR = (Button)findViewById(R.id.rotate_right_bt);
-        RL = (Button)findViewById(R.id.rotate_left_bt);
-
-        connected=true;
+        // TODO: implement off function
 
         Log.v("Drone Control ip: ", ip);
         forward.setOnClickListener(new View.OnClickListener() {
@@ -132,22 +124,7 @@ public class MapsActivity extends FragmentActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
-                startActivity(intent);
-                //receive_data("camera", ip);
-            }
-        });
-
-        RR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                send_data("RR", ip, "");
-            }
-        });
-        RL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                send_data("RL", ip, "");
+                receive_data("camera",ip);
             }
         });
         // Might need to this in the beginning
@@ -156,16 +133,12 @@ public class MapsActivity extends FragmentActivity {
         new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                if (!ask_camera && connected) {
+                if (!ask_camera) {
                     receive_data("GPS", ip);
                     start();
                 }
             }
         }.start();
-
-        Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
-        intent.putExtra("ip", ip);
-        startService(intent);
     }
 
     @Override
@@ -218,7 +191,7 @@ public class MapsActivity extends FragmentActivity {
             e.printStackTrace();
         }
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Drone"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 1));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom( pos, 1));
         // Change zoom factor if needed
         CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(14.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
@@ -236,7 +209,7 @@ public class MapsActivity extends FragmentActivity {
     public void receive_data (String action, String ip){
         Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
         intent.putExtra("ip",ip);
-        intent.putExtra("action", action);
+        intent.putExtra("action",action);
         startService(intent);
     }
 
@@ -271,16 +244,11 @@ public class MapsActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        connected=false;
-        Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
-        intent.putExtra("ip","");
-        startService(intent);
         receive_data("Stop", ip);
     }
 
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        connected=true;
+    public void stream(){
+        Intent intent = new Intent(this, Streaming_camera.class);
+        startActivity(intent);
     }
 }

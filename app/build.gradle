@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'Drone Project'
-            keyPassword 'Internet94'
-            storeFile file('/home/sergi/aarhus_sp/Keystores/drone.jks')
-            storePassword 'Internet94'
+            keyAlias 'Drone'
+            keyPassword 'mypassword'
+            storeFile file('../Keystores')
+            storePassword 'mypassword'
         }
     }
     compileSdkVersion 23
@@ -23,6 +23,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            debuggable false
         }
     }
 }
