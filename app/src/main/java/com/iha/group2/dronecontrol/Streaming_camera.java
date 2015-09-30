@@ -8,7 +8,7 @@ import android.webkit.WebView;
 
 public class Streaming_camera extends AppCompatActivity {
 
-    static final String url = "http://10.192.86.63:8080/video";
+    static final String url = "http://192.168.0.105:8080/video";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

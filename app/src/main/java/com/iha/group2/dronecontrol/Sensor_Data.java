@@ -41,13 +41,10 @@ public class Sensor_Data extends Service implements SensorEventListener {
         try {
             ip = intent.getStringExtra("ip");
         } catch (NullPointerException es){
+            Log.v("SENSOR_DATA: ", "ip null pointer");
             es.printStackTrace();
         }
-        if (ip.equals("")) {
-            // Unregister from sensor
-            mSensorManager.unregisterListener(this);
-            stopSelf();
-        }
+
         return START_STICKY;
     }
 

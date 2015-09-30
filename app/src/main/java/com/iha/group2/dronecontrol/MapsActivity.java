@@ -41,8 +41,11 @@ public class MapsActivity extends FragmentActivity {
     Button more_v;
     Button photo;
     Button save;
+    Button RR;
+    Button RL;
 
     MyReceiver receiver;
+    boolean connected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class MapsActivity extends FragmentActivity {
         right = (Button) findViewById(R.id.right);
         left = (Button) findViewById(R.id.left);
 
-        up = (Button) findViewById(R.id.up);
+        up = (Button) findViewById(R.id.up_bt);
         down = (Button) findViewById(R.id.down);
 
         photo = (Button) findViewById(R.id.take_photo);
@@ -69,7 +72,10 @@ public class MapsActivity extends FragmentActivity {
         less_v = (Button)findViewById(R.id.less_button);
         more_v = (Button)findViewById(R.id.more_button);
 
-        // TODO: implement off function
+        RR = (Button)findViewById(R.id.rotate_right_bt);
+        RL = (Button)findViewById(R.id.rotate_left_bt);
+
+        connected=true;
 
         Log.v("Drone Control ip: ", ip);
         forward.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +87,7 @@ public class MapsActivity extends FragmentActivity {
         backward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("B",ip,"");
+                send_data("B", ip, "");
             }
         });
         right.setOnClickListener(new View.OnClickListener() {
@@ -124,11 +130,30 @@ public class MapsActivity extends FragmentActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                receive_data("camera",ip);
+                Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
+                stopService(in);
+                Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
+                stopService(intent2);
+                Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
+                startActivity(intent);
+                //receive_data("camera", ip);
+            }
+        });
+
+        RR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("RR", ip, "");
+            }
+        });
+        RL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("RL", ip, "");
             }
         });
         // Might need to this in the beginning
-        //receive_data("GPS",ip);
+        receive_data("GPS",ip);
 
         new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
@@ -139,6 +164,9 @@ public class MapsActivity extends FragmentActivity {
                 }
             }
         }.start();
+        Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
+        intent.putExtra("ip", ip);
+        startService(intent);
     }
 
     @Override
@@ -244,11 +272,17 @@ public class MapsActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        connected=false;
+        Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
+        stopService(intent);
+        Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
+        stopService(in);
         receive_data("Stop", ip);
     }
 
-    public void stream(){
-        Intent intent = new Intent(this, Streaming_camera.class);
-        startActivity(intent);
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        connected=true;
     }
 }

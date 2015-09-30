@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'Drone'
             keyPassword 'mypassword'
-            storeFile file('../Keystores')
+            storeFile file('../Keystores/drone_project.jks')
             storePassword 'mypassword'
         }
     }
