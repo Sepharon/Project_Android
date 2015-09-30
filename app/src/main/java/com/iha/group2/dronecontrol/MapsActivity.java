@@ -282,6 +282,7 @@ public class MapsActivity extends FragmentActivity {
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
+        t.start();
         connected=true;
     }
 }
