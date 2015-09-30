@@ -53,7 +53,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/up"
+        android:id="@+id/up_bt"
         android:layout_alignTop="@+id/right"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/down"
-        android:layout_below="@+id/up"
+        android:layout_below="@+id/up_bt"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:text="DOWN" />

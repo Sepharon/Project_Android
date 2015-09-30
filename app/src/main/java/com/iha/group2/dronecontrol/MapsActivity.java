@@ -41,6 +41,8 @@ public class MapsActivity extends FragmentActivity {
     Button more_v;
     Button photo;
     Button save;
+    Button RR;
+    Button RL;
 
     MyReceiver receiver;
 
@@ -63,7 +65,7 @@ public class MapsActivity extends FragmentActivity {
         right = (Button) findViewById(R.id.right);
         left = (Button) findViewById(R.id.left);
 
-        up = (Button) findViewById(R.id.up);
+        up = (Button) findViewById(R.id.up_bt);
         down = (Button) findViewById(R.id.down);
 
         photo = (Button) findViewById(R.id.take_photo);
@@ -71,6 +73,9 @@ public class MapsActivity extends FragmentActivity {
 
         less_v = (Button)findViewById(R.id.less_button);
         more_v = (Button)findViewById(R.id.more_button);
+
+        RR = (Button)findViewById(R.id.rotate_right_bt);
+        RL = (Button)findViewById(R.id.rotate_left_bt);
 
         connected=true;
 
@@ -127,7 +132,20 @@ public class MapsActivity extends FragmentActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                receive_data("camera",ip);
+                receive_data("camera", ip);
+            }
+        });
+
+        RR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("RR", ip, "");
+            }
+        });
+        RL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("RL", ip, "");
             }
         });
         // Might need to this in the beginning
