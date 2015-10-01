@@ -4,11 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.DatagramPacket;
@@ -19,15 +15,15 @@ import java.net.SocketTimeoutException;
 
 public class UDP_Receiver extends Service {
 
-    static final int TCP_port = 10000;
     static final int UDP_port = 8888;
     static final int timeout = 10000;
 
-    boolean first = true;
+//    boolean first = true;
+//    static final int TCP_port = 10000;
+//    Socket socket_tcp;
+//    OutputStream out;
+//    PrintWriter output;
 
-    Socket socket_tcp;
-    OutputStream out;
-    PrintWriter output;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -117,14 +113,16 @@ public class UDP_Receiver extends Service {
             Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
             socket.close();
             String ms = rec_msg.split("\n")[0];
-            if (ms.equals("Stop")){
-                broadcast_toInit(rec_msg, 0);
-            }
-            else if (ms.equals("alive")){
-                broadcast_toInit(rec_msg, 0);
-            }
-            else {
-                broadcast_result(rec_msg, 0);
+            switch (ms) {
+                case "Stop":
+                    broadcast_toInit(rec_msg, 0);
+                    break;
+                case "alive":
+                    broadcast_toInit(rec_msg, 0);
+                    break;
+                default:
+                    broadcast_result(rec_msg, 0);
+                    break;
             }
 
 
