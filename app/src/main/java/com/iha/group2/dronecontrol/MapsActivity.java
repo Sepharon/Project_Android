@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ReceiverCallNotAllowedException;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -47,8 +49,8 @@ public class MapsActivity extends FragmentActivity {
     CountDownTimer t;
     MyReceiver receiver;
     boolean connected;
-
-    IntentFilter filter;
+    Thread t_move;
+    boolean isPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +58,11 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
-        filter = new IntentFilter("broadcast");
+        IntentFilter filter = new IntentFilter("broadcast");
         receiver = new MyReceiver();
         this.registerReceiver(receiver, filter);
+
+        isPressed=false;
 
         Intent in = getIntent();
         ip = in.getStringExtra("ip");
@@ -82,40 +86,95 @@ public class MapsActivity extends FragmentActivity {
         connected=true;
 
         Log.v("Drone Control ip: ", ip);
-        forward.setOnClickListener(new View.OnClickListener() {
+
+        forward.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("F", ip, "");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("F", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
-        backward.setOnClickListener(new View.OnClickListener() {
+        backward.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("B", ip, "");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("B", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
-        right.setOnClickListener(new View.OnClickListener() {
+        right.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("R",ip,"");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("R", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
-        left.setOnClickListener(new View.OnClickListener() {
+        left.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("L",ip,"");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("L", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
-        up.setOnClickListener(new View.OnClickListener() {
+        up.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("U",ip,"");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("U", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
-        down.setOnClickListener(new View.OnClickListener() {
+        down.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("D", ip, "");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("D", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
 
@@ -145,16 +204,34 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
-        RR.setOnClickListener(new View.OnClickListener() {
+        RR.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("RR", ip, "");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("RR", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
-        RL.setOnClickListener(new View.OnClickListener() {
+        RL.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                send_data("RL", ip, "");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.v("forwardButton", "actionDOWN");
+                    isPressed = true;
+                    moving("RL", ip);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.v("forwardButton", "actionReleased");
+                    isPressed = false;
+                    t_move.interrupt();
+                }
+                return false;
             }
         });
         // Might need to this in the beginning
@@ -178,7 +255,6 @@ public class MapsActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
-        this.registerReceiver(receiver, filter);
     }
 
 
@@ -232,20 +308,12 @@ public class MapsActivity extends FragmentActivity {
         mMap.moveCamera(cameraUpdate);
     }
 
-    public void send_data(final String v,final String ip, final String action){
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                Intent intent = new Intent(getBaseContext(),UDPconnection.class);
-                intent.putExtra("value",v);
-                intent.putExtra("ip",ip);
-                intent.putExtra("action", action);
-                startService(intent);
-
-            }
-        });
-        t.start();
+    public void send_data(String v,String ip, String action){
+        Intent intent = new Intent(getBaseContext(),UDPconnection.class);
+        intent.putExtra("value",v);
+        intent.putExtra("ip",ip);
+        intent.putExtra("action", action);
+        startService(intent);
     }
 
     public void receive_data (String action, String ip){
@@ -294,7 +362,23 @@ public class MapsActivity extends FragmentActivity {
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        t.start();
         connected=true;
     }
+
+    private void moving(final String movement, final String ipDirection){
+       t_move = new Thread(new Runnable() {
+           @Override
+           public void run() {
+               while(isPressed) {
+                   Log.v("thread t_move", "moving");
+                   send_data(movement, ipDirection, "");
+                   SystemClock.sleep(500);
+
+               }
+           }
+       }); t_move.start();
+
+    }
+
+
 }
