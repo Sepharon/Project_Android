@@ -82,7 +82,7 @@
             android:name=".Streaming_camera"
             android:label="@string/title_activity_streaming_camera"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:theme="@style/Theme.AppCompat.Light" >
         </activity>
 
         <service
@@ -91,7 +91,10 @@
             android:exported="true" >
         </service>
 
-
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
+        </activity>
     </application>
 
 </manifest>

@@ -168,11 +168,11 @@ public class InitActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        else if (id == R.id.ListIPs){
+        if (id == R.id.ListIPs){
             listIPs();
+        }
+        else if (id == R.id.action_about) {
+            open_about();
         }
 
         return super.onOptionsItemSelected(item);
@@ -212,6 +212,11 @@ public class InitActivity extends AppCompatActivity {
 
     public void listIPs(){
         Intent intent = new Intent(this, ListIPs.class);
+        startActivity(intent);
+    }
+
+    public void open_about(){
+        Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 
