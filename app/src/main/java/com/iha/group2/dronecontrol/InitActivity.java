@@ -126,7 +126,8 @@ public class InitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Once clicked send message to arduino using a service
-                Toast.makeText(InitActivity.this, "Sending message to Arduino", Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getApplicationContext(), "Sending message to Arduino", Toast.LENGTH_LONG).show();
 
                 try{
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
@@ -135,12 +136,18 @@ public class InitActivity extends AppCompatActivity {
                 catch (SQLException se){
                     se.printStackTrace();
                 }
-                Log.v("Activity One:","Starting service");
-                Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                intent.putExtra("ip", ip.getText().toString());
-                intent.putExtra("value", "");
-                intent.putExtra("action", action);
-                startService(intent);
+                Log.v("Activity One:", "Starting service");
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
+                        intent.putExtra("ip", ip.getText().toString());
+                        intent.putExtra("value", "");
+                        intent.putExtra("action", action);
+                        startService(intent);
+                    }
+                });
+                t.start();
             }
         });
 

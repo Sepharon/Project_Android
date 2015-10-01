@@ -47,13 +47,16 @@ public class MapsActivity extends FragmentActivity {
     CountDownTimer t;
     MyReceiver receiver;
     boolean connected;
+
+    IntentFilter filter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
-        IntentFilter filter = new IntentFilter("broadcast");
+        filter = new IntentFilter("broadcast");
         receiver = new MyReceiver();
         this.registerReceiver(receiver, filter);
 
@@ -175,6 +178,7 @@ public class MapsActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        this.registerReceiver(receiver, filter);
     }
 
 
@@ -228,12 +232,20 @@ public class MapsActivity extends FragmentActivity {
         mMap.moveCamera(cameraUpdate);
     }
 
-    public void send_data(String v,String ip, String action){
-        Intent intent = new Intent(getBaseContext(),UDPconnection.class);
-        intent.putExtra("value",v);
-        intent.putExtra("ip",ip);
-        intent.putExtra("action", action);
-        startService(intent);
+    public void send_data(final String v,final String ip, final String action){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Intent intent = new Intent(getBaseContext(),UDPconnection.class);
+                intent.putExtra("value",v);
+                intent.putExtra("ip",ip);
+                intent.putExtra("action", action);
+                startService(intent);
+
+            }
+        });
+        t.start();
     }
 
     public void receive_data (String action, String ip){

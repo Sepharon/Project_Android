@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class UDP_Receiver extends Service {
 
     static final int TCP_port = 10000;
     static final int UDP_port = 8888;
-    static final int timeout = 20000;
+    static final int timeout = 10000;
 
     boolean first = true;
 
@@ -46,6 +47,7 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
+            /*
             case "camera":
                 try {
                     msg = get_msg(ip, action, UDP_port);
@@ -54,7 +56,7 @@ public class UDP_Receiver extends Service {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                break;
+                break;*/
             case "GPS":
                 try {
                     //tcp_client(ip,action,UDP_port);
@@ -129,6 +131,8 @@ public class UDP_Receiver extends Service {
         }
         catch (SocketTimeoutException e) {
             Log.v("Service Receiver:", "Timeout");
+            socket.close();
+            if (msg.equals("connect")) broadcast_toInit("error",0);
         }
 
         Log.v("Client:", "Out of loop");

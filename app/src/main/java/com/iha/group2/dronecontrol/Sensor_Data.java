@@ -108,7 +108,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
             result = 1;
         }
         else return 0;
-        threshold_high = value+0.25f;
+        threshold_high = value+0.5f;
         threshold_low = value-0.5f;
         return result;
     }
