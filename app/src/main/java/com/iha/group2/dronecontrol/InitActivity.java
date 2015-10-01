@@ -37,35 +37,21 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 public class InitActivity extends AppCompatActivity {
 
-    //Global variables from class;
-    DatagramSocket client_socket;
     // Checks if connection with arduino is OK
     boolean state = false;
     boolean packet_received = false;
-    // String values
-    String result = "";
-    String rec_msg = "";
 
-    // Timeout value
-    static final int timeout = 10000;
-
-    // Default port and ip values, need to be user input
-    static final int port = 8888;
     final String action = "connect";
     ContentValues values;
     AutoCompleteTextView ip;
     ArrayAdapter<String> myAdapter;
-;
 
+    Button connect;
+    Button on;
     // Functions start
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +70,8 @@ public class InitActivity extends AppCompatActivity {
 
 
         // Selecting buttons and text input
-        Button connect = (Button) findViewById(R.id.button_con);
-        Button on = (Button) findViewById(R.id.button_on);
+        connect = (Button) findViewById(R.id.button_con);
+        on = (Button) findViewById(R.id.button_on);
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
         //final EditText ip = (EditText) findViewById(R.id.ip_field);
 
@@ -93,11 +79,9 @@ public class InitActivity extends AppCompatActivity {
 
         try {
             String[] ips = getAllEntries();
-            for (int i = 0; i < ips.length; i++) {
-                Log.i(this.toString(), ips[i]);
-            }
+            for (String ip1 : ips) Log.i(this.toString(), ip1);
             // set our adapter
-            myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, ips);
+            myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ips);
             ip.setAdapter(myAdapter);
         }
         catch (NullPointerException es){
@@ -131,7 +115,7 @@ public class InitActivity extends AppCompatActivity {
 
                 try{
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
-                    Uri uri = getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
+                    getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
                 }
                 catch (SQLException se){
                     se.printStackTrace();
@@ -192,17 +176,18 @@ public class InitActivity extends AppCompatActivity {
             String result = intent.getStringExtra("result").split("\n")[0];
             // Put this empty again ,  don't think is needed tho
             Log.v("Activity One result", result);
-            if (result.equals("alive")) {
-                state = true;
-                //context.unregisterReceiver(this);
-                Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
-            }
-            else if (result.equals("Stop")){
-                Toast.makeText(InitActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
-                //state = false;
+            switch (result) {
+                case "alive":
+                    state = true;
+                    Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
+                    break;
+                case "Stop":
+                    Toast.makeText(InitActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
+                    //state = false;
+                    break;
             }
             Log.v("Activity one value: ", "" + state);
 
@@ -245,11 +230,9 @@ public class InitActivity extends AppCompatActivity {
         super.onResume();
         try {
             String[] ips = getAllEntries();
-            for (int i = 0; i < ips.length; i++) {
-                Log.i(this.toString(), ips[i]);
-            }
+            for (String ip1 : ips) Log.i(this.toString(), ip1);
             // set our adapter
-            myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, ips);
+            myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ips);
             ip.setAdapter(myAdapter);
         }
         catch (NullPointerException es){

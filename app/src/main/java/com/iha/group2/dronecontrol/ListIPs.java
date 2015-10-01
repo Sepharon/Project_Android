@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListIPs extends ListActivity{
-    List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class ListIPs extends ListActivity{
         getAllEntries();
 
         // use your custom layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.activity_list_ips, R.id.listView, list);
         setListAdapter(adapter);
     }
