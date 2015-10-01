@@ -12,8 +12,9 @@
         android:hint="@string/hint_ip"
         android:background="@null"
         android:textSize="24sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="207dp" />
 
     <Button
         android:layout_width="wrap_content"
