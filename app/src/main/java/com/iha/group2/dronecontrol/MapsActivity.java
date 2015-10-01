@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -24,6 +25,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+/*REFERENCE:
+https://developer.android.com/training/system-ui/immersive.html
+ */
 
 
 public class MapsActivity extends FragmentActivity {
@@ -51,6 +56,8 @@ public class MapsActivity extends FragmentActivity {
     boolean connected;
     Thread t_move;
     boolean isPressed;
+
+    RelativeLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,8 @@ public class MapsActivity extends FragmentActivity {
 
         RR = (Button)findViewById(R.id.rotate_right_bt);
         RL = (Button)findViewById(R.id.rotate_left_bt);
+
+        layout = (RelativeLayout)findViewById(R.id.map_layout);
 
         connected=true;
 
@@ -378,6 +387,20 @@ public class MapsActivity extends FragmentActivity {
            }
        }); t_move.start();
 
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            layout.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 
 

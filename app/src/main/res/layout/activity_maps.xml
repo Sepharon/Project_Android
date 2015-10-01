@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapActivity" >
+    tools:context=".MapActivity"
+    android:id="@+id/map_layout">
 
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
@@ -20,7 +21,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginLeft="50dp"
+        android:text="L" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -29,7 +31,8 @@
         android:id="@+id/forward"
         android:layout_above="@+id/left"
         android:layout_toRightOf="@+id/left"
-        android:layout_toEndOf="@+id/left" />
+        android:layout_toEndOf="@+id/left"
+        android:text="F" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -38,7 +41,8 @@
         android:id="@+id/right"
         android:layout_below="@+id/forward"
         android:layout_toRightOf="@+id/forward"
-        android:layout_toEndOf="@+id/forward" />
+        android:layout_toEndOf="@+id/forward"
+        android:text="R" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -47,7 +51,8 @@
         android:id="@+id/backward"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/left"
-        android:layout_toEndOf="@+id/left" />
+        android:layout_toEndOf="@+id/left"
+        android:text="B" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
