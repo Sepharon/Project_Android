@@ -56,7 +56,8 @@
         <activity
             android:name=".ListIPs"
             android:label="@string/title_activity_list_ips"
-            android:theme="@android:style/Theme.DeviceDefault.Light" >
+            android:theme="@android:style/Theme.DeviceDefault.Light"
+            android:screenOrientation="landscape">
         </activity>
 
         <meta-data

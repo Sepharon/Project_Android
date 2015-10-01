@@ -13,7 +13,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_streaming_camera">Streaming_camera</string>
     <string name="title_activity_about">AboutActivity</string>
-    <string name="about_text">Just trying</string>
+    <string name="about_text">This application was made by Group 13 for the ITSMAP project.\n\nAll members are international students with these student number IDs:\n201501754\n201501579\n201501349\n201501272\n\nThis application is part of another big project for the course ITIPRJ. It consists on the control of a Drone using an Android device.\nThe main purpose of this app is to send messages and handle received messages from a Microcontroller, which is responsible of monitoring the Drone by sending PWM signals depending on the user's decision.\nThis app can monitor the Drone by sending messages via WiFi using UDP protocol, it can also get the current location of the Drone in order to draw a map, with the help from Google Maps, using a marker showing the actual position. Moreover, direction, speed and rotation control of the Drone is implemented with Buttons and the level (up or down) of it we have used the accelerometer sensor from the device.</string>
     <string name="action_about">About</string>
     <string name="action_list">List IPs</string>
 </resources>

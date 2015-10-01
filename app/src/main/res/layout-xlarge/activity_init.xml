@@ -11,9 +11,9 @@
         android:id="@+id/ip_field"
         android:hint="@string/hint_ip"
         android:background="@null"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:textSize="24sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -23,7 +23,8 @@
         android:layout_marginBottom="51dp"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/ip_field"
-        android:layout_toStartOf="@+id/ip_field" />
+        android:layout_toStartOf="@+id/ip_field"
+        android:textSize="24sp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -32,7 +33,8 @@
         android:id="@+id/button_on"
         android:layout_alignBottom="@+id/button_con"
         android:layout_toRightOf="@+id/ip_field"
-        android:layout_toEndOf="@+id/ip_field" />
+        android:layout_toEndOf="@+id/ip_field"
+        android:textSize="24sp" />
 
 
 </RelativeLayout>

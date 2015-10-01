@@ -30,7 +30,7 @@ public class ListIPs extends ListActivity{
         setListAdapter(adapter);
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_list_ips, menu);
@@ -50,7 +50,7 @@ public class ListIPs extends ListActivity{
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
     //When an item is clicked, it shows a dialog with the two options Modify and Delete and it modifies or deletes by querying with the DateTime value
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final String item = (String) getListAdapter().getItem(position);
