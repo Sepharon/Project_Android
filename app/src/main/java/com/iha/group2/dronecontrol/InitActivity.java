@@ -49,7 +49,8 @@ public class InitActivity extends AppCompatActivity {
     ContentValues values;
     AutoCompleteTextView ip;
     ArrayAdapter<String> myAdapter;
-
+    IntentFilter filter;
+    MyReceiver receiver;
     Button connect;
     Button on;
     // Functions start
@@ -57,9 +58,9 @@ public class InitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-
-        IntentFilter filter = new IntentFilter("init");
-        this.registerReceiver(new MyReceiver(), filter);
+        filter = new IntentFilter("init");
+        receiver = new MyReceiver();
+        this.registerReceiver(receiver, filter);
 
 
 
@@ -163,12 +164,6 @@ public class InitActivity extends AppCompatActivity {
     }
 
 
-    // If we pause the app we get out of the loop (cancel connection attempt)
-    @Override
-    public void onPause() {
-        super.onPause();
-        packet_received = true;
-    }
 
     public class MyReceiver extends BroadcastReceiver {
         @Override
@@ -238,7 +233,17 @@ public class InitActivity extends AppCompatActivity {
         catch (NullPointerException es){
             es.printStackTrace();
         }
+        this.registerReceiver(receiver, filter);
+
     }
 
+    // If we pause the app we get out of the loop (cancel connection attempt)
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.unregisterReceiver(receiver);
+        packet_received = true;
+
+    }
 
 }

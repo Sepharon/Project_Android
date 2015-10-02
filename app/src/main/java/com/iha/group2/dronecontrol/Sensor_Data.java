@@ -20,8 +20,8 @@ public class Sensor_Data extends Service implements SensorEventListener {
     private SensorManager mSensorManager;
 
     float initial_value;
-    float threshold_high = 0.5f;
-    float threshold_low = -0.5f;
+    float threshold_high = 1.5f;
+    float threshold_low = -1.5f;
     boolean first = true;
 
     String ip;
@@ -91,6 +91,14 @@ public class Sensor_Data extends Service implements SensorEventListener {
             intent.putExtra("action","");
             startService(intent);
         }
+        else {
+            u_d = "N";
+            intent.putExtra("value",u_d);
+            intent.putExtra("ip", ip);
+            intent.putExtra("action","");
+            startService(intent);
+
+        }
 
 
     }
@@ -108,8 +116,8 @@ public class Sensor_Data extends Service implements SensorEventListener {
             result = 1;
         }
         else return 0;
-        threshold_high = value+0.5f;
-        threshold_low = value-0.5f;
+        //threshold_high = value+0.5f;
+        //threshold_low = value-0.5f;
         return result;
     }
 

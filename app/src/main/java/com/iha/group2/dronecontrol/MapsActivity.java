@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ReceiverCallNotAllowedException;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
@@ -14,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,7 +20,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -51,6 +48,7 @@ public class MapsActivity extends FragmentActivity {
     Button RR;
     Button RL;
 
+    IntentFilter filter;
     CountDownTimer t;
     MyReceiver receiver;
     boolean connected;
@@ -65,7 +63,7 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
-        IntentFilter filter = new IntentFilter("broadcast");
+        filter = new IntentFilter("broadcast");
         receiver = new MyReceiver();
         this.registerReceiver(receiver, filter);
 
@@ -263,6 +261,7 @@ public class MapsActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        this.registerReceiver(receiver,filter);
         setUpMapIfNeeded();
     }
 
@@ -356,6 +355,20 @@ public class MapsActivity extends FragmentActivity {
         }
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        t.cancel();
+        connected=false;
+        Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
+        stopService(intent);
+        Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
+        stopService(in);
+        receive_data("Stop", ip);
+        unregisterReceiver(receiver);
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -366,6 +379,7 @@ public class MapsActivity extends FragmentActivity {
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
         receive_data("Stop", ip);
+        unregisterReceiver(receiver);
     }
 
     @Override
