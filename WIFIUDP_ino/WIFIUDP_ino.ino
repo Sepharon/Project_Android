@@ -28,6 +28,7 @@ WiFiUDP Udp;
 
 boolean flagUp = false;
 boolean flagDown = false;
+boolean flagNormal = false;
 
 
 
@@ -75,81 +76,102 @@ void loop() {
   int packetSize = Udp.parsePacket();
   if(packetSize)
   {   
-    Serial.print("Received packet of size ");
-    Serial.println(packetSize);
-    Serial.print("From ");
-    IPAddress remoteIp = Udp.remoteIP();
-    Serial.print(remoteIp);
-    Serial.print(", port ");
-    Serial.println(Udp.remotePort());
+    //Serial.print("Received packet of size ");
+    //Serial.println(packetSize);
+    //Serial.print("From ");
+    //IPAddress remoteIp = Udp.remoteIP();
+    //Serial.print(remoteIp);
+    //Serial.print(", port ");
+    //Serial.println(Udp.remotePort());
 
     // read the packet into packetBufffer
     int len = Udp.read(packetBuffer,255);
     if (len >0) packetBuffer[len]=0;
-    Serial.println("Contents:");
-    Serial.println(packetBuffer);
+    //Serial.println("Contents:");
+    //Serial.println(packetBuffer);
     
-    if (packetBuffer[0]=='c' && packetBuffer[1]=='o' && packetBuffer[2]=='n' && packetBuffer[3]=='n' && packetBuffer[4]=='e' && packetBuffer[5]=='c' && packetBuffer[6]=='t'){
+    if (packetBuffer[0]=='N'){
+      if (!flagNormal)
+        Serial.println("Normal");
+        flagNormal=true;
+    }
+    
+    else if (packetBuffer[0]=='c' && packetBuffer[1]=='o' && packetBuffer[2]=='n' && packetBuffer[3]=='n' && packetBuffer[4]=='e' && packetBuffer[5]=='c' && packetBuffer[6]=='t'){
       // send a reply, to the IP address and port that sent us the packet we received
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
       Udp.write(ReplyBuffer);
       Udp.endPacket();
-      Serial.println("CONNECTED");      
+      Serial.println("CONNECTED");
+      //start the motors      
     }
     else if (packetBuffer[0]=='S' && packetBuffer[1]=='t' && packetBuffer[2]=='o' && packetBuffer[3]=='p'){
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
       Udp.write("Stop\n");
       Udp.endPacket();
-      Serial.println("STOP");      
+      Serial.println("STOP");
+      //stop the motors      
     }
     else if (packetBuffer[0]=='G' && packetBuffer[1]=='P' && packetBuffer[2]=='S'){
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
       Udp.write("50.1-23.4-");
       Udp.endPacket();
-      Serial.println("GPS"); 
+      Serial.println("GPS");
+      //receive GPS location 
     }
     else if (packetBuffer[0]=='R' && packetBuffer[1]!='R' && packetBuffer[1]!='L'){
-      Serial.println("RIGHT");      
+      Serial.println("RIGHT");
+      //send PWM to go right      
     }
     else if (packetBuffer[0]=='L' && packetBuffer[1]!='V'){
-      Serial.println("LEFT");      
+      Serial.println("LEFT");    
+      //send PWM to go left  
     }
     else if (packetBuffer[0]=='B'){
-      Serial.println("BACKWARD");      
+      Serial.println("BACKWARD");
+      //send PWM to move backward      
     }
     else if (packetBuffer[0]=='F'){
-      Serial.println("FORWARD");      
+      Serial.println("FORWARD"); 
+      //send PWM to move forward     
     }
     else if (packetBuffer[0]=='R' && packetBuffer[1]=='L'){
-      Serial.println("Rotate Left");      
+      Serial.println("Rotate Left"); 
+      //send PWM to rotate left     
     }
     else if (packetBuffer[0]=='R' && packetBuffer[1]=='R'){
-      Serial.println("Rotate Right");      
+      Serial.println("Rotate Right");
+      //send PWM to rotate right   
     }
     else if (packetBuffer[0]=='L' && packetBuffer[1] == 'V'){
-      Serial.println("Less Velocity");      
+      Serial.println("Less Velocity"); 
+      //decrease velocity     
     }
     else if (packetBuffer[0]=='M' && packetBuffer[1]=='V'){
-      Serial.println("More Velocity");      
+      Serial.println("More Velocity");    
+      //increase velocity  
     }
-    if (!flagUp){
+    if (!flagUp && flagNormal){
       if (packetBuffer[0]=='U'){
         Serial.println("UP");
         flagUp=true;
         flagDown=false;
+        flagNormal=false;
       }
     }
-    if (!flagDown){
+    if (!flagDown && flagNormal){
       if (packetBuffer[0]=='D'){
         Serial.println("DOWN");  
         flagUp=false;
         flagDown=true;
+        flagNormal=false;
       } 
     }
-    
-    
-      
-    
+    if (flagUp && !flagNormal){
+      //send PWM up
+    }
+    else if (flagDown && !flagNormal){
+      //send PWM down
+    }
     
    }
 }

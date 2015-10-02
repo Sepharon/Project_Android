@@ -50,7 +50,7 @@ public class InitActivity extends AppCompatActivity {
     AutoCompleteTextView ip;
     ArrayAdapter<String> myAdapter;
     IntentFilter filter;
-    MyReceiver receiver;
+    private MyReceiver receiver;
     Button connect;
     Button on;
     // Functions start
@@ -165,7 +165,7 @@ public class InitActivity extends AppCompatActivity {
 
 
 
-    public class MyReceiver extends BroadcastReceiver {
+    private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String result = intent.getStringExtra("result").split("\n")[0];

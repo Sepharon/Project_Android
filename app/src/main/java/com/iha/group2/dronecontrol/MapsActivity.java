@@ -50,7 +50,7 @@ public class MapsActivity extends FragmentActivity {
 
     IntentFilter filter;
     CountDownTimer t;
-    MyReceiver receiver;
+    private MyReceiver receiver;
     boolean connected;
     Thread t_move;
     boolean isPressed;
@@ -60,6 +60,7 @@ public class MapsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("MapsActivity2", "onCreate");
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
@@ -258,13 +259,6 @@ public class MapsActivity extends FragmentActivity {
         startService(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        this.registerReceiver(receiver,filter);
-        setUpMapIfNeeded();
-    }
-
 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
@@ -309,7 +303,7 @@ public class MapsActivity extends FragmentActivity {
             e.printStackTrace();
         }
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Drone"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom( pos, 1));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 1));
         // Change zoom factor if needed
         CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(14.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
@@ -319,20 +313,20 @@ public class MapsActivity extends FragmentActivity {
     public void send_data(String v,String ip, String action){
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
         intent.putExtra("value",v);
-        intent.putExtra("ip",ip);
+        intent.putExtra("ip", ip);
         intent.putExtra("action", action);
         startService(intent);
     }
 
     public void receive_data (String action, String ip){
         Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
-        intent.putExtra("ip",ip);
-        intent.putExtra("action",action);
+        intent.putExtra("ip", ip);
+        intent.putExtra("action", action);
         startService(intent);
     }
 
 
-    public class MyReceiver extends BroadcastReceiver {
+    private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             int action = intent.getIntExtra("action",2);
@@ -357,8 +351,24 @@ public class MapsActivity extends FragmentActivity {
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v("MapsActivity2", "onResume");
+        this.registerReceiver(receiver, filter);
+        connected=true;
+        Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
+        intent.putExtra("ip", ip);
+        startService(intent);
+        receive_data("GPS", ip);
+        t.start();
+        setUpMapIfNeeded();
+    }
+
+
+    @Override
     public void onPause() {
         super.onPause();
+        Log.v("MapsActivity2", "onPause");
         t.cancel();
         connected=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
@@ -366,27 +376,19 @@ public class MapsActivity extends FragmentActivity {
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
         receive_data("Stop", ip);
-        unregisterReceiver(receiver);
+        this.unregisterReceiver(receiver);
     }
-
+/*
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Log.v("MapsActivity2", "onBackPressed");
         t.cancel();
         connected=false;
-        Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
-        stopService(intent);
-        Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
-        stopService(in);
         receive_data("Stop", ip);
-        unregisterReceiver(receiver);
     }
+*/
 
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        connected=true;
-    }
 
     private void moving(final String movement, final String ipDirection){
        t_move = new Thread(new Runnable() {

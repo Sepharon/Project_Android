@@ -71,6 +71,9 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="broadcast" />
+            </intent-filter>
         </activity>
 
         <service
