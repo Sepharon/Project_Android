@@ -25,6 +25,12 @@ import java.util.HashMap;
 
 */
 
+/*This class extends a ContentProvider
+it has two tables:
+-IP table to store all the IPs entered by the user
+-Weather table to store sensor's data related to weather
+ */
+
 public class SQL_IP_Data_Base extends ContentProvider {
     // Creating Uri
     static final String PROVIDER_NAME = "com.example.group13.provider.IPs";
@@ -38,7 +44,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
     static final UriMatcher uriMatcher;
 
 
-    private static HashMap<String, String> hash_values;
+    static HashMap<String, String> hash_values;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -129,8 +135,6 @@ public class SQL_IP_Data_Base extends ContentProvider {
         DatabaseHelper dbHelper = new DatabaseHelper(context);
         Log.v("CP","Create CP");
         db = dbHelper.getWritableDatabase();
-        //Log.v("CP","" + dbFile.exists());
-        //return dbFile.exists();
         return (db!=null);
     }
 

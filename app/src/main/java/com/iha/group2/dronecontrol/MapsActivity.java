@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -333,7 +334,7 @@ public class MapsActivity extends FragmentActivity {
             String result = intent.getStringExtra("result");
             // May need to change
             switch (action) {
-                case 0:
+                case 0: //GPS
                     // Way to send data = 50.2-45.0-
                     String lat = result.split("-")[0];
                     String lng = result.split("-")[1];
@@ -342,7 +343,9 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity: ", "lng: " + lng);
                     setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
                     break;
-
+                case 1: //stop
+                    Toast.makeText(MapsActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     Log.v("Map Activity:","Unknown action = " +action);
             }
@@ -369,13 +372,13 @@ public class MapsActivity extends FragmentActivity {
     public void onPause() {
         super.onPause();
         Log.v("MapsActivity2", "onPause");
+        receive_data("Stop", ip);
         t.cancel();
         connected=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         stopService(intent);
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
-        receive_data("Stop", ip);
         this.unregisterReceiver(receiver);
     }
 /*

@@ -2,20 +2,25 @@ package com.iha.group2.dronecontrol;
 
 /*
 
-OK so this is weird as fuck, this code basically try to contact an IP using UDP protocol
+This code basically try to contact an IP using UDP protocol
 (you can use your computer as a server running "netcat -ul 8888" for example, although it's a bit buggy
-and i had to close the netcat connection everytime
+and i had to close the netcat connection every time)
 
 What does this do :
 
-Click connect button -> Send message to "Arduino" (or whatever udp server) -> waits for a message ->
-if message received YEAAAH everything is good . If no message received that fuck. There's a timeout implemented that after
-10 seconds it will close the connection (if any of my teachers see's how i implemented that, I'm sorry)
- */
+Click connect button -> Send message to "Arduino" (or whatever UDP server) -> waits for a message ->
+if message received a message appears saying "Connected". If it does not receive any message, there's a timeout implemented that after
+10 seconds it will close the connection and it appears a message saying "Error: Timeout".
 
-/*
-I know that the "network" tasks should be done in a service, this si begin implemented in the UDPconnection class,
-right now I'm testing this in an activity.
+In case that not having internet connection in the device, the message cannot be send and a Timeout will show up. The same case if you enter a wrong IP, or
+the message from Arduino is not send to the device.
+
+In this activity, we also enter entries to the SQL database, where we store the IP entered from the user and this database is used
+to implement an AutoCompleteText that will help the user to remember the IPs entered before.
+
+If you press button ON without connecting, a message will appear saying "You must click connect first". Once you have connected to the Arduino and the message form Arduino arrive,
+then you can press ON to go to MapsActivity.
+
  */
 
 
@@ -41,11 +46,12 @@ import android.widget.Toast;
 
 public class InitActivity extends AppCompatActivity {
 
-    // Checks if connection with arduino is OK
+    // Checks if connection with Arduino is OK
     boolean state = false;
-    boolean packet_received = false;
 
     final String action = "connect";
+
+    //Some initializations
     ContentValues values;
     AutoCompleteTextView ip;
     ArrayAdapter<String> myAdapter;
@@ -53,11 +59,19 @@ public class InitActivity extends AppCompatActivity {
     private MyReceiver receiver;
     Button connect;
     Button on;
-    // Functions start
+    String[] ips;
+    Thread t;
+
+    /* Functions starts
+    it registers our Receiver, gets all Views, gets all entries from the SQL database for
+     the AutoCompleteText and setups two onClickListeners functions
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
+
+        //register Receiver
         filter = new IntentFilter("init");
         receiver = new MyReceiver();
         this.registerReceiver(receiver, filter);
@@ -74,13 +88,13 @@ public class InitActivity extends AppCompatActivity {
         connect = (Button) findViewById(R.id.button_con);
         on = (Button) findViewById(R.id.button_on);
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
-        //final EditText ip = (EditText) findViewById(R.id.ip_field);
 
+        //new content values to store data in database
         values = new ContentValues();
 
+        //this part build the AutoCompleteText with the entries from the database
         try {
-            String[] ips = getAllEntries();
-            for (String ip1 : ips) Log.i(this.toString(), ip1);
+            ips = getAllEntries();
             // set our adapter
             myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ips);
             ip.setAdapter(myAdapter);
@@ -90,7 +104,7 @@ public class InitActivity extends AppCompatActivity {
         }
 
 
-        // In order for the On button to do something connect has to be pressed first
+        // to allow On button to do something connect has to be pressed first
 
         on.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,31 +112,33 @@ public class InitActivity extends AppCompatActivity {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
+                    //start MapsActivity sending the IP entered
                     Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
                     second_act.putExtra("ip", ip.getText().toString());
-                    // You won't be able to see this toast but whatever
-                   // Toast.makeText(InitActivity.this, "Starting second activity", Toast.LENGTH_LONG).show();
                     startActivity(second_act);
-                } else
+                } else //otherwise
                     Toast.makeText(InitActivity.this, "You must click connect first", Toast.LENGTH_LONG).show();
             }
         });
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Once clicked send message to arduino using a service
+                // Once clicked, it sends message to Anduino using a service
 
                 Toast.makeText(getApplicationContext(), "Sending message to Arduino", Toast.LENGTH_LONG).show();
 
+                //store IP to database
                 try{
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
                 }
-                catch (SQLException se){
+                catch (SQLException se){ //if it is repeated, and exception will occur and we don't want the app to crash
                     se.printStackTrace();
                 }
                 Log.v("Activity One:", "Starting service");
-                Thread t = new Thread(new Runnable() {
+
+                //this thread starts the service, this way it won't block the UI
+                t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
@@ -164,7 +180,7 @@ public class InitActivity extends AppCompatActivity {
     }
 
 
-
+    //our Receiver, it checks if it receives "alive" from Arduino (or UDP server)
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -173,13 +189,10 @@ public class InitActivity extends AppCompatActivity {
             Log.v("Activity One result", result);
             switch (result) {
                 case "alive":
-                    state = true;
+                    state = true; //now ON is available
                     Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
                     break;
-                case "Stop":
-                    Toast.makeText(InitActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
+                default: //timeout or other messages received
                     Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
                     //state = false;
                     break;
@@ -190,20 +203,23 @@ public class InitActivity extends AppCompatActivity {
         }
     }
 
+    //it starts the ListActivity to show all IPs entered by the user
     public void listIPs(){
         Intent intent = new Intent(this, ListIPs.class);
         startActivity(intent);
     }
 
+    //it starts AboutActivity
     public void open_about(){
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 
+    //it gets all entries from the SQL database, it stores it in a String[].
     public String[] getAllEntries(){
         String URL = "content://com.example.group13.provider.IPs/db";
         Uri notesText = Uri.parse(URL);
-        Cursor c = managedQuery(notesText, null, null, null, null);
+        Cursor c = getContentResolver().query(notesText, null, null, null, null);
         if (c.getCount() > 0){
             String[] ips = new String[c.getCount()];
             int i = 0;
@@ -212,20 +228,22 @@ public class InitActivity extends AppCompatActivity {
                 i++;
             }
             c.moveToFirst();
+            c.close();
             return ips;
         }
         else {
             c.moveToFirst();
+            c.close();
             return new String[] {};
         }
     }
 
+    //onResume we get all entries from the database again, we setup the adapter and we register our receiver
     @Override
     protected void onResume() {
         super.onResume();
         try {
             String[] ips = getAllEntries();
-            for (String ip1 : ips) Log.i(this.toString(), ip1);
             // set our adapter
             myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ips);
             ip.setAdapter(myAdapter);
@@ -237,12 +255,14 @@ public class InitActivity extends AppCompatActivity {
 
     }
 
-    // If we pause the app we get out of the loop (cancel connection attempt)
+    //we unregister our receiver
     @Override
     public void onPause() {
         super.onPause();
+        Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
+        stopService(in);
+        t.interrupt();
         this.unregisterReceiver(receiver);
-        packet_received = true;
 
     }
 

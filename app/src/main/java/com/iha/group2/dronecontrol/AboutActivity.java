@@ -2,8 +2,9 @@ package com.iha.group2.dronecontrol;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+/*This Activity just implement an About explaining many things of the project.
+ * we don't want to create an options menu here */
 
 public class AboutActivity extends AppCompatActivity {
 

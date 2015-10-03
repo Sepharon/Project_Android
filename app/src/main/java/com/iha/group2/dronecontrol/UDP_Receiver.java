@@ -5,37 +5,34 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.SocketTimeoutException;
+
+/*This class extends a Service
+It sends a message to Arduino (or UDP server) and then it receives an answer from it
+ */
 
 public class UDP_Receiver extends Service {
 
+    //Some initializations
     static final int UDP_port = 8888;
     static final int timeout = 10000;
-
-//    boolean first = true;
-//    static final int TCP_port = 10000;
-//    Socket socket_tcp;
-//    OutputStream out;
-//    PrintWriter output;
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
+    //Depending on the Action, it does one thing or another
     public int onStartCommand(final Intent intent, int flags, int startId) {
         final String ip = intent.getStringExtra("ip");
         final String action = intent.getStringExtra("action");
         String msg;
 
         switch (action) {
-            case "connect":
+            case "connect": //this comes from InitActivity when you want to connect
                 try {
                     msg = get_msg(ip, action, UDP_port);
                     Log.v("Service:", "Msg = " + msg);
@@ -53,7 +50,7 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;*/
-            case "GPS":
+            case "GPS": //this comes from MapsActivity when you request GPS data
                 try {
                     //tcp_client(ip,action,UDP_port);
                     get_msg(ip, action, UDP_port);
@@ -61,7 +58,7 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
-            case "Stop":
+            case "Stop": //this comes from MapsActivity when you want to say to Arduino to stop the movement of the drone
                 try {
                     get_msg(ip, action, UDP_port);
                     //tcp_client(ip, action, TCP_port);
@@ -79,6 +76,7 @@ public class UDP_Receiver extends Service {
     }
 
 
+    //It sends data and processes the received message
     public String get_msg (String ip, String msg, int port) throws IOException{
         /*
         Variables declaration
@@ -88,10 +86,12 @@ public class UDP_Receiver extends Service {
         int msg_length = msg.length();
         byte[] message = msg.getBytes();
         InetAddress IPAddress = InetAddress.getByName(ip);
+
         // Create new socket
         final DatagramSocket socket = new DatagramSocket();
 
         Log.v("Service Receiver:", "Sending connection packet");
+
         // Sending msg to server, the msg will tell which data do we want
         DatagramPacket p = new DatagramPacket(message, msg_length,IPAddress, port);
         socket.send(p);
@@ -99,12 +99,14 @@ public class UDP_Receiver extends Service {
         Log.v("Service Receiver:","Connection data sent");
 
         Log.v("Service Receiver:", "Receiving packet");
+
         // Preparing packet to receive data
         DatagramPacket receive_pkt = new DatagramPacket(receive_data,receive_data.length);
+
         // Timeout
         socket.setSoTimeout(timeout);
-        // We wait until we receive a packet or timeout happens
 
+        // We wait until we receive a packet or timeout happens
         try {
             Log.v("Service Receiver:", "Waiting for data");
             socket.receive(receive_pkt);
@@ -112,10 +114,14 @@ public class UDP_Receiver extends Service {
             rec_msg = new String(receive_pkt.getData());
             Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
             socket.close();
+            //this variable splits the messages received by \n because the buffer can contain others undesired characters
             String ms = rec_msg.split("\n")[0];
             switch (ms) {
+                //TODO: before we had unregistered our receivers, when the message was Stop it sent to InitActivity
+                // TODO: this message and a Toast appears in InitActivity saying that the UDP connection was closed,
+                // TODO: now, the message never arrive because the Receiver from Init is unregistered.
                 case "Stop":
-                    broadcast_toInit(rec_msg, 0);
+                    broadcast_result(rec_msg, 1);
                     break;
                 case "alive":
                     broadcast_toInit(rec_msg, 0);
@@ -138,8 +144,6 @@ public class UDP_Receiver extends Service {
     }
 
     /*public String tcp_client(String ip, String msg, int port) throws  IOException{
-
-
         InetAddress IP = InetAddress.getByName(ip);
         if (first) {
             Log.v("TCP_connection:", ""+first);
@@ -171,6 +175,7 @@ public class UDP_Receiver extends Service {
         return response;
     }*/
 
+    //It broadcast the result to MapsActivity
     public void broadcast_result(String msg,int act){
         Intent broadcast = new Intent();
         broadcast.setAction("broadcast");
@@ -179,6 +184,7 @@ public class UDP_Receiver extends Service {
         sendBroadcast(broadcast);
     }
 
+    //It broadcast the result to InitActivity
     public void broadcast_toInit(String msg,int act){
         Intent broadcast = new Intent();
         broadcast.setAction("init");

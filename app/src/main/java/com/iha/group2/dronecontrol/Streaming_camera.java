@@ -11,19 +11,27 @@ import android.widget.RelativeLayout;
 https://developer.android.com/training/system-ui/immersive.html
  */
 
+/* This Activity creates a WebView to stream video from the IP camera */
+
 public class Streaming_camera extends AppCompatActivity {
 
-    static final String url = "http://10.192.3.226/browserfs.html";
+    //Some initializations
+    static final String url = "http://192.168.0.105:8080/browserfs.html";
     RelativeLayout layout;
     WebView browser;
 
+    //it configures the WebView and loads the url
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_streaming_camera);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        try{
+            actionBar.hide();
+        } catch (NullPointerException es){
+            es.printStackTrace();
+        }
 
         browser = (WebView) findViewById(R.id.webView);
         layout = (RelativeLayout)findViewById(R.id.stream_layout);
@@ -37,6 +45,7 @@ public class Streaming_camera extends AppCompatActivity {
     }
 
 
+    //This functions make a fullscreen view, some parameters requires API level 16
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

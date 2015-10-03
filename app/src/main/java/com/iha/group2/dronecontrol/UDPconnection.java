@@ -11,12 +11,13 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 /*
- FINISHED
+This class extends a Service
+It only sends message to Arduino (or UDP server) without expecting any answers back
 */
 
 public class UDPconnection extends Service {
 
-    static final int movment_port = 8888;
+    static final int movement_port = 8888;
 
 
     @Override
@@ -24,6 +25,7 @@ public class UDPconnection extends Service {
         return null;
     }
 
+    //It calls the function send_msg to send the message depending on the "value" to the "ip" written
     public int onStartCommand(final Intent intent, int flags, int startId) {
         final String ip = intent.getStringExtra("ip");
         final String v = intent.getStringExtra("value");
@@ -41,11 +43,8 @@ public class UDPconnection extends Service {
     }
 
 
+    //It sends the message to the Arduino (or UDP server)
     public void send_msg (final String msg, final String Ip) throws IOException {
-        /*
-        Might have to go to a service
-         */
-
         final int msg_length = msg.length();
         final byte[] message = msg.getBytes();
 
@@ -53,7 +52,7 @@ public class UDPconnection extends Service {
         InetAddress IPAddress = InetAddress.getByName(Ip);
 
         Log.v("Service:", "Sending packet");
-        DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, movment_port);
+        DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, movement_port);
         client_socket.send(p);
         Log.v("Service:","Packet sent");
         client_socket.close();

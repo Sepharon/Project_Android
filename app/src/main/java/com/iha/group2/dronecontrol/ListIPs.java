@@ -16,9 +16,15 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+/*This class extends an ListActivity which displays all the IPs entered by the user from the SQL database
+* We don't want to create an options menu here*/
+
 public class ListIPs extends ListActivity{
+
+    //One initialization, it is an ArrayList to fill the adapter.
     List<String> list = new ArrayList<>();
 
+    //it gets all entries and setup the adapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +57,8 @@ public class ListIPs extends ListActivity{
 
         return super.onOptionsItemSelected(item);
     }*/
-    //When an item is clicked, it shows a dialog with the two options Modify and Delete and it modifies or deletes by querying with the DateTime value
+
+    //When an item is clicked, it shows a dialog to Delete the item selected and then it deletes by querying with the IP value
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final String item = (String) getListAdapter().getItem(position);
         CharSequence options[] = new CharSequence[]{"Delete"};
@@ -81,17 +88,18 @@ public class ListIPs extends ListActivity{
         this.finish();
     }
 
-    //This functions make a query to get all the entries from the SQLite Database and it stores it in a List.
+    //This functions make a query to get all the entries from the SQLite Database and it stores it in a List in this way:
+    // IP: ip_from_database.
     public void getAllEntries(){
         String URL = "content://com.example.group13.provider.IPs/db";
 
         Uri notesText = Uri.parse(URL);
-        Cursor c = managedQuery(notesText, null, null, null, null);
+        Cursor c = getContentResolver().query(notesText, null, null, null, null);
         if (c.moveToFirst()) {
             do {
-                //Toast.makeText(this, c.getString(c.getColumnIndexOrThrow("IP")), Toast.LENGTH_SHORT).show();
                 list.add("IP: " + c.getString(c.getColumnIndexOrThrow("IP")));
             } while (c.moveToNext());
         }
+        c.close();
     }
 }
