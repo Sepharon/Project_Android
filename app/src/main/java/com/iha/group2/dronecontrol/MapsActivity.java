@@ -28,9 +28,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 https://developer.android.com/training/system-ui/immersive.html
  */
 
-
+/*This Activity is responsible to monitor the Drone and it gets the current position of it and set up a
+Google Maps with a Marker showing the location of the Drone.
+It also gets weather's data and stores it in the database.
+ */
 public class MapsActivity extends FragmentActivity {
 
+    //Some initializations
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Marker marker;
     boolean ask_camera=false;
@@ -58,6 +62,7 @@ public class MapsActivity extends FragmentActivity {
 
     RelativeLayout layout;
 
+    //This functions register our Receiver, it setups the Google Maps, it starts the Sensor service and it implements some onClickListeners
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +70,12 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
+        //Register receiver
         filter = new IntentFilter("broadcast");
         receiver = new MyReceiver();
         this.registerReceiver(receiver, filter);
 
-        isPressed=false;
+        isPressed=false; //this one determines if a button is pressed
 
         Intent in = getIntent();
         ip = in.getStringExtra("ip");
@@ -96,6 +102,14 @@ public class MapsActivity extends FragmentActivity {
 
         Log.v("Drone Control ip: ", ip);
 
+        /*here we have some listeners, it determines if a button was touched and
+        depending on the motion event, it does one thing or another.
+        In case that the Motion Event is that the Button is Down (pressed), it starts a thread
+        which keeps sending the same message til an Action Up event (the button is not pressed) occurs.
+        It allows to send to the Arduino to do something repeatedly while a Button is pressed, such as
+        if you want to move forward, you will be pressing the Button forward to go in that direction
+        and when you want to stop, you will released the button.
+         */
         forward.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -187,32 +201,6 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
-        less_v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                send_data("LV", ip, "");
-            }
-        });
-        more_v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                send_data("MV", ip, "");
-            }
-        });
-        photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                t.cancel();
-                Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
-                stopService(in);
-                Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
-                stopService(intent2);
-                Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
-                startActivity(intent);
-                //receive_data("camera", ip);
-            }
-        });
-
         RR.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -243,9 +231,41 @@ public class MapsActivity extends FragmentActivity {
                 return false;
             }
         });
-        // Might need to this in the beginning
+
+        //this ones are send only one time
+        less_v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("LV", ip, "");
+            }
+        });
+        more_v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_data("MV", ip, "");
+            }
+        });
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                t.cancel();
+                ask_camera = true;
+                Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
+                stopService(in);
+                Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
+                stopService(intent2);
+                Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
+                startActivity(intent);
+                //receive_data("camera", ip);
+            }
+        });
+
+
+
+        // It gets the current position of the drone
         receive_data("GPS", ip);
 
+        //this counter asks for GPS data every 20 seconds
         t = new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
@@ -311,6 +331,7 @@ public class MapsActivity extends FragmentActivity {
         mMap.moveCamera(cameraUpdate);
     }
 
+    //It sends data without expecting incoming messages
     public void send_data(String v,String ip, String action){
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
         intent.putExtra("value",v);
@@ -319,6 +340,7 @@ public class MapsActivity extends FragmentActivity {
         startService(intent);
     }
 
+    //it sends data expecting incoming messages
     public void receive_data (String action, String ip){
         Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
         intent.putExtra("ip", ip);
@@ -327,6 +349,9 @@ public class MapsActivity extends FragmentActivity {
     }
 
 
+    /*this class extends our Receiver
+    it processes GPS requests and Stop action.
+     */
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -353,12 +378,17 @@ public class MapsActivity extends FragmentActivity {
     }
 
 
+    /*it registers our receiver, it sets that we are connected and we are not streaming video,
+    it restarts the Sensor service and gets GPS data.
+     */
+
     @Override
     protected void onResume() {
         super.onResume();
         Log.v("MapsActivity2", "onResume");
         this.registerReceiver(receiver, filter);
         connected=true;
+        ask_camera=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         intent.putExtra("ip", ip);
         startService(intent);
@@ -368,6 +398,10 @@ public class MapsActivity extends FragmentActivity {
     }
 
 
+    /*It sends Stop to Arduino to stop the motors, this allows to process events like
+    incoming calls, the app is going background, etc.
+    It sets that is not connected, it stops the running services and it unregisters our receiver
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -393,6 +427,9 @@ public class MapsActivity extends FragmentActivity {
 */
 
 
+    /*this function keeps sending the same message every half second to the Arduino (or UDP server) til
+    it is interrupted or isPressed equals false, that means that the user is no longer pressing that button
+     */
     private void moving(final String movement, final String ipDirection){
        t_move = new Thread(new Runnable() {
            @Override
@@ -408,6 +445,7 @@ public class MapsActivity extends FragmentActivity {
 
     }
 
+    //This functions make a fullscreen view, some parameters requires API level 16
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
