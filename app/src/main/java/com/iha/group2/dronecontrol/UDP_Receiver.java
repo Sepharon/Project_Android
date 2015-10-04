@@ -1,9 +1,14 @@
 package com.iha.group2.dronecontrol;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -20,6 +25,9 @@ public class UDP_Receiver extends Service {
     static final int UDP_port = 8888;
     static final int timeout = 10000;
 
+    Drone drone;
+    String ip;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -27,8 +35,12 @@ public class UDP_Receiver extends Service {
 
     //Depending on the Action, it does one thing or another
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        final String ip = intent.getStringExtra("ip");
+        //final String ip = intent.getStringExtra("ip");
+        drone = Drone.getInstance();
+        ip = drone.getIP();
+        Log.v("UDP_receiver", ip);
         final String action = intent.getStringExtra("action");
+        Log.v("actionUDP", ""+action);
         String msg;
 
         switch (action) {
@@ -38,6 +50,13 @@ public class UDP_Receiver extends Service {
                     Log.v("Service:", "Msg = " + msg);
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+                break;
+            case "Check":
+                //Check internet connection
+                if (!isNetworkAvailable()){ //returns false if internet is not available
+                    broadcast_toInit("NoInternet", 0);
+                    broadcast_result("NoInternet", 2);
                 }
                 break;
             /*
@@ -66,7 +85,7 @@ public class UDP_Receiver extends Service {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                drone.setStatus(false);
                 stopSelf();
 
             default:
@@ -135,6 +154,7 @@ public class UDP_Receiver extends Service {
         }
         catch (SocketTimeoutException e) {
             Log.v("Service Receiver:", "Timeout");
+            drone.setStatus(false);
             socket.close();
             if (msg.equals("connect")) broadcast_toInit("error",0);
         }
@@ -191,5 +211,12 @@ public class UDP_Receiver extends Service {
         broadcast.putExtra("action",act);
         broadcast.putExtra("result", msg);
         sendBroadcast(broadcast);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }

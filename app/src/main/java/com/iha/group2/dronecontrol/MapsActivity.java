@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.CountDownTimer;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -58,9 +61,13 @@ public class MapsActivity extends FragmentActivity {
     private MyReceiver receiver;
     boolean connected;
     Thread t_move;
+    Thread t_internet;
     boolean isPressed;
 
     RelativeLayout layout;
+
+    //Drone class
+    Drone drone;
 
     //This functions register our Receiver, it setups the Google Maps, it starts the Sensor service and it implements some onClickListeners
     @Override
@@ -70,6 +77,10 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
+        //Get instance for Drone class and set status to connected
+        drone = Drone.getInstance();
+        drone.setStatus(true);
+
         //Register receiver
         filter = new IntentFilter("broadcast");
         receiver = new MyReceiver();
@@ -77,8 +88,12 @@ public class MapsActivity extends FragmentActivity {
 
         isPressed=false; //this one determines if a button is pressed
 
-        Intent in = getIntent();
-        ip = in.getStringExtra("ip");
+        //Intent in = getIntent();
+        //ip = in.getStringExtra("ip");
+
+        //Get Drone IP
+        ip=drone.getIP();
+
         forward = (Button) findViewById(R.id.forward);
         backward = (Button) findViewById(R.id.backward);
         right = (Button) findViewById(R.id.right);
@@ -101,6 +116,7 @@ public class MapsActivity extends FragmentActivity {
         connected=true;
 
         Log.v("Drone Control ip: ", ip);
+        Log.v("Drone connected", drone.getStatus() ? "connected" : "not connected");
 
         /*here we have some listeners, it determines if a button was touched and
         depending on the motion event, it does one thing or another.
@@ -116,7 +132,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("F", ip);
+                    moving("F");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -131,7 +147,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("B", ip);
+                    moving("B");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -146,7 +162,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("R", ip);
+                    moving("R");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -161,7 +177,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("L", ip);
+                    moving("L");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -176,7 +192,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("U", ip);
+                    moving("U");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -191,7 +207,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("D", ip);
+                    moving("D");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -207,7 +223,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("RR", ip);
+                    moving("RR");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -222,7 +238,7 @@ public class MapsActivity extends FragmentActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.v("forwardButton", "actionDOWN");
                     isPressed = true;
-                    moving("RL", ip);
+                    moving("RL");
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.v("forwardButton", "actionReleased");
                     isPressed = false;
@@ -236,13 +252,13 @@ public class MapsActivity extends FragmentActivity {
         less_v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("LV", ip, "");
+                send_data("LV", "");
             }
         });
         more_v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("MV", ip, "");
+                send_data("MV", "");
             }
         });
         photo.setOnClickListener(new View.OnClickListener() {
@@ -263,20 +279,21 @@ public class MapsActivity extends FragmentActivity {
 
 
         // It gets the current position of the drone
-        receive_data("GPS", ip);
+        receive_data("GPS");
 
         //this counter asks for GPS data every 20 seconds
         t = new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
                 if (!ask_camera && connected ) {
-                    receive_data("GPS", ip);
+                    receive_data("GPS");
                     start();
                 }
             }
         }.start();
+
         Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
-        intent.putExtra("ip", ip);
+        //intent.putExtra("ip", ip);
         startService(intent);
     }
 
@@ -332,18 +349,18 @@ public class MapsActivity extends FragmentActivity {
     }
 
     //It sends data without expecting incoming messages
-    public void send_data(String v,String ip, String action){
+    public void send_data(String v, String action){
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
-        intent.putExtra("value",v);
-        intent.putExtra("ip", ip);
+        intent.putExtra("value", v);
+        //intent.putExtra("ip", ip);
         intent.putExtra("action", action);
         startService(intent);
     }
 
     //it sends data expecting incoming messages
-    public void receive_data (String action, String ip){
+    public void receive_data (String action){
         Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
-        intent.putExtra("ip", ip);
+        //intent.putExtra("ip", ip);
         intent.putExtra("action", action);
         startService(intent);
     }
@@ -355,7 +372,7 @@ public class MapsActivity extends FragmentActivity {
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int action = intent.getIntExtra("action",2);
+            int action = intent.getIntExtra("action", 1);
             String result = intent.getStringExtra("result");
             // May need to change
             switch (action) {
@@ -389,10 +406,11 @@ public class MapsActivity extends FragmentActivity {
         this.registerReceiver(receiver, filter);
         connected=true;
         ask_camera=false;
+        drone.setStatus(true);
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
-        intent.putExtra("ip", ip);
+        //intent.putExtra("ip", ip);
         startService(intent);
-        receive_data("GPS", ip);
+        receive_data("GPS");
         t.start();
         setUpMapIfNeeded();
     }
@@ -406,8 +424,10 @@ public class MapsActivity extends FragmentActivity {
     public void onPause() {
         super.onPause();
         Log.v("MapsActivity2", "onPause");
-        receive_data("Stop", ip);
+        receive_data("Stop");
+        drone.setStatus(false);
         t.cancel();
+        t_internet.interrupt();
         connected=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         stopService(intent);
@@ -430,13 +450,13 @@ public class MapsActivity extends FragmentActivity {
     /*this function keeps sending the same message every half second to the Arduino (or UDP server) til
     it is interrupted or isPressed equals false, that means that the user is no longer pressing that button
      */
-    private void moving(final String movement, final String ipDirection){
+    private void moving(final String movement){
        t_move = new Thread(new Runnable() {
            @Override
            public void run() {
                while(isPressed) {
                    Log.v("thread t_move", "moving");
-                   send_data(movement, ipDirection, "");
+                   send_data(movement, "");
                    SystemClock.sleep(500);
 
                }

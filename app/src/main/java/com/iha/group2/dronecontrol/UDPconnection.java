@@ -19,6 +19,10 @@ public class UDPconnection extends Service {
 
     static final int movement_port = 8888;
 
+    Drone drone;
+
+    String ip;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -27,7 +31,9 @@ public class UDPconnection extends Service {
 
     //It calls the function send_msg to send the message depending on the "value" to the "ip" written
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        final String ip = intent.getStringExtra("ip");
+        //final String ip = intent.getStringExtra("ip");
+        drone= Drone.getInstance();
+        ip = drone.getIP();
         final String v = intent.getStringExtra("value");
         Log.v("Service ip: ",ip);
         Log.v("Service value: ",v);
