@@ -38,10 +38,12 @@ public class UDPconnection extends Service {
         Log.v("Service ip: ",ip);
         Log.v("Service value: ",v);
 
-        try {
-            send_msg(v, ip);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (drone.getStatus()) {
+            try {
+                send_msg(v, ip);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         stopSelf();

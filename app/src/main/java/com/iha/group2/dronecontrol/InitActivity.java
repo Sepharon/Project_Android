@@ -284,7 +284,11 @@ public class InitActivity extends AppCompatActivity {
         super.onPause();
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
-        t.interrupt();
+        try {
+            t.interrupt();
+        } catch (NullPointerException es){
+            es.printStackTrace();
+        }
         this.unregisterReceiver(receiver);
 
     }

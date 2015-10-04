@@ -63,6 +63,7 @@ public class MapsActivity extends FragmentActivity {
     CountDownTimer t_internet;
     private MyReceiver receiver;
     boolean connected;
+    boolean restore;
     Thread t_move;
     boolean isPressed;
 
@@ -116,6 +117,7 @@ public class MapsActivity extends FragmentActivity {
         layout = (RelativeLayout)findViewById(R.id.map_layout);
 
         connected=true;
+        restore = false;
 
         Log.v("Drone Control ip: ", ip);
         Log.v("Drone connected", drone.getStatus() ? "connected" : "not connected");
@@ -141,8 +143,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                } else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -160,8 +160,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                } else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -179,8 +177,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                } else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -198,8 +194,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                } else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -217,8 +211,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                }else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -236,8 +228,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                }else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -256,8 +246,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                }else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -275,8 +263,6 @@ public class MapsActivity extends FragmentActivity {
                         isPressed = false;
                         t_move.interrupt();
                     }
-                }else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
@@ -287,7 +273,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
-                    send_data("LV", "");
+                    send_data("LV");
                 }else {
                     Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
@@ -297,9 +283,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
-                    send_data("MV", "");
-                } else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    send_data("MV");
                 }
             }
         });
@@ -316,8 +300,6 @@ public class MapsActivity extends FragmentActivity {
                     Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
                     startActivity(intent);
                     //receive_data("camera", ip);
-                } else {
-                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -408,11 +390,10 @@ public class MapsActivity extends FragmentActivity {
     }
 
     //It sends data without expecting incoming messages
-    public void send_data(String v, String action){
+    public void send_data(String v){
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
         intent.putExtra("value", v);
         //intent.putExtra("ip", ip);
-        intent.putExtra("action", action);
         startService(intent);
     }
 
@@ -449,10 +430,16 @@ public class MapsActivity extends FragmentActivity {
                     break;
                 case 2: //No internet
                     drone.setStatus(false);
+                    restore = true;
                     Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                     break;
                 case 3: //Internet OK
-                    drone.setStatus(true);
+                    if (restore) {
+                        Toast.makeText(MapsActivity.this, "Internet connection restored", Toast.LENGTH_SHORT).show();
+                        send_data("Restore");
+                        drone.setStatus(true);
+                        restore=false;
+                    }
                     break;
                 default:
                     Log.v("Map Activity:","Unknown action = " +action);
@@ -523,7 +510,7 @@ public class MapsActivity extends FragmentActivity {
            public void run() {
                while(isPressed) {
                    Log.v("thread t_move", "moving");
-                   send_data(movement, "");
+                   send_data(movement);
                    SystemClock.sleep(500);
 
                }
