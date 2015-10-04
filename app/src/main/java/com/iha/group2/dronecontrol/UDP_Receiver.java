@@ -15,6 +15,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 
+/*REFERENCE:
+http://developer.android.com/training/basics/network-ops/connecting.html
+ */
+
 /*This class extends a Service
 It sends a message to Arduino (or UDP server) and then it receives an answer from it
  */
