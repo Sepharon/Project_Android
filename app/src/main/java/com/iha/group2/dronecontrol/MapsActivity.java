@@ -58,6 +58,7 @@ public class MapsActivity extends FragmentActivity {
 
     IntentFilter filter;
     CountDownTimer t;
+    CountDownTimer t_internet;
     private MyReceiver receiver;
     boolean connected;
     Thread t_move;
@@ -291,6 +292,19 @@ public class MapsActivity extends FragmentActivity {
             }
         }.start();
 
+        //this counter check internet connection 10 seconds
+        t_internet = new CountDownTimer(10000,1000){
+            public void onTick (long millisUntilFinished){}
+            public void onFinish(){
+                Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
+                intent.putExtra("value", "");
+                intent.putExtra("action", "Check");
+                startService(intent);
+                start();
+            }
+        }.start();
+
+
         Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
         //intent.putExtra("ip", ip);
         startService(intent);
@@ -387,6 +401,9 @@ public class MapsActivity extends FragmentActivity {
                 case 1: //stop
                     Toast.makeText(MapsActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
                     break;
+                case 2: //check internet
+                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     Log.v("Map Activity:","Unknown action = " +action);
             }
@@ -411,6 +428,7 @@ public class MapsActivity extends FragmentActivity {
         startService(intent);
         receive_data("GPS");
         t.start();
+        t_internet.start();
         setUpMapIfNeeded();
     }
 
@@ -426,6 +444,7 @@ public class MapsActivity extends FragmentActivity {
         receive_data("Stop");
         drone.setStatus(false);
         t.cancel();
+        t_internet.cancel();
         connected=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         stopService(intent);

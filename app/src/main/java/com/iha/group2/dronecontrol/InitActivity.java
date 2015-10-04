@@ -151,7 +151,6 @@ public class InitActivity extends AppCompatActivity {
                 drone.setIP(ip.getText().toString());
 
                 Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                //intent.putExtra("ip", ip.getText().toString());
                 intent.putExtra("value", "");
                 intent.putExtra("action", "Check");
                 startService(intent);
