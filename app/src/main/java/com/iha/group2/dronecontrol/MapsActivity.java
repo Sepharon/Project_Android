@@ -61,7 +61,6 @@ public class MapsActivity extends FragmentActivity {
     private MyReceiver receiver;
     boolean connected;
     Thread t_move;
-    Thread t_internet;
     boolean isPressed;
 
     RelativeLayout layout;
@@ -427,7 +426,6 @@ public class MapsActivity extends FragmentActivity {
         receive_data("Stop");
         drone.setStatus(false);
         t.cancel();
-        t_internet.interrupt();
         connected=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         stopService(intent);
