@@ -58,6 +58,9 @@ public class UDP_Receiver extends Service {
                     broadcast_toInit("NoInternet", 0);
                     broadcast_result("NoInternet", 2);
                 }
+                else{
+                    broadcast_result("Internet", 3);
+                }
                 break;
             /*
             case "camera":
