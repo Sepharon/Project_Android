@@ -65,6 +65,8 @@ public class SQL_IP_Data_Base extends ContentProvider {
             " CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
                     " IP TEXT NOT NULL, UNIQUE(IP));";
 
+
+
     private static class  DatabaseHelper extends SQLiteOpenHelper{
 
         DatabaseHelper (Context context) {
