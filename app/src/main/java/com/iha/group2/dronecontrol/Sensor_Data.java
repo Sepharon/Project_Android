@@ -15,20 +15,15 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 
-/*This class extends a Service that implements a sensor listener to get
-accelerometer sensor values from the device
- */
-
 public class Sensor_Data extends Service implements SensorEventListener {
 
-    //Some initializations
     private SensorManager mSensorManager;
 
-    Drone drone;
-
-    float initial_value; //it gets the initial position of the device
-    float threshold_high = 1.5f; //it determines the threshold which if one value is higher than this, we consider it as going UP
-    float threshold_low = -1.5f; //it determines the threshold which if one value is lower than this, we consider it as going DOWN
+    // Values to calculate position
+    float initial_value;
+    // Threshold values to check the movement.
+    float threshold_high = 1.5f;
+    float threshold_low = -1.5f;
     boolean first = true;
 
     String ip;
@@ -38,30 +33,29 @@ public class Sensor_Data extends Service implements SensorEventListener {
         return null;
     }
 
-    //It initializes the sensor listener from the accelerometer sensor
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // Subscribe to sensor manager to get updates on the sensors.
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        // We want to get data from the accelerometer
         Sensor mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        // We want short delay between updates
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
 
-        drone = Drone.getInstance();
-
-        /*try {
+        try {
             ip = intent.getStringExtra("ip");
         } catch (NullPointerException es){
             Log.v("SENSOR_DATA: ", "ip null pointer");
             es.printStackTrace();
-        }*/
-        ip=drone.getIP();
+        }
 
         return START_STICKY;
     }
 
-    //it unregisters the listener
     @Override
     public void onDestroy() {
         super.onDestroy();
+        // Unregister from sensor
         mSensorManager.unregisterListener(this);
         stopSelf();
     }
@@ -71,73 +65,72 @@ public class Sensor_Data extends Service implements SensorEventListener {
         super.onCreate();
     }
 
-    //it processes a sensor event to determine if we are going UP or DOWN
     @Override
     public void onSensorChanged(SensorEvent event) {
         // Get values from sensor
-        // Our interest is in accel_X or accel_Z
+        // Our interest is in accel_X
         float x = event.values[0];
         float actual_value;
         int res;
         String u_d;
         Log.v("Sensor, x = ", "" + x);
+        // Get ready to send data
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
 
-        //it determines the initial value of the device
         if (first){
+            // Set the first value as the initial_value.
             initial_value = x;
             first = false;
         }
-
-        //it calculates the difference between the initial value and the event sensor value
+        // Substract current value and initial_value
         actual_value = x - initial_value;
+        // Get movement
         res = calculate_movement(actual_value);
-        if (res == 2) { //Going UP
+        // Depending on the movement we send Up, Down or Normal
+        if (res == 2) {
             u_d = "U";
             intent.putExtra("value",u_d);
-            //intent.putExtra("ip", ip);
+            intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
         }
-        else if (res == 1) { //Going DOWN
+        else if (res == 1) {
             u_d = "D";
             intent.putExtra("value",u_d);
-            //intent.putExtra("ip", ip);
+            intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
         }
-        else { //we are in the initial value
+        else {
             u_d = "N";
             intent.putExtra("value",u_d);
-            //intent.putExtra("ip", ip);
+            intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
 
         }
+
+
     }
 
-    /*it calculates the difference between the current position and the initial to process it and see
-    if its higher or less than the thresholds
-     */
     public int calculate_movement(float value){
 
-        int result;
-        if (value > threshold_high) { //going UP
+        // This function calculates the movement of the phone
+        // In case the value is higher than the threshold_high it means that the user wants to move
+        // the drone up
+        if (value > threshold_high) {
             Log.v("Sensor a_v:", "high");
-            result = 2;
+            return 2;
         }
-
-        else if (value < threshold_low){ //going DOWN
+        // In case it's lower than threshold_low it means that it want to go down.
+        else if (value < threshold_low){
             Log.v("Sensor a_v:", "low");
-            result = 1;
+            return 1;
         }
-        else return 0; //not moving
-        //threshold_high = value+0.5f;
-        //threshold_low = value-0.5f;
-        return result;
+        // Else it wants to stay the same altitude.
+        else return 0;
     }
 
-    //this is not doing anything
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 

@@ -27,20 +27,21 @@ public class Streaming_camera extends AppCompatActivity {
         setContentView(R.layout.activity_streaming_camera);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        // Hide ActionBar
         try{
             actionBar.hide();
         } catch (NullPointerException es){
             es.printStackTrace();
         }
 
+        // Setting up WebView
         browser = (WebView) findViewById(R.id.webView);
         layout = (RelativeLayout)findViewById(R.id.stream_layout);
-
         browser.setInitialScale(25);
         browser.getSettings().setLoadWithOverviewMode(true);
         browser.getSettings().setUseWideViewPort(true);
         browser.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-
+        //Load WebView
         browser.loadUrl(url);
     }
 
@@ -49,6 +50,7 @@ public class Streaming_camera extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        // Fullscreen activity
         if (hasFocus) {
             layout.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE

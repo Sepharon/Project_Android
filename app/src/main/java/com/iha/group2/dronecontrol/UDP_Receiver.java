@@ -142,12 +142,14 @@ public class UDP_Receiver extends Service {
             socket.close();
             //this variable splits the messages received by \n because the buffer can contain others undesired characters
             String ms = rec_msg.split("\n")[0];
+            // Check which message we've received and react accodingly
             switch (ms) {
                 //TODO: before we had unregistered our receivers, when the message was Stop it sent to InitActivity
                 // TODO: this message and a Toast appears in InitActivity saying that the UDP connection was closed,
                 // TODO: now, the message never arrive because the Receiver from Init is unregistered.
                 case "Stop":
                     broadcast_result(rec_msg, 1);
+                    Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
                     break;
                 case "alive":
                     broadcast_toInit(rec_msg, 0);
@@ -169,6 +171,32 @@ public class UDP_Receiver extends Service {
         Log.v("Client:", "Out of loop");
         return rec_msg;
     }
+
+    //It broadcast the result to MapsActivity
+    public void broadcast_result(String msg,int act){
+        Intent broadcast = new Intent();
+        broadcast.setAction("broadcast");
+        broadcast.putExtra("action",act);
+        broadcast.putExtra("result", msg);
+        sendBroadcast(broadcast);
+    }
+
+    //It broadcast the result to InitActivity
+    public void broadcast_toInit(String msg,int act){
+        Intent broadcast = new Intent();
+        broadcast.setAction("init");
+        broadcast.putExtra("action",act);
+        broadcast.putExtra("result", msg);
+        sendBroadcast(broadcast);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
 
     /*public String tcp_client(String ip, String msg, int port) throws  IOException{
         InetAddress IP = InetAddress.getByName(ip);
@@ -201,29 +229,4 @@ public class UDP_Receiver extends Service {
 
         return response;
     }*/
-
-    //It broadcast the result to MapsActivity
-    public void broadcast_result(String msg,int act){
-        Intent broadcast = new Intent();
-        broadcast.setAction("broadcast");
-        broadcast.putExtra("action",act);
-        broadcast.putExtra("result", msg);
-        sendBroadcast(broadcast);
-    }
-
-    //It broadcast the result to InitActivity
-    public void broadcast_toInit(String msg,int act){
-        Intent broadcast = new Intent();
-        broadcast.setAction("init");
-        broadcast.putExtra("action",act);
-        broadcast.putExtra("result", msg);
-        sendBroadcast(broadcast);
-    }
-
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 }

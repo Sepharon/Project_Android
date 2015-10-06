@@ -295,11 +295,4 @@ public class InitActivity extends AppCompatActivity {
 
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
-
 }
