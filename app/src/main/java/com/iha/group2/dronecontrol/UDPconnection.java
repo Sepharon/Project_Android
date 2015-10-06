@@ -31,13 +31,14 @@ public class UDPconnection extends Service {
 
     //It calls the function send_msg to send the message depending on the "value" to the "ip" written
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        //final String ip = intent.getStringExtra("ip");
+        // Use drone instance to get IP
         drone= Drone.getInstance();
         ip = drone.getIP();
+        // Get the value that we want to send
         final String v = intent.getStringExtra("value");
         Log.v("Service ip: ",ip);
         Log.v("Service value: ",v);
-
+        // Check if drone is connected.
         if (drone.getStatus()) {
             try {
                 send_msg(v, ip);
@@ -45,7 +46,6 @@ public class UDPconnection extends Service {
                 e.printStackTrace();
             }
         }
-
         stopSelf();
         return START_STICKY;
     }
@@ -55,14 +55,16 @@ public class UDPconnection extends Service {
     public void send_msg (final String msg, final String Ip) throws IOException {
         final int msg_length = msg.length();
         final byte[] message = msg.getBytes();
-
+        // Create a socket
         DatagramSocket client_socket = new DatagramSocket();
         InetAddress IPAddress = InetAddress.getByName(Ip);
-
-        Log.v("Service:", "Sending packet");
+        // Create UDP packet
         DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, movement_port);
+        // Send packet
+        Log.v("Service:", "Sending packet");
         client_socket.send(p);
         Log.v("Service:","Packet sent");
+        // Close connection
         client_socket.close();
     }
 }
