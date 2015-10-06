@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapActivity"
+    tools:context=".MapsActivity"
     android:id="@+id/map_layout"
     android:screenOrientation="landscape"
     >
@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/left"
         android:layout_gravity="left|bottom"
-        android:text="L"
         android:layout_above="@+id/backward"
         android:layout_toRightOf="@+id/save_button"
         android:layout_toEndOf="@+id/save_button"
@@ -51,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/backward"
-        android:background="@drawable/backward"
+
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/left"
         android:layout_toEndOf="@+id/left"

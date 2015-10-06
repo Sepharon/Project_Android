@@ -58,19 +58,26 @@ public class SQL_IP_Data_Base extends ContentProvider {
     // Creating DB
     static final String _ID = "_id";
     static final String IP = "IP";
-    static final String DATABASE_NAME = "IPs";
-    static final String TABLE_NAME = "ip";
+    static final String DATABASE_NAMEIP = "IPs";
+    static final String TABLE_NAMEIP = "ip";
+
     static int DATABASE_VERSION = 1;
     static final String CREATE_DB_TABLE =
-            " CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            " CREATE TABLE " + TABLE_NAMEIP + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
                     " IP TEXT NOT NULL, UNIQUE(IP));";
+
+    static final String DATABASE_NAMEDATA = "Datas";
+    static final String TABLE_NAMEDATA = "Data";
+    public static String DATABASE_CREATE = "CREATE TABLE " + TABLE_NAMEDATA
+            + "(id INTEGER PRIMARY KEY, DateTime TEXT, GPS TEXT, Humidity TEXT, Speed TEXT, Temperature TEXT)";
+
 
 
 
     private static class  DatabaseHelper extends SQLiteOpenHelper{
 
         DatabaseHelper (Context context) {
-            super(context,DATABASE_NAME,null,DATABASE_VERSION);
+            super(context,DATABASE_NAMEIP,null,DATABASE_VERSION);
         }
 
         @Override
@@ -83,7 +90,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
         public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion){
             Log.v("CP","upgrade");
             if (oldVersion == DATABASE_VERSION) {
-                db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAMEIP);
                 onCreate(db);
                 DATABASE_VERSION = newVersion;
             }
@@ -99,11 +106,11 @@ public class SQL_IP_Data_Base extends ContentProvider {
         switch (uriMatcher.match(uri)){
             case SINGLE_ROW:
                 String id = uri.getPathSegments().get(1);
-                affected_rows = db.delete(TABLE_NAME, _ID +  " = " + id +
+                affected_rows = db.delete(TABLE_NAMEIP, _ID +  " = " + id +
                         (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
             case ALL_ROWS:
-                affected_rows = db.delete(TABLE_NAME,selection,selectionArgs);
+                affected_rows = db.delete(TABLE_NAMEIP,selection,selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri );
@@ -119,7 +126,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        long row_id = db.insert(TABLE_NAME,"",values );
+        long row_id = db.insert(TABLE_NAMEIP,"",values );
         Log.v("CP","User inserted : " + values);
         if (row_id>0) {
             Uri _uri = ContentUris.withAppendedId(CONTENT_URI,row_id);
@@ -146,7 +153,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
 
         SQLiteQueryBuilder qdb = new SQLiteQueryBuilder();
 
-        qdb.setTables(TABLE_NAME);
+        qdb.setTables(TABLE_NAMEIP);
         Log.v("CP","QUERY");
         switch (uriMatcher.match(uri)){
             // Selecting rows
@@ -177,11 +184,11 @@ public class SQL_IP_Data_Base extends ContentProvider {
 
         switch (uriMatcher.match(uri)){
             case SINGLE_ROW:
-                affected_rows = db.update(TABLE_NAME, values, _ID + " = " + uri.getPathSegments().get(1) +
+                affected_rows = db.update(TABLE_NAMEIP, values, _ID + " = " + uri.getPathSegments().get(1) +
                         (!TextUtils.isEmpty(selection) ? " AND (" +selection + ')' : ""), selectionArgs);
                 break;
             case ALL_ROWS:
-                affected_rows = db.update(TABLE_NAME,values,selection,selectionArgs);
+                affected_rows = db.update(TABLE_NAMEIP,values,selection,selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri );
