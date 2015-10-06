@@ -99,9 +99,14 @@ void loop() {
     else if (packetBuffer[0]=='c' && packetBuffer[1]=='o' && packetBuffer[2]=='n' && packetBuffer[3]=='n' && packetBuffer[4]=='e' && packetBuffer[5]=='c' && packetBuffer[6]=='t'){
       // send a reply, to the IP address and port that sent us the packet we received
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-      Udp.write(ReplyBuffer);
+      Udp.write("alive\n");
       Udp.endPacket();
       Serial.println("CONNECTED");
+      //start the motors      
+    }
+    else if (packetBuffer[0]=='R' && packetBuffer[1]=='e' && packetBuffer[2]=='s' && packetBuffer[3]=='t' && packetBuffer[4]=='o' && packetBuffer[5]=='r' && packetBuffer[6]=='e'){
+      // send a reply, to the IP address and port that sent us the packet we received
+      Serial.println("INTERNET RESTORED");
       //start the motors      
     }
     else if (packetBuffer[0]=='S' && packetBuffer[1]=='t' && packetBuffer[2]=='o' && packetBuffer[3]=='p'){

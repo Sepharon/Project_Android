@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.CountDownTimer;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -23,6 +26,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Map;
 
 /*REFERENCE:
 https://developer.android.com/training/system-ui/immersive.html
@@ -55,12 +60,17 @@ public class MapsActivity extends FragmentActivity {
 
     IntentFilter filter;
     CountDownTimer t;
+    CountDownTimer t_internet;
     private MyReceiver receiver;
     boolean connected;
+    boolean restore;
     Thread t_move;
     boolean isPressed;
 
     RelativeLayout layout;
+
+    //Drone class
+    Drone drone;
 
     //This functions register our Receiver, it setups the Google Maps, it starts the Sensor service and it implements some onClickListeners
     @Override
@@ -70,6 +80,10 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
+        //Get instance for Drone class and set status to connected
+        drone = Drone.getInstance();
+        drone.setStatus(true);
+
         //Register receiver
         filter = new IntentFilter("broadcast");
         receiver = new MyReceiver();
@@ -77,8 +91,12 @@ public class MapsActivity extends FragmentActivity {
 
         isPressed=false; //this one determines if a button is pressed
 
-        Intent in = getIntent();
-        ip = in.getStringExtra("ip");
+        //Intent in = getIntent();
+        //ip = in.getStringExtra("ip");
+
+        //Get Drone IP
+        ip=drone.getIP();
+
         forward = (Button) findViewById(R.id.forward);
         backward = (Button) findViewById(R.id.backward);
         right = (Button) findViewById(R.id.right);
@@ -99,8 +117,10 @@ public class MapsActivity extends FragmentActivity {
         layout = (RelativeLayout)findViewById(R.id.map_layout);
 
         connected=true;
+        restore = false;
 
         Log.v("Drone Control ip: ", ip);
+        Log.v("Drone connected", drone.getStatus() ? "connected" : "not connected");
 
         /*here we have some listeners, it determines if a button was touched and
         depending on the motion event, it does one thing or another.
@@ -113,14 +133,16 @@ public class MapsActivity extends FragmentActivity {
         forward.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("F", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("F");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -128,14 +150,16 @@ public class MapsActivity extends FragmentActivity {
         backward.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("B", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("B");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -143,14 +167,16 @@ public class MapsActivity extends FragmentActivity {
         right.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("R", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("R");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -158,14 +184,16 @@ public class MapsActivity extends FragmentActivity {
         left.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("L", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("L");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -173,14 +201,16 @@ public class MapsActivity extends FragmentActivity {
         up.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("U", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("U");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -188,14 +218,16 @@ public class MapsActivity extends FragmentActivity {
         down.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("D", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("D");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -204,14 +236,16 @@ public class MapsActivity extends FragmentActivity {
         RR.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("RR", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("RR");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -219,14 +253,16 @@ public class MapsActivity extends FragmentActivity {
         RL.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.v("forwardButton", "actionDOWN");
-                    isPressed = true;
-                    moving("RL", ip);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.v("forwardButton", "actionReleased");
-                    isPressed = false;
-                    t_move.interrupt();
+                if (drone.getStatus()) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        Log.v("forwardButton", "actionDOWN");
+                        isPressed = true;
+                        moving("RL");
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.v("forwardButton", "actionReleased");
+                        isPressed = false;
+                        t_move.interrupt();
+                    }
                 }
                 return false;
             }
@@ -236,47 +272,69 @@ public class MapsActivity extends FragmentActivity {
         less_v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("LV", ip, "");
+                if (drone.getStatus()) {
+                    send_data("LV");
+                }else {
+                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         more_v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send_data("MV", ip, "");
+                if (drone.getStatus()) {
+                    send_data("MV");
+                }
             }
         });
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                t.cancel();
-                ask_camera = true;
-                Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
-                stopService(in);
-                Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
-                stopService(intent2);
-                Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
-                startActivity(intent);
-                //receive_data("camera", ip);
+                if (drone.getStatus()) {
+                    t.cancel();
+                    ask_camera = true;
+                    Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
+                    stopService(in);
+                    Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
+                    stopService(intent2);
+                    Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
+                    startActivity(intent);
+                    //receive_data("camera", ip);
+                }
             }
         });
 
 
 
         // It gets the current position of the drone
-        receive_data("GPS", ip);
+        receive_data("GPS");
 
         //this counter asks for GPS data every 20 seconds
         t = new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
                 if (!ask_camera && connected ) {
-                    receive_data("GPS", ip);
+                    receive_data("GPS");
                     start();
                 }
             }
         }.start();
+
+        //this counter check internet connection 10 seconds
+        t_internet = new CountDownTimer(10000,1000){
+            public void onTick (long millisUntilFinished){}
+            public void onFinish(){
+                Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
+                intent.putExtra("value", "");
+                intent.putExtra("action", "Check");
+                startService(intent);
+                start();
+            }
+        }.start();
+
+
         Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
-        intent.putExtra("ip", ip);
+        //intent.putExtra("ip", ip);
         startService(intent);
     }
 
@@ -332,18 +390,17 @@ public class MapsActivity extends FragmentActivity {
     }
 
     //It sends data without expecting incoming messages
-    public void send_data(String v,String ip, String action){
+    public void send_data(String v){
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
-        intent.putExtra("value",v);
-        intent.putExtra("ip", ip);
-        intent.putExtra("action", action);
+        intent.putExtra("value", v);
+        //intent.putExtra("ip", ip);
         startService(intent);
     }
 
     //it sends data expecting incoming messages
-    public void receive_data (String action, String ip){
+    public void receive_data (String action){
         Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
-        intent.putExtra("ip", ip);
+        //intent.putExtra("ip", ip);
         intent.putExtra("action", action);
         startService(intent);
     }
@@ -355,7 +412,7 @@ public class MapsActivity extends FragmentActivity {
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            int action = intent.getIntExtra("action",2);
+            int action = intent.getIntExtra("action", 1);
             String result = intent.getStringExtra("result");
             // May need to change
             switch (action) {
@@ -370,6 +427,19 @@ public class MapsActivity extends FragmentActivity {
                     break;
                 case 1: //stop
                     Toast.makeText(MapsActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2: //No internet
+                    drone.setStatus(false);
+                    restore = true;
+                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3: //Internet OK
+                    if (restore) {
+                        Toast.makeText(MapsActivity.this, "Internet connection restored", Toast.LENGTH_SHORT).show();
+                        send_data("Restore");
+                        drone.setStatus(true);
+                        restore=false;
+                    }
                     break;
                 default:
                     Log.v("Map Activity:","Unknown action = " +action);
@@ -389,11 +459,13 @@ public class MapsActivity extends FragmentActivity {
         this.registerReceiver(receiver, filter);
         connected=true;
         ask_camera=false;
+        drone.setStatus(true);
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
-        intent.putExtra("ip", ip);
+        //intent.putExtra("ip", ip);
         startService(intent);
-        receive_data("GPS", ip);
+        receive_data("GPS");
         t.start();
+        t_internet.start();
         setUpMapIfNeeded();
     }
 
@@ -406,8 +478,10 @@ public class MapsActivity extends FragmentActivity {
     public void onPause() {
         super.onPause();
         Log.v("MapsActivity2", "onPause");
-        receive_data("Stop", ip);
+        receive_data("Stop");
+        drone.setStatus(false);
         t.cancel();
+        t_internet.cancel();
         connected=false;
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         stopService(intent);
@@ -430,13 +504,13 @@ public class MapsActivity extends FragmentActivity {
     /*this function keeps sending the same message every half second to the Arduino (or UDP server) til
     it is interrupted or isPressed equals false, that means that the user is no longer pressing that button
      */
-    private void moving(final String movement, final String ipDirection){
+    private void moving(final String movement){
        t_move = new Thread(new Runnable() {
            @Override
            public void run() {
                while(isPressed) {
                    Log.v("thread t_move", "moving");
-                   send_data(movement, ipDirection, "");
+                   send_data(movement);
                    SystemClock.sleep(500);
 
                }

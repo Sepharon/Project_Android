@@ -24,6 +24,8 @@ public class Sensor_Data extends Service implements SensorEventListener {
     //Some initializations
     private SensorManager mSensorManager;
 
+    Drone drone;
+
     float initial_value; //it gets the initial position of the device
     float threshold_high = 1.5f; //it determines the threshold which if one value is higher than this, we consider it as going UP
     float threshold_low = -1.5f; //it determines the threshold which if one value is lower than this, we consider it as going DOWN
@@ -43,12 +45,15 @@ public class Sensor_Data extends Service implements SensorEventListener {
         Sensor mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
 
-        try {
+        drone = Drone.getInstance();
+
+        /*try {
             ip = intent.getStringExtra("ip");
         } catch (NullPointerException es){
             Log.v("SENSOR_DATA: ", "ip null pointer");
             es.printStackTrace();
-        }
+        }*/
+        ip=drone.getIP();
 
         return START_STICKY;
     }
@@ -90,21 +95,21 @@ public class Sensor_Data extends Service implements SensorEventListener {
         if (res == 2) { //Going UP
             u_d = "U";
             intent.putExtra("value",u_d);
-            intent.putExtra("ip", ip);
+            //intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
         }
         else if (res == 1) { //Going DOWN
             u_d = "D";
             intent.putExtra("value",u_d);
-            intent.putExtra("ip", ip);
+            //intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
         }
         else { //we are in the initial value
             u_d = "N";
             intent.putExtra("value",u_d);
-            intent.putExtra("ip", ip);
+            //intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
 

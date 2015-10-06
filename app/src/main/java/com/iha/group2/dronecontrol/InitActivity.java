@@ -24,6 +24,7 @@ then you can press ON to go to MapsActivity.
  */
 
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -31,8 +32,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Looper;
 import android.os.StrictMode;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +68,10 @@ public class InitActivity extends AppCompatActivity {
     String[] ips;
     Thread t;
 
+    //Drone class
+    Drone drone;
+
+
     /* Functions starts
     it registers our Receiver, gets all Views, gets all entries from the SQL database for
      the AutoCompleteText and setups two onClickListeners functions
@@ -83,13 +92,15 @@ public class InitActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-
+        //Get instance for Drone class
+        drone= Drone.getInstance();
 
         // Selecting buttons and text input
         connect = (Button) findViewById(R.id.button_con);
         on = (Button) findViewById(R.id.button_on);
         data = (Button) findViewById(R.id.button_data);
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
+
 
         //new content values to store data in database
         values = new ContentValues();
@@ -130,30 +141,39 @@ public class InitActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Sending message to Arduino", Toast.LENGTH_LONG).show();
 
                 //store IP to database
-                try{
+                try {
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
-                }
-                catch (SQLException se){ //if it is repeated, and exception will occur and we don't want the app to crash
+                } catch (SQLException se) { //if it is repeated, and exception will occur and we don't want the app to crash
                     se.printStackTrace();
                 }
                 Log.v("Activity One:", "Starting service");
+
+                //set Drone IP
+                drone.setIP(ip.getText().toString());
+
+                Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
+                intent.putExtra("value", "");
+                intent.putExtra("action", "Check");
+                startService(intent);
 
                 //this thread starts the service, this way it won't block the UI
                 t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                        intent.putExtra("ip", ip.getText().toString());
+                        //intent.putExtra("ip", ip.getText().toString());
                         intent.putExtra("value", "");
                         intent.putExtra("action", action);
                         startService(intent);
                     }
                 });
                 t.start();
+
+                //Set status to connected
+                drone.setStatus(true);
             }
         });
-
     }
 
     @Override
@@ -193,6 +213,9 @@ public class InitActivity extends AppCompatActivity {
                 case "alive":
                     state = true; //now ON is available
                     Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
+                    break;
+                case "NoInternet":
+                    Toast.makeText(InitActivity.this, "No internet connection", Toast.LENGTH_LONG).show();
                     break;
                 default: //timeout or other messages received
                     Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
@@ -263,9 +286,20 @@ public class InitActivity extends AppCompatActivity {
         super.onPause();
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
-        t.interrupt();
+        try {
+            t.interrupt();
+        } catch (NullPointerException es){
+            es.printStackTrace();
+        }
         this.unregisterReceiver(receiver);
 
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
 }
