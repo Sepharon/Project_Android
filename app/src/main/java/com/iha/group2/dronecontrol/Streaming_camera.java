@@ -16,7 +16,7 @@ https://developer.android.com/training/system-ui/immersive.html
 public class Streaming_camera extends AppCompatActivity {
 
     //Some initializations
-    static final String url = "http://192.168.0.105:8080/browserfs.html";
+    static final String url = "http://10.37.1.129:8080/browserfs.html";
     RelativeLayout layout;
     WebView browser;
 

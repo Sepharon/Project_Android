@@ -64,6 +64,7 @@ public class InitActivity extends AppCompatActivity {
     private MyReceiver receiver;
     Button connect;
     Button on;
+    Button data;
     String[] ips;
     Thread t;
 
@@ -97,6 +98,7 @@ public class InitActivity extends AppCompatActivity {
         // Selecting buttons and text input
         connect = (Button) findViewById(R.id.button_con);
         on = (Button) findViewById(R.id.button_on);
+        data = (Button) findViewById(R.id.button_data);
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
 
 
