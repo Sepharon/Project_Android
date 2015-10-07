@@ -1,5 +1,9 @@
 package com.iha.group2.dronecontrol;
 
+/* REFERENCE
+http://stackoverflow.com/questions/10111166/get-all-rows-from-sqlite
+ */
+
 /*
 
 This code basically try to contact an IP using UDP protocol
@@ -115,17 +119,17 @@ public class InitActivity extends AppCompatActivity {
         }
 
 
-        // To allow On button to do something, connect has to be pressed first
+        //Some on click listeners
 
+        // To allow On button to do something, connect has to be pressed first
         on.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
-                    // Start MapsActivity ,sending the IP entered
+                    // Start MapsActivity
                     Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
-                    second_act.putExtra("ip", ip.getText().toString());
                     startActivity(second_act);
                 }
                 // Otherwise show message
@@ -137,14 +141,13 @@ public class InitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Once clicked, it sends message to Anduino using a service
-
                 Toast.makeText(getApplicationContext(), "Sending message to Arduino", Toast.LENGTH_LONG).show();
 
                 // Store IP to database
                 try {
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
-                } catch (SQLException se) { //if it is repeated, and exception will occur and we don't want the app to crash
+                } catch (SQLException se) { //if it is repeated, an exception will occur and we don't want the app to crash
                     se.printStackTrace();
                 }
                 Log.v("Activity One:", "Starting service");
@@ -152,12 +155,13 @@ public class InitActivity extends AppCompatActivity {
                 // Set Drone IP
                 drone.setIP(ip.getText().toString());
 
+                //before sending the message, it checks if the device is connected to a network
                 Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
                 intent.putExtra("value", "");
                 intent.putExtra("action", "Check");
                 startService(intent);
 
-                // This thread starts the service, this way it won't block the UI
+                // This thread starts the service by sending the action "connect", this way it won't block the UI
                 t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -169,7 +173,7 @@ public class InitActivity extends AppCompatActivity {
                 });
                 t.start();
 
-                // Set status to connected
+                //If everything was OK, set status of the drone to connected
                 drone.setStatus(true);
             }
         });
@@ -189,7 +193,10 @@ public class InitActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        /*These two refers to ListIPs and AboutActivity activities, if
+        you select one of these items, it will call the appropiate function
+        to start them.
+         */
         if (id == R.id.ListIPs){
             listIPs();
         }
@@ -202,7 +209,6 @@ public class InitActivity extends AppCompatActivity {
 
 
     // Receiver class, it checks if it receives "alive" from Arduino, or if there's no connection
-
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -217,7 +223,7 @@ public class InitActivity extends AppCompatActivity {
                     state = true;
                     Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
                     break;
-                // If no internet display message
+                // If it is not connected to a network it will display this message
                 case "NoInternet":
                     Toast.makeText(InitActivity.this, "No internet connection", Toast.LENGTH_LONG).show();
                     break;
@@ -244,20 +250,30 @@ public class InitActivity extends AppCompatActivity {
 
     // Gets all entries from the SQL database, it stores it in a String[].
     public String[] getAllEntries(){
+        //this URL refers to the content provider
         String URL = "content://com.example.group13.provider.IPs/db";
         Uri notesText = Uri.parse(URL);
+        //it creates a cursor with the result of the query
         Cursor c = getContentResolver().query(notesText, null, null, null, null);
+        /*if there is something in the database, it stores the result of the query
+        in a String[]
+         */
         if (c.getCount() > 0){
             String[] ips = new String[c.getCount()];
             int i = 0;
+            /*iteration to all the values of the cursor, it gets a string formed by
+            the values of IP column from the database
+             */
             while (c.moveToNext()){
                 ips[i] = c.getString(c.getColumnIndexOrThrow(SQL_IP_Data_Base.IP));
                 i++;
             }
+            //when it is finished, we move to first and close the cursor
             c.moveToFirst();
             c.close();
             return ips;
         }
+        //if there is nothing in the cursor, which means that the result of the query is zero elements
         else {
             c.moveToFirst();
             c.close();
@@ -283,14 +299,14 @@ public class InitActivity extends AppCompatActivity {
 
     }
 
-    // onPause method
+    // onPause method, it stops the service UDP_Receiver in case it has been started
     @Override
     public void onPause() {
         super.onPause();
         // Stop UDP client
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
-        // TODO: THINK ITS NOT NEEDED TO INTERRUPT SINCE IT DIES BY ITSELF
+        //needed, or else app crashes
         try {
             t.interrupt();
         } catch (NullPointerException es){

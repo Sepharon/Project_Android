@@ -15,6 +15,12 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 
+/*
+This class extends a service and implements a Sensor event listener.
+It is responsible to get data from the accelerometer of the device
+and decide if the user wants to go UP, stay or DOWN
+ */
+
 public class Sensor_Data extends Service implements SensorEventListener {
 
     private SensorManager mSensorManager;
@@ -27,6 +33,8 @@ public class Sensor_Data extends Service implements SensorEventListener {
     boolean first = true;
 
     String ip;
+
+    Drone drone;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -42,8 +50,9 @@ public class Sensor_Data extends Service implements SensorEventListener {
         // We want short delay between updates
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
 
+        drone = Drone.getInstance();
         try {
-            ip = intent.getStringExtra("ip");
+            ip = drone.getIP();
         } catch (NullPointerException es){
             Log.v("SENSOR_DATA: ", "ip null pointer");
             es.printStackTrace();
@@ -90,21 +99,21 @@ public class Sensor_Data extends Service implements SensorEventListener {
         if (res == 2) {
             u_d = "U";
             intent.putExtra("value",u_d);
-            intent.putExtra("ip", ip);
+            //intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
         }
         else if (res == 1) {
             u_d = "D";
             intent.putExtra("value",u_d);
-            intent.putExtra("ip", ip);
+            //intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
         }
         else {
             u_d = "N";
             intent.putExtra("value",u_d);
-            intent.putExtra("ip", ip);
+            //intent.putExtra("ip", ip);
             intent.putExtra("action","");
             startService(intent);
 
@@ -113,11 +122,10 @@ public class Sensor_Data extends Service implements SensorEventListener {
 
     }
 
+    // This function calculates the movement of the phone
+    // In case the value is higher than the threshold_high it means that the user wants to move
+    // the drone up
     public int calculate_movement(float value){
-
-        // This function calculates the movement of the phone
-        // In case the value is higher than the threshold_high it means that the user wants to move
-        // the drone up
         if (value > threshold_high) {
             Log.v("Sensor a_v:", "high");
             return 2;

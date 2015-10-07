@@ -11,16 +11,22 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 /*
+REFERENCE:
+http://developer.android.com/reference/java/net/DatagramSocket.html
+ */
+
+/*
 This class extends a Service
 It only sends message to Arduino (or UDP server) without expecting any answers back
+It dies once the message was sent
 */
 
 public class UDPconnection extends Service {
 
+    //Some initializations
     static final int movement_port = 8888;
 
     Drone drone;
-
     String ip;
 
 

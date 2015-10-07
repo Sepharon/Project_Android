@@ -17,6 +17,8 @@ import java.net.SocketTimeoutException;
 
 /*REFERENCE:
 http://developer.android.com/training/basics/network-ops/connecting.html
+http://developer.android.com/training/monitoring-device-state/connectivity-monitoring.html
+http://developer.android.com/reference/java/net/DatagramSocket.html
  */
 
 /*This class extends a Service
@@ -63,11 +65,11 @@ public class UDP_Receiver extends Service {
             case "Check":
                 // Returns false if internet is not available
                 if (!isNetworkAvailable()){
-                    broadcast_toInit("NoInternet", 0);
-                    broadcast_result("NoInternet", 2);
+                    broadcast_toInit("NoConnection", 0);
+                    broadcast_result("NoConnection", 2);
                 }
                 else{
-                    broadcast_result("Internet", 3);
+                    broadcast_result("Connection", 3);
                 }
                 break;
             // GPS data request from MapsActivity
@@ -184,8 +186,7 @@ public class UDP_Receiver extends Service {
         sendBroadcast(broadcast);
     }
 
-    // Check network aviability. This code is from developer.android:
-    // http://developer.android.com/training/monitoring-device-state/connectivity-monitoring.html
+    // Check network availability
     public boolean isNetworkAvailable() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);

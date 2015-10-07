@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 /*REFERENCE:
 https://developer.android.com/training/system-ui/immersive.html
+https://developer.android.com/training/maps/index.html
  */
 
 /*This Activity is responsible to monitor the Drone and it gets the current position of it and set up a
@@ -76,9 +77,8 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
-        //Get instance for Drone class and set status to connected
+        //Get instance for Drone class
         drone = Drone.getInstance();
-        drone.setStatus(true);
 
         //Register receiver
         filter = new IntentFilter("broadcast");
@@ -90,6 +90,7 @@ public class MapsActivity extends FragmentActivity {
         //Get Drone IP
         ip=drone.getIP();
 
+        //get some buttons ID
         forward = (Button) findViewById(R.id.forward);
         backward = (Button) findViewById(R.id.backward);
         right = (Button) findViewById(R.id.right);
@@ -107,6 +108,7 @@ public class MapsActivity extends FragmentActivity {
         RR = (Button)findViewById(R.id.rotate_right_bt);
         RL = (Button)findViewById(R.id.rotate_left_bt);
 
+        //this one will be used for full screen mode
         layout = (RelativeLayout)findViewById(R.id.map_layout);
 
         //connected=true;
@@ -122,6 +124,8 @@ public class MapsActivity extends FragmentActivity {
         It allows to send to the Arduino to do something repeatedly while a Button is pressed, such as
         if you want to move forward, you will be pressing the Button forward to go in that direction
         and when you want to stop, you will released the button.
+        They also check if the status of the Drone class is connected, which means that the device is connected
+        to a network and it can send messages
          */
         forward.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -261,7 +265,8 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
-        //this ones are send only one time
+        //these ones are send only one time, they also check if the status of the Drone class is connected,
+        // which means that the device is connected to a network and it can send messages
         less_v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,12 +285,18 @@ public class MapsActivity extends FragmentActivity {
                 }
             }
         });
+
+        /*this listener calls the Streaming_camera Activity, but before this, it stops all the services
+        that can be running, it cancels the counters for the GPS and network check
+         */
+
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
                     t.cancel();
-                    ask_camera = true;
+                    t_internet.cancel();
+                    //ask_camera = true;
                     Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
                     stopService(in);
                     Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
@@ -299,31 +310,27 @@ public class MapsActivity extends FragmentActivity {
 
 
 
-        // It gets the current position of the drone
+        // It gets the current position of the drone on create the activity
         receive_data("GPS");
 
         // This counter asks for GPS data every 20 seconds
         t = new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                if (!ask_camera /*&& connected*/ ) {
-                    // Ask GPS data
-                    receive_data("GPS");
-                    // Start counter again
-                    start();
-                }
+                //if (!ask_camera /*&& connected*/ ) {
+                 // Ask GPS data
+                 receive_data("GPS");
+                 // Start counter again
+                 start();
+                //}
             }
         }.start();
 
-        // This counter check internet connection 10 seconds
+        // This counter checks if the device is connected to a network every 10 seconds
         t_internet = new CountDownTimer(10000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                /*Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                intent.putExtra("value", "");
-                intent.putExtra("action", "Check");
-                startService(intent);*/
-                // Check internet connection
+                // Check connection
                 receive_data("Check");
                 start();
             }
@@ -417,7 +424,7 @@ public class MapsActivity extends FragmentActivity {
                 // GPS result
                 case 0:
                     /* Way to send data = 50.2-45.0-
-                    Thus we need to split the messeges
+                    Thus we need to split the messages
                     with '-'
                     */
                     String lat = result.split("-")[0];
@@ -432,16 +439,16 @@ public class MapsActivity extends FragmentActivity {
                 case 1:
                     Toast.makeText(MapsActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
                     break;
-                // No internet result
+                // No connection
                 case 2:
                     // Set connection state from the drone class to false
                     drone.setStatus(false);
                     restore = true;
                     Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                     break;
-                // Internet OK result
+                //the connection was restored
                 case 3:
-                    // If connection was offline before show message saying it's been restored
+                    // If connection was offline before, show message saying it's been restored
                     if (restore) {
                         Toast.makeText(MapsActivity.this, "Internet connection restored", Toast.LENGTH_SHORT).show();
                         send_data("Restore");
@@ -456,8 +463,7 @@ public class MapsActivity extends FragmentActivity {
     }
 
 
-    /*it registers our receiver, it sets that we are connected and we are not streaming video,
-    it restarts the Sensor service and gets GPS data.
+    /*it registers our receiver, it restarts the counters and it restarts the Sensor service and gets GPS data.
      */
 
     @Override
@@ -468,16 +474,16 @@ public class MapsActivity extends FragmentActivity {
         this.registerReceiver(receiver, filter);
         // Assume connection is established.
         //connected=true;
-        ask_camera=false;
+        //ask_camera=false;
         drone.setStatus(true);
-        // Actually check internet connection
+        //Check network connection
         receive_data("Check");
         // Start service class
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         startService(intent);
         // Ask GPS data
         receive_data("GPS");
-        // Start timers again
+        // Start counters again
         t.start();
         t_internet.start();
         // Set up map
@@ -487,7 +493,7 @@ public class MapsActivity extends FragmentActivity {
 
     /*It sends Stop to Arduino to stop the motors, this allows to process events like
     incoming calls, the app is going background, etc.
-    It sets that is not connected, it stops the running services and it unregisters our receiver
+    It stops the running services and it unregisters our receiver
      */
     @Override
     public void onPause() {
@@ -498,7 +504,7 @@ public class MapsActivity extends FragmentActivity {
         // Connection set to false, no more data is going to be sent
         drone.setStatus(false);
         //connected=false;
-        // Cancel timers
+        //Cancel counters
         t.cancel();
         t_internet.cancel();
         // Stop services
@@ -509,16 +515,6 @@ public class MapsActivity extends FragmentActivity {
         // Unregister receiver
         this.unregisterReceiver(receiver);
     }
-/*
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Log.v("MapsActivity2", "onBackPressed");
-        t.cancel();
-        connected=false;
-        receive_data("Stop", ip);
-    }
-*/
 
 
     /*this function keeps sending the same message every half second to the Arduino (or UDP server) til
@@ -544,12 +540,15 @@ public class MapsActivity extends FragmentActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
+            // Set the IMMERSIVE flag.
+            // Set the content to appear under the system bars so that the content
+            // doesn't resize when the system bars hide and show.
             layout.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //hide navigation bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN //hide status bar
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }

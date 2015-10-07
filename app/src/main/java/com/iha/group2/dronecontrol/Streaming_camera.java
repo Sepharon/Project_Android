@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 /*REFERENCE:
 https://developer.android.com/training/system-ui/immersive.html
+http://developer.android.com/reference/android/webkit/WebView.html
  */
 
 /* This Activity creates a WebView to stream video from the IP camera */
@@ -52,12 +53,15 @@ public class Streaming_camera extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         // Fullscreen activity
         if (hasFocus) {
+            // Set the IMMERSIVE flag.
+            // Set the content to appear under the system bars so that the content
+            // doesn't resize when the system bars hide and show.
             layout.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //hide navigation bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN //hide status bar
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
     }
 }
