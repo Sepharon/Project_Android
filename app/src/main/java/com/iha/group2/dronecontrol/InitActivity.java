@@ -24,7 +24,6 @@ then you can press ON to go to MapsActivity.
  */
 
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,12 +31,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Looper;
 import android.os.StrictMode;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,9 +46,12 @@ import android.widget.Toast;
 
 public class InitActivity extends AppCompatActivity {
 
-    // Checks if connection with Arduino is OK
+    /*
+    Global variables declaration
+     */
+    // Checks if connection has been established with Arduino
     boolean state = false;
-
+    // Message to send to Arduino for the Handshake
     final String action = "connect";
 
     //Some initializations
@@ -81,18 +79,18 @@ public class InitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
 
-        //register Receiver
+        // Register Receiver
         filter = new IntentFilter("init");
         receiver = new MyReceiver();
         this.registerReceiver(receiver, filter);
 
 
 
-        // P NECESSARY
+        // UDP necessary
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        //Get instance for Drone class
+        // Get instance for Drone class
         drone= Drone.getInstance();
 
         // Selecting buttons and text input
@@ -102,10 +100,10 @@ public class InitActivity extends AppCompatActivity {
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
 
 
-        //new content values to store data in database
+        // New content values to store data in database
         values = new ContentValues();
 
-        //this part build the AutoCompleteText with the entries from the database
+        // This part build the AutoCompleteText with the entries from the database
         try {
             ips = getAllEntries();
             // set our adapter
@@ -117,7 +115,7 @@ public class InitActivity extends AppCompatActivity {
         }
 
 
-        // to allow On button to do something connect has to be pressed first
+        // To allow On button to do something, connect has to be pressed first
 
         on.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,11 +123,13 @@ public class InitActivity extends AppCompatActivity {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
-                    //start MapsActivity sending the IP entered
+                    // Start MapsActivity ,sending the IP entered
                     Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
                     second_act.putExtra("ip", ip.getText().toString());
                     startActivity(second_act);
-                } else //otherwise
+                }
+                // Otherwise show message
+                else
                     Toast.makeText(InitActivity.this, "You must click connect first", Toast.LENGTH_LONG).show();
             }
         });
@@ -140,7 +140,7 @@ public class InitActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "Sending message to Arduino", Toast.LENGTH_LONG).show();
 
-                //store IP to database
+                // Store IP to database
                 try {
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
@@ -149,7 +149,7 @@ public class InitActivity extends AppCompatActivity {
                 }
                 Log.v("Activity One:", "Starting service");
 
-                //set Drone IP
+                // Set Drone IP
                 drone.setIP(ip.getText().toString());
 
                 Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
@@ -157,12 +157,11 @@ public class InitActivity extends AppCompatActivity {
                 intent.putExtra("action", "Check");
                 startService(intent);
 
-                //this thread starts the service, this way it won't block the UI
+                // This thread starts the service, this way it won't block the UI
                 t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                        //intent.putExtra("ip", ip.getText().toString());
                         intent.putExtra("value", "");
                         intent.putExtra("action", action);
                         startService(intent);
@@ -170,7 +169,7 @@ public class InitActivity extends AppCompatActivity {
                 });
                 t.start();
 
-                //Set status to connected
+                // Set status to connected
                 drone.setStatus(true);
             }
         });
@@ -202,45 +201,48 @@ public class InitActivity extends AppCompatActivity {
     }
 
 
-    //our Receiver, it checks if it receives "alive" from Arduino (or UDP server)
+    // Receiver class, it checks if it receives "alive" from Arduino, or if there's no connection
+
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            // Split the result from the '\n'
             String result = intent.getStringExtra("result").split("\n")[0];
-            // Put this empty again ,  don't think is needed tho
             Log.v("Activity One result", result);
+            // Do something depending of the result
             switch (result) {
+                // In case of "alive" it means connection is established
                 case "alive":
-                    state = true; //now ON is available
+                    //now ON is available
+                    state = true;
                     Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
                     break;
+                // If no internet display message
                 case "NoInternet":
                     Toast.makeText(InitActivity.this, "No internet connection", Toast.LENGTH_LONG).show();
                     break;
-                default: //timeout or other messages received
+                // In case of timeout or other messages received
+                default:
                     Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
-                    //state = false;
                     break;
             }
             Log.v("Activity one value: ", "" + state);
-
-
-        }
+       }
     }
 
-    //it starts the ListActivity to show all IPs entered by the user
+    // Starts the ListActivity to show all IPs entered by the user
     public void listIPs(){
         Intent intent = new Intent(this, ListIPs.class);
         startActivity(intent);
     }
 
-    //it starts AboutActivity
+    // Starts AboutActivity
     public void open_about(){
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 
-    //it gets all entries from the SQL database, it stores it in a String[].
+    // Gets all entries from the SQL database, it stores it in a String[].
     public String[] getAllEntries(){
         String URL = "content://com.example.group13.provider.IPs/db";
         Uri notesText = Uri.parse(URL);
@@ -263,34 +265,38 @@ public class InitActivity extends AppCompatActivity {
         }
     }
 
-    //onResume we get all entries from the database again, we setup the adapter and we register our receiver
+    // onResume method, we get all entries from the database again, we setup the adapter and we register our receiver
     @Override
     protected void onResume() {
         super.onResume();
         try {
             String[] ips = getAllEntries();
-            // set our adapter
+            // Set our adapter
             myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ips);
             ip.setAdapter(myAdapter);
         }
         catch (NullPointerException es){
             es.printStackTrace();
         }
+        // Register receiver again
         this.registerReceiver(receiver, filter);
 
     }
 
-    //we unregister our receiver
+    // onPause method
     @Override
     public void onPause() {
         super.onPause();
+        // Stop UDP client
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
+        // TODO: THINK ITS NOT NEEDED TO INTERRUPT SINCE IT DIES BY ITSELF
         try {
             t.interrupt();
         } catch (NullPointerException es){
             es.printStackTrace();
         }
+        // Unregister receiver
         this.unregisterReceiver(receiver);
 
     }

@@ -25,7 +25,7 @@ It sends a message to Arduino (or UDP server) and then it receives an answer fro
 
 public class UDP_Receiver extends Service {
 
-    //Some initializations
+    // Some initializations
     static final int UDP_port = 8888;
     static final int timeout = 10000;
 
@@ -37,18 +37,21 @@ public class UDP_Receiver extends Service {
         return null;
     }
 
-    //Depending on the Action, it does one thing or another
+    // Start function from service
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        //final String ip = intent.getStringExtra("ip");
+        // Get drone instance
         drone = Drone.getInstance();
+        // Get IP from drone class
         ip = drone.getIP();
         Log.v("UDP_receiver", ip);
+        // Get action
         final String action = intent.getStringExtra("action");
         Log.v("actionUDP", ""+action);
         String msg;
-
+        // Do something depending on the action.
         switch (action) {
-            case "connect": //this comes from InitActivity when you want to connect
+            // Handshake message from InitActivity
+            case "connect":
                 try {
                     msg = get_msg(ip, action, UDP_port);
                     Log.v("Service:", "Msg = " + msg);
@@ -56,9 +59,10 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
+            // Check internet connection
             case "Check":
-                //Check internet connection
-                if (!isNetworkAvailable()){ //returns false if internet is not available
+                // Returns false if internet is not available
+                if (!isNetworkAvailable()){
                     broadcast_toInit("NoInternet", 0);
                     broadcast_result("NoInternet", 2);
                 }
@@ -66,35 +70,24 @@ public class UDP_Receiver extends Service {
                     broadcast_result("Internet", 3);
                 }
                 break;
-            /*
-            case "camera":
+            // GPS data request from MapsActivity
+            case "GPS":
                 try {
-                    msg = get_msg(ip, action, UDP_port);
-                    //msg = tcp_client(ip,action,TCP_port);
-                    Log.v("Service:", "Msg = " + msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;*/
-            case "GPS": //this comes from MapsActivity when you request GPS data
-                try {
-                    //tcp_client(ip,action,UDP_port);
                     get_msg(ip, action, UDP_port);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
-            case "Stop": //this comes from MapsActivity when you want to say to Arduino to stop the movement of the drone
+            // Stop message from MapsActivity
+            case "Stop":
                 try {
                     get_msg(ip, action, UDP_port);
-                    //tcp_client(ip, action, TCP_port);
-                    //socket_tcp.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 drone.setStatus(false);
                 stopSelf();
-
+            // Default response
             default:
                 Log.v("Service Receiver:", "Unknown Action " + action);
         }
@@ -107,10 +100,14 @@ public class UDP_Receiver extends Service {
         /*
         Variables declaration
          */
+        // Received message will be written here
         byte[] receive_data = new byte[64];
         String rec_msg = "";
+        // Get message length
         int msg_length = msg.length();
+        // Get bytes from message
         byte[] message = msg.getBytes();
+        // Get IP address
         InetAddress IPAddress = InetAddress.getByName(ip);
 
         // Create new socket
@@ -121,11 +118,9 @@ public class UDP_Receiver extends Service {
         // Sending msg to server, the msg will tell which data do we want
         DatagramPacket p = new DatagramPacket(message, msg_length,IPAddress, port);
         socket.send(p);
-
         Log.v("Service Receiver:","Connection data sent");
 
         Log.v("Service Receiver:", "Receiving packet");
-
         // Preparing packet to receive data
         DatagramPacket receive_pkt = new DatagramPacket(receive_data,receive_data.length);
 
@@ -142,15 +137,14 @@ public class UDP_Receiver extends Service {
             socket.close();
             //this variable splits the messages received by \n because the buffer can contain others undesired characters
             String ms = rec_msg.split("\n")[0];
-            // Check which message we've received and react accodingly
+            // Check which message we've received and react accordingly
             switch (ms) {
-                //TODO: before we had unregistered our receivers, when the message was Stop it sent to InitActivity
-                // TODO: this message and a Toast appears in InitActivity saying that the UDP connection was closed,
-                // TODO: now, the message never arrive because the Receiver from Init is unregistered.
+                // If the message is stop, we stop the service and send a message.
                 case "Stop":
                     broadcast_result(rec_msg, 1);
                     Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
                     break;
+                // Hand Shake message
                 case "alive":
                     broadcast_toInit(rec_msg, 0);
                     break;
@@ -158,21 +152,21 @@ public class UDP_Receiver extends Service {
                     broadcast_result(rec_msg, 0);
                     break;
             }
-
-
         }
+        // In case of timeout
         catch (SocketTimeoutException e) {
             Log.v("Service Receiver:", "Timeout");
+            // Set status to not connected
             drone.setStatus(false);
+            // Close connection
             socket.close();
             if (msg.equals("connect")) broadcast_toInit("error",0);
         }
-
         Log.v("Client:", "Out of loop");
         return rec_msg;
     }
 
-    //It broadcast the result to MapsActivity
+    // Broadcast the result to MapsActivity
     public void broadcast_result(String msg,int act){
         Intent broadcast = new Intent();
         broadcast.setAction("broadcast");
@@ -181,7 +175,7 @@ public class UDP_Receiver extends Service {
         sendBroadcast(broadcast);
     }
 
-    //It broadcast the result to InitActivity
+    // Broadcast the result to InitActivity
     public void broadcast_toInit(String msg,int act){
         Intent broadcast = new Intent();
         broadcast.setAction("init");
@@ -190,6 +184,8 @@ public class UDP_Receiver extends Service {
         sendBroadcast(broadcast);
     }
 
+    // Check network aviability. This code is from developer.android:
+    // http://developer.android.com/training/monitoring-device-state/connectivity-monitoring.html
     public boolean isNetworkAvailable() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -198,6 +194,8 @@ public class UDP_Receiver extends Service {
     }
 
 
+
+    // Old TCP client. Deprecated
     /*public String tcp_client(String ip, String msg, int port) throws  IOException{
         InetAddress IP = InetAddress.getByName(ip);
         if (first) {

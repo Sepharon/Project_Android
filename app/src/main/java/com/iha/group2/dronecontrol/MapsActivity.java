@@ -4,10 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.CountDownTimer;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -27,7 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Map;
 
 /*REFERENCE:
 https://developer.android.com/training/system-ui/immersive.html
@@ -62,7 +58,7 @@ public class MapsActivity extends FragmentActivity {
     CountDownTimer t;
     CountDownTimer t_internet;
     private MyReceiver receiver;
-    boolean connected;
+    //boolean connected;
     boolean restore;
     Thread t_move;
     boolean isPressed;
@@ -91,9 +87,6 @@ public class MapsActivity extends FragmentActivity {
 
         isPressed=false; //this one determines if a button is pressed
 
-        //Intent in = getIntent();
-        //ip = in.getStringExtra("ip");
-
         //Get Drone IP
         ip=drone.getIP();
 
@@ -116,7 +109,7 @@ public class MapsActivity extends FragmentActivity {
 
         layout = (RelativeLayout)findViewById(R.id.map_layout);
 
-        connected=true;
+        //connected=true;
         restore = false;
 
         Log.v("Drone Control ip: ", ip);
@@ -309,32 +302,35 @@ public class MapsActivity extends FragmentActivity {
         // It gets the current position of the drone
         receive_data("GPS");
 
-        //this counter asks for GPS data every 20 seconds
+        // This counter asks for GPS data every 20 seconds
         t = new CountDownTimer(20000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                if (!ask_camera && connected ) {
+                if (!ask_camera /*&& connected*/ ) {
+                    // Ask GPS data
                     receive_data("GPS");
+                    // Start counter again
                     start();
                 }
             }
         }.start();
 
-        //this counter check internet connection 10 seconds
+        // This counter check internet connection 10 seconds
         t_internet = new CountDownTimer(10000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
+                /*Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
                 intent.putExtra("value", "");
                 intent.putExtra("action", "Check");
-                startService(intent);
+                startService(intent);*/
+                // Check internet connection
+                receive_data("Check");
                 start();
             }
         }.start();
 
-
+        // Start Sensors_Data service
         Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
-        //intent.putExtra("ip", ip);
         startService(intent);
     }
 
@@ -360,9 +356,10 @@ public class MapsActivity extends FragmentActivity {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            // Check if we were successful in obtaining the map.
+            // Check if we were successful in obtaining the map and put initial marker in 0,0
             if (mMap != null) setUpMap(0,0);
         }
+        // Put maps in Satellite mode
         if (mMap != null) mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
     }
@@ -377,11 +374,14 @@ public class MapsActivity extends FragmentActivity {
         LatLng pos = new LatLng(lat,lng);
         // Needed since first time there's no marker
         try {
+            // Remove current marker
             marker.remove();
         }catch (Exception e){
             e.printStackTrace();
         }
+        // Create new marker
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Drone"));
+        // Move camera to new position
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 1));
         // Change zoom factor if needed
         CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(14.0f).build();
@@ -389,18 +389,16 @@ public class MapsActivity extends FragmentActivity {
         mMap.moveCamera(cameraUpdate);
     }
 
-    //It sends data without expecting incoming messages
+    // Sends data without expecting incoming messages
     public void send_data(String v){
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
         intent.putExtra("value", v);
-        //intent.putExtra("ip", ip);
         startService(intent);
     }
 
-    //it sends data expecting incoming messages
+    // Sends data expecting incoming messages
     public void receive_data (String action){
         Intent intent = new Intent(getBaseContext(),UDP_Receiver.class);
-        //intent.putExtra("ip", ip);
         intent.putExtra("action", action);
         startService(intent);
     }
@@ -414,26 +412,36 @@ public class MapsActivity extends FragmentActivity {
         public void onReceive(Context context, Intent intent) {
             int action = intent.getIntExtra("action", 1);
             String result = intent.getStringExtra("result");
-            // May need to change
+
             switch (action) {
-                case 0: //GPS
-                    // Way to send data = 50.2-45.0-
+                // GPS result
+                case 0:
+                    /* Way to send data = 50.2-45.0-
+                    Thus we need to split the messeges
+                    with '-'
+                    */
                     String lat = result.split("-")[0];
                     String lng = result.split("-")[1];
                     Log.v("Map Activity: ", result);
                     Log.v("Map Activity: ", "lat: " + lat);
                     Log.v("Map Activity: ", "lng: " + lng);
+                    // Create new marker in the new position
                     setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
                     break;
-                case 1: //stop
+                // Stop result
+                case 1:
                     Toast.makeText(MapsActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
                     break;
-                case 2: //No internet
+                // No internet result
+                case 2:
+                    // Set connection state from the drone class to false
                     drone.setStatus(false);
                     restore = true;
                     Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                     break;
-                case 3: //Internet OK
+                // Internet OK result
+                case 3:
+                    // If connection was offline before show message saying it's been restored
                     if (restore) {
                         Toast.makeText(MapsActivity.this, "Internet connection restored", Toast.LENGTH_SHORT).show();
                         send_data("Restore");
@@ -456,16 +464,23 @@ public class MapsActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         Log.v("MapsActivity2", "onResume");
+        // Register received again
         this.registerReceiver(receiver, filter);
-        connected=true;
+        // Assume connection is established.
+        //connected=true;
         ask_camera=false;
         drone.setStatus(true);
+        // Actually check internet connection
+        receive_data("Check");
+        // Start service class
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
-        //intent.putExtra("ip", ip);
         startService(intent);
+        // Ask GPS data
         receive_data("GPS");
+        // Start timers again
         t.start();
         t_internet.start();
+        // Set up map
         setUpMapIfNeeded();
     }
 
@@ -478,15 +493,20 @@ public class MapsActivity extends FragmentActivity {
     public void onPause() {
         super.onPause();
         Log.v("MapsActivity2", "onPause");
+        // Tell arduino no more data is coming
         receive_data("Stop");
+        // Connection set to false, no more data is going to be sent
         drone.setStatus(false);
+        //connected=false;
+        // Cancel timers
         t.cancel();
         t_internet.cancel();
-        connected=false;
+        // Stop services
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         stopService(intent);
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
+        // Unregister receiver
         this.unregisterReceiver(receiver);
     }
 /*
