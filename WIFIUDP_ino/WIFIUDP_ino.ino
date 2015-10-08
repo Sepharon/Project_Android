@@ -20,6 +20,7 @@ char pass[] = "";    // your network password (use for WPA, or use as key for WE
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
 unsigned int localPort = 8888;      // local port to listen on
+static String gps_positions [] = {"50.1-23.4-","50.1-23.41-","50.1-23.4-","50.1-23.412-","50.1-23.413-","50.1-23.412-","50.1-23.41-","50.1-23.42-","50.1-23.41-","50.1-23.42-","50.1-23.41-","50.11-23.42-","50.12-23.41-"};
 
 char packetBuffer[255]; //buffer to hold incoming packet
 char  ReplyBuffer[] = "alive\n";       // a string to send back
@@ -30,7 +31,7 @@ boolean flagUp = false;
 boolean flagDown = false;
 boolean flagNormal = false;
 
-
+char* buff;
 
 void setup() {
   Wire.begin();
@@ -56,10 +57,16 @@ void setup() {
   } 
   Serial.println("Connected to wifi");
   printWifiStatus();
-  
   Serial.println("\nStarting connection to server...");
   // if you get a connection, report back via serial:
   Udp.begin(localPort);  
+}
+
+String get_current_position(void){
+
+  static int position = 0;
+  if (position == 13) position = 0;
+  return gps_positions[position++];
 }
 
 void loop() {
@@ -74,6 +81,7 @@ void loop() {
  
   // if there's data available, read a packet
   int packetSize = Udp.parsePacket();
+  String current_pos;
   if(packetSize)
   {   
     //Serial.print("Received packet of size ");
@@ -114,12 +122,18 @@ void loop() {
       Udp.write("Stop\n");
       Udp.endPacket();
       Serial.println("STOP");
-      //stop the motors      
+      //stop the motors       
     }
     else if (packetBuffer[0]=='G' && packetBuffer[1]=='P' && packetBuffer[2]=='S'){
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-      Udp.write("50.1-23.4-");
+      current_pos = get_current_position();
+      buff = (char*) malloc(sizeof(char)*current_pos.length()+1);
+      current_pos.toCharArray(buff,current_pos.length()+1);
+      Serial.println(buff);
+      
+      Udp.write(buff);
       Udp.endPacket();
+      free(buff);
       Serial.println("GPS");
       //receive GPS location 
     }
@@ -156,11 +170,11 @@ void loop() {
       //increase velocity  
     }
     else if (packetBuffer[0]=='W' && packetBuffer[1]=='e' && packetBuffer[2]=='a' && packetBuffer[3]=='t' && packetBuffer[4]=='h' && packetBuffer[5]=='e' && packetBuffer[6]=='r'){
+      // send a reply, to the IP address and port that sent us the packet we received
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
       Udp.write("GPS-Humidity-Speed-Temp-\n");
       Udp.endPacket();
-      Serial.println("Weather");
-      //receive GPS location 
+      Serial.println("WEATHER");
     }
     if (!flagUp && flagNormal){
       if (packetBuffer[0]=='U'){
@@ -187,6 +201,8 @@ void loop() {
     
    }
 }
+
+
 
 
 void printWifiStatus() {
