@@ -55,7 +55,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:id="@+id/backward"
-        android:background="@drawable/backward"
+        android:background="@drawable/backwards_2"
         android:layout_below="@+id/left"
         android:layout_toRightOf="@+id/left"
         android:layout_toEndOf="@+id/left" />

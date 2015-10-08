@@ -69,7 +69,7 @@ public class DataActivity extends AppCompatActivity {
             }
         });
 
-        Environment.DIRECTORY_PICTURES), fileName);
+        Environment.DIRECTORY_PICTURES, fileName);
 
 
 
