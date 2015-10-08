@@ -23,7 +23,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,10 +38,12 @@ import java.util.List;
 public class DataActivity extends ListActivity {
 
     List<String> list = new ArrayList<>();
+    Button save_button;
+    TextView DataList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_data);
+        setContentView(R.layout.activity_data);
 
         //get entries from the database
         getAllEntries();
@@ -49,24 +54,36 @@ public class DataActivity extends ListActivity {
         setListAdapter(adapter);
 
 
-        Button save_button = (Button) findViewById(R.id.save_button);
+        save_button = (Button) findViewById(R.id.button_save_txt);
+        DataList = (TextView) findViewById(R.id.Datalist);
 
 
-        /*save_button.setOnClickListener(new View.OnClickListener() {
+        save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date();
+
                 if (isExternalStorageWritable()) {
-                    getFileStorageDir("Weather's data" + date.toString());
+                    try {
+                        File file = new File("/weatherdata.txt"); // définir l'arborescence
+                        file.createNewFile();
+                        FileWriter filewriter = new FileWriter(file);
+                        filewriter.write("******");
+                        filewriter.write("\n");
+                        filewriter.write(DataList.getText().toString());
+                        filewriter.write("\n");
+                        filewriter.close();
+                    } catch (Exception e) {
+                    }
                 } else {
                     Toast.makeText(DataActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
-
             }
-        }
+        });
+    }
 
 
-            Checks if external storage is available for read and write
+
+            //Checks if external storage is available for read and write
             public boolean isExternalStorageWritable() {
                 String state = Environment.getExternalStorageState();
                 if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -75,18 +92,6 @@ public class DataActivity extends ListActivity {
                 return false;
             }
 
-            public File getFileStorageDir(String fileName) {
-                // Get the directory for the user's public pictures directory.
-                //File file = new File(Environment.getExternalStoragePublicDirectory(
-                if (!file.mkdirs()) {
-                    Log.e("Error : ", "Directory not created");
-                }
-                return file;
-            }
-        });
-
-        Environment.DIRECTORY_PICTURES, fileName);*/
-    }
 
     //This functions make a query to get all the entries from the SQLite Database and it stores it in a List in this way:
     // DATA: data_from_database.
@@ -100,11 +105,11 @@ public class DataActivity extends ListActivity {
         //loop to add to a list the values from the cursor that corresponds to the Data column
         if (c.moveToFirst()) {
             do {
-                list.add("Date: " + c.getString(c.getColumnIndexOrThrow("Date")));
-                list.add("GPS: " + c.getString(c.getColumnIndexOrThrow("GPS")));
-                list.add("Humidity: " + c.getString(c.getColumnIndexOrThrow("Humidity")));
-                list.add("Speed: " + c.getString(c.getColumnIndexOrThrow("Speed")));
-                list.add("Temperature: " + c.getString(c.getColumnIndexOrThrow("Temperature")));
+                list.add("Date: " + c.getString(c.getColumnIndexOrThrow("DateTime")) +
+                        "\nGPS: " + c.getString(c.getColumnIndexOrThrow("GPS")) +
+                        "\nHumidity: " + c.getString(c.getColumnIndexOrThrow("Humidity")) +
+                        "\nSpeed: " + c.getString(c.getColumnIndexOrThrow("Speed")) +
+                        "\nTemperature: " + c.getString(c.getColumnIndexOrThrow("Temperature")));
 
             } while (c.moveToNext());
         }
