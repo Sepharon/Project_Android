@@ -77,6 +77,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".DataActivity"
+            android:label="@string/title_activity_data"
+            android:screenOrientation="landscape" >
+        </activity>
+
         <service
             android:name=".UDP_Receiver"
             android:enabled="true"

@@ -155,6 +155,13 @@ void loop() {
       Serial.println("More Velocity");    
       //increase velocity  
     }
+    else if (packetBuffer[0]=='W' && packetBuffer[1]=='e' && packetBuffer[2]=='a' && packetBuffer[3]=='t' && packetBuffer[4]=='h' && packetBuffer[5]=='e' && packetBuffer[6]=='r'){
+      Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+      Udp.write("GPS-Humidity-Speed-Temp-\n");
+      Udp.endPacket();
+      Serial.println("Weather");
+      //receive GPS location 
+    }
     if (!flagUp && flagNormal){
       if (packetBuffer[0]=='U'){
         Serial.println("UP");

@@ -147,6 +147,7 @@ public class UDP_Receiver extends Service {
             socket.close();
             //this variable splits the messages received by \n because the buffer can contain others undesired characters
             String ms = rec_msg.split("\n")[0];
+            Log.v("MESSAGEService", ""+ms);
             // Check which message we've received and react accordingly
             switch (ms) {
                 // If the message is stop, we stop the service and send a message.

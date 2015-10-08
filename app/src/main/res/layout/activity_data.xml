@@ -19,11 +19,12 @@
             android:id="@+id/title"
             android:layout_gravity="left|top" />
 
-        <ListView
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="179dp"
-            android:id="@+id/listView"
+            android:layout_height="135dp"
+            android:id="@+id/Datalist"
             android:layout_gravity="left|center_vertical" />
+
 
         <Button
             style="?android:attr/buttonStyleSmall"

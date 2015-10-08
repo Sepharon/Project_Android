@@ -1,6 +1,7 @@
 package com.iha.group2.dronecontrol;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -42,6 +43,7 @@ public class MapsActivity extends FragmentActivity {
     //boolean ask_camera=false;
     String ip;
 
+    ContentValues values;
     Button forward;
     Button backward;
     Button right;
@@ -313,6 +315,8 @@ public class MapsActivity extends FragmentActivity {
         public void onClick(View v) {
             if (drone.getStatus()) {
                 receive_data("Weather");
+                Toast.makeText(MapsActivity.this, "Data saved on the app", Toast.LENGTH_SHORT).show();
+
             }
         }
     });
@@ -468,6 +472,16 @@ public class MapsActivity extends FragmentActivity {
                     String HUMIDITY = result.split("-")[1];
                     String SPEED = result.split("-")[2];
                     String TEMP = result.split("-")[3];
+
+                    values = new ContentValues();
+
+                    values.put(SQL_IP_Data_Base.DateTime, "date");
+                    values.put(SQL_IP_Data_Base.GPS, GPS);
+                    values.put(SQL_IP_Data_Base.Humidity, HUMIDITY);
+                    values.put(SQL_IP_Data_Base.Speed, SPEED);
+                    values.put(SQL_IP_Data_Base.Temperature, TEMP);
+
+                    getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_DATA, values);
                     Log.v("Map Activity: ", result);
                     Log.v("Map Activity: ", "GPS: " + GPS);
                     Log.v("Map Activity: ", "HUMI: " + HUMIDITY);

@@ -69,6 +69,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
     static int DATABASE_VERSION = 1;
 
     static final String _ID = "_id";
+    static final String _ID2 = "_id2";
     static final String DATABASE_NAME= "database.db";
 
     static final String IP = "IP";
@@ -86,7 +87,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
 
     static final String TABLE_NAMEDATA = "Data";
     public static String CREATE_DATA_TABLE = "CREATE TABLE " + TABLE_NAMEDATA
-            + "(id INTEGER PRIMARY KEY, DateTime TEXT, GPS TEXT, Humidity TEXT, Speed TEXT, Temperature TEXT)";
+            + "(_id2 INTEGER PRIMARY KEY, DateTime TEXT, GPS TEXT, Humidity TEXT, Speed TEXT, Temperature TEXT)";
 
 
 
@@ -133,7 +134,7 @@ public class SQL_IP_Data_Base extends ContentProvider {
                 break;
             case SINGLE_ROW_DATA:
                 String id2 = uri.getPathSegments().get(1);
-                affected_rows = db.delete(TABLE_NAMEDATA, _ID +  " = " + id2 +
+                affected_rows = db.delete(TABLE_NAMEDATA, _ID2 +  " = " + id2 +
                         (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
             case ALL_ROWS_DATA:
@@ -198,31 +199,44 @@ public class SQL_IP_Data_Base extends ContentProvider {
 
         SQLiteQueryBuilder qdb = new SQLiteQueryBuilder();
 
-        qdb.setTables(TABLE_NAMEIP);
+        //qdb.setTables(TABLE_NAMEIP);
+
+
         Log.v("CP","QUERY");
         switch (uriMatcher.match(uri)){
             // Selecting rows
             case ALL_ROWS_IP:
                 Log.v("CP","all_rows");
+                qdb.setTables(TABLE_NAMEIP);
                 qdb.setProjectionMap(hash_values);
+                // Sorting by id
+                if (sortOrder ==  null || sortOrder.equals("")) sortOrder=_ID;
                 break;
             case SINGLE_ROW_IP:
                 Log.v("CP","single_rows");
+                qdb.setTables(TABLE_NAMEIP);
                 qdb.appendWhere( _ID + "=" +uri.getPathSegments().get(1));
+                // Sorting by id
+                if (sortOrder ==  null || sortOrder.equals("")) sortOrder=_ID;
                 break;
             case ALL_ROWS_DATA:
                 Log.v("CP","all_rows");
+                qdb.setTables(TABLE_NAMEDATA);
                 qdb.setProjectionMap(hash_values);
+                // Sorting by id
+                if (sortOrder ==  null || sortOrder.equals("")) sortOrder=_ID2;
                 break;
             case SINGLE_ROW_DATA:
                 Log.v("CP","single_rows");
-                qdb.appendWhere( _ID + "=" +uri.getPathSegments().get(1));
+                qdb.setTables(TABLE_NAMEDATA);
+                qdb.appendWhere( _ID2 + "=" +uri.getPathSegments().get(1));
+                // Sorting by id
+                if (sortOrder ==  null || sortOrder.equals("")) sortOrder=_ID2;
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
-        // Sorting by id
-        if (sortOrder ==  null || sortOrder.equals("")) sortOrder=_ID;
+
         // Starting query
         Cursor c = qdb.query(db,projection,selection,selectionArgs,null,null,sortOrder);
         c.setNotificationUri(getContext().getContentResolver(),uri);

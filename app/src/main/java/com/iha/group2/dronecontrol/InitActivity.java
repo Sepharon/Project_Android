@@ -177,6 +177,15 @@ public class InitActivity extends AppCompatActivity {
                 drone.setStatus(true);
             }
         });
+        data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    Intent third_act = new Intent(InitActivity.this, DataActivity.class);
+                    startActivity(third_act);
+
+            }
+        });
     }
 
     @Override
