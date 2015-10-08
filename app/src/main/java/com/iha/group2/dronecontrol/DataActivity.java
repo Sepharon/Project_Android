@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,10 +62,10 @@ public class DataActivity extends ListActivity {
         DataList = (ListView) findViewById(R.id.Datalist);
 
 
-        save_button.setOnClickListener(new View.OnClickListener() {
+        DataList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onItemClick(AdapterView<?> parent, View view,
+                int position, long id) {
                 if (isExternalStorageWritable()) {
                     try {
                         File file = new File("/weatherdata.txt"); // définir l'arborescence
@@ -71,7 +73,7 @@ public class DataActivity extends ListActivity {
                         FileWriter filewriter = new FileWriter(file);
                         filewriter.write("******");
                         filewriter.write("\n");
-                        filewriter.write(DataList.getText().toString());
+                        filewriter.write(DataList.getItemAtPosition(position).toString());
                         filewriter.write("\n");
                         filewriter.close();
                     } catch (Exception e) {
