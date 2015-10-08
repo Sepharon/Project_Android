@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -98,14 +100,23 @@ public class DataActivity extends ListActivity {
                      */
                     if (isExternalStorageWritable()) {
                         try {
-                            File file = new File("//weatherdata.txt"); // définir l'arborescence
-                            file.createNewFile();
-                            FileWriter filewriter = new FileWriter(file);
+                            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                            File file = new File(path,"weatherdata.txt"); // définir l'arborescence
+
+                            if (!file.exists()) {
+                                file.createNewFile();
+                                Log.v("Data","file created");
+                            }
+
+                            FileWriter filewriter = new FileWriter(file,true);
                             filewriter.write("******");
                             filewriter.write("\n");
                             filewriter.write(item.toString());
                             filewriter.write("\n");
                             filewriter.close();
+                            Log.v("DataActivity:", "" + file.getAbsolutePath());
+                            Log.v("DataActivity:","asdas");
+                            Log.v("DataActivity item:",""+ item.toString());
                         } catch (Exception e) {
                         }
                     } else {

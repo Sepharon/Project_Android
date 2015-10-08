@@ -55,8 +55,7 @@ public class UDP_Receiver extends Service {
             // Handshake message from InitActivity
             case "connect":
                 try {
-                    msg = get_msg(ip, action, UDP_port);
-                    Log.v("Service:", "Msg = " + msg);
+                    get_msg(ip, action, UDP_port);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -106,7 +105,7 @@ public class UDP_Receiver extends Service {
 
 
     //It sends data and processes the received message
-    public String get_msg (String ip, String msg, int port) throws IOException{
+    public String get_msg (final String ip, final String msg, final int port) throws IOException{
         /*
         Variables declaration
          */
