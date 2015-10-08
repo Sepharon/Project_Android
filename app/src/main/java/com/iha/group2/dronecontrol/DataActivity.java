@@ -1,47 +1,31 @@
 package com.iha.group2.dronecontrol;
 
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-/**
- * Created by sophie on 05/10/2015.
- */
 public class DataActivity extends ListActivity {
 
     List<String> list = new ArrayList<>();
-    Button save_button;
-    ListView DataList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,37 +36,9 @@ public class DataActivity extends ListActivity {
 
         //it setups the ArrayAdapter with the result from the function getAllEntries
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.activity_data, R.id.Datalist, list);
+                R.layout.activity_data, R.id.listView2, list);
         setListAdapter(adapter);
 
-        setContentView(R.layout.activity_data);
-
-
-        save_button = (Button) findViewById(R.id.button_save_txt);
-        DataList = (ListView) findViewById(R.id.Datalist);
-
-
-        DataList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                int position, long id) {
-                if (isExternalStorageWritable()) {
-                    try {
-                        File file = new File("/weatherdata.txt"); // définir l'arborescence
-                        file.createNewFile();
-                        FileWriter filewriter = new FileWriter(file);
-                        filewriter.write("******");
-                        filewriter.write("\n");
-                        filewriter.write(DataList.getItemAtPosition(position).toString());
-                        filewriter.write("\n");
-                        filewriter.close();
-                    } catch (Exception e) {
-                    }
-                } else {
-                    Toast.makeText(DataActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
 
@@ -118,6 +74,60 @@ public class DataActivity extends ListActivity {
         }
         c.close();
 
+    }
+
+    //When an item is clicked, it shows a dialog to Delete the item selected and then it deletes by querying with the IP value
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        //get the item clicked
+        final String item = (String) getListAdapter().getItem(position);
+        //options that would appear when you click
+        CharSequence options[] = new CharSequence[]{"Save"};
+
+        //new Dialog
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) { //delete option
+                    /*when you click, you will get
+                    item = "IP: 192.168.0.0"
+                    we want to split it by ": " to get IP or 192.168.0.0
+                    and then we want to delete from the database with the second value of the string (192.168.0.0)
+                    finally, reload the activity to show the new items from the database
+                     */
+                    if (isExternalStorageWritable()) {
+                        try {
+                            File file = new File("//weatherdata.txt"); // définir l'arborescence
+                            file.createNewFile();
+                            FileWriter filewriter = new FileWriter(file);
+                            filewriter.write("******");
+                            filewriter.write("\n");
+                            filewriter.write(item.toString());
+                            filewriter.write("\n");
+                            filewriter.close();
+                        } catch (Exception e) {
+                        }
+                    } else {
+                        Toast.makeText(DataActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+
+                    String[] args = {"date"};
+                    getContentResolver().delete(SQL_IP_Data_Base.CONTENT_URI_DATA, "DateTime=?", args);
+                    reload();
+                }
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+    }
+
+    //It refresh the activity to show the new contents of the database
+    public void reload() {
+        Intent reload = new Intent(this, DataActivity.class);
+        startActivity(reload);
+        this.finish();
     }
 }
 
