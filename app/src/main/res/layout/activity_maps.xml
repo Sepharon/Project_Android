@@ -56,7 +56,7 @@
         android:layout_toEndOf="@+id/left"
         android:layout_marginBottom="5dp" />
 
-    <Button
+    <!--<Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,8 +75,7 @@
         android:background="@drawable/down"
         android:layout_above="@+id/take_photo"
         android:layout_toLeftOf="@+id/more_button"
-        android:layout_toStartOf="@+id/more_button" />
-
+        android:layout_toStartOf="@+id/more_button" /> -->
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"

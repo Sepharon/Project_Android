@@ -2,6 +2,7 @@ package com.iha.group2.dronecontrol;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -17,9 +18,11 @@ http://developer.android.com/reference/android/webkit/WebView.html
 public class Streaming_camera extends AppCompatActivity {
 
     //Some initializations
-    static final String url = "http://10.37.1.129:8080/browserfs.html";
+    static final String url = "http://192.168.43.251:8080/browserfs.html";
     RelativeLayout layout;
     WebView browser;
+    int sX;
+    int sY;
 
     //it configures the WebView and loads the url
     @Override
@@ -35,10 +38,12 @@ public class Streaming_camera extends AppCompatActivity {
             es.printStackTrace();
         }
 
+        sX=640;
+        sY=480;
         // Setting up WebView
         browser = (WebView) findViewById(R.id.webView);
         layout = (RelativeLayout)findViewById(R.id.stream_layout);
-        browser.setInitialScale(25);
+        browser.setInitialScale(getScale());
         browser.getSettings().setLoadWithOverviewMode(true);
         browser.getSettings().setUseWideViewPort(true);
         browser.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
@@ -63,5 +68,15 @@ public class Streaming_camera extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //hide navigation bar
                             | View.SYSTEM_UI_FLAG_FULLSCREEN //hide status bar
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+    }
+
+    private int getScale() {
+        DisplayMetrics size = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(size);
+        Double val = new Double(size.widthPixels) / new Double(sX);
+        Double val2 = new Double(size.heightPixels) / new Double(sY);
+        val = Math.min(val, val2);
+        val = val * 100d;
+        return val.intValue();
     }
 }

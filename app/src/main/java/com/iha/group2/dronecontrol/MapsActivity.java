@@ -51,8 +51,8 @@ public class MapsActivity extends FragmentActivity {
     Button backward;
     Button right;
     Button left;
-    Button up;
-    Button down;
+    //Button up;
+    //Button down;
     Button less_v;
     Button more_v;
     Button photo;
@@ -101,8 +101,8 @@ public class MapsActivity extends FragmentActivity {
         right = (Button) findViewById(R.id.right);
         left = (Button) findViewById(R.id.left);
 
-        up = (Button) findViewById(R.id.up_bt);
-        down = (Button) findViewById(R.id.down);
+        //up = (Button) findViewById(R.id.up_bt);
+        //down = (Button) findViewById(R.id.down);
 
         photo = (Button) findViewById(R.id.take_photo);
         save = (Button) findViewById(R.id.save_button);
@@ -191,40 +191,6 @@ public class MapsActivity extends FragmentActivity {
                         Log.v("forwardButton", "actionDOWN");
                         isPressed = true;
                         moving("L");
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        Log.v("forwardButton", "actionReleased");
-                        isPressed = false;
-                        t_move.interrupt();
-                    }
-                }
-                return false;
-            }
-        });
-        up.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (drone.getStatus()) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        Log.v("forwardButton", "actionDOWN");
-                        isPressed = true;
-                        moving("U");
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        Log.v("forwardButton", "actionReleased");
-                        isPressed = false;
-                        t_move.interrupt();
-                    }
-                }
-                return false;
-            }
-        });
-        down.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (drone.getStatus()) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        Log.v("forwardButton", "actionDOWN");
-                        isPressed = true;
-                        moving("D");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
                         Log.v("forwardButton", "actionReleased");
                         isPressed = false;

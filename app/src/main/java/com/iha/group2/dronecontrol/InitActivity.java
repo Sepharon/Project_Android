@@ -28,6 +28,7 @@ then you can press ON to go to MapsActivity.
  */
 
 
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -82,7 +83,6 @@ public class InitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
-
         // Register Receiver
         filter = new IntentFilter("init");
         receiver = new MyReceiver();
