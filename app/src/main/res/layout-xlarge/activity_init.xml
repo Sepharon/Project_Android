@@ -7,23 +7,22 @@
 
     <AutoCompleteTextView
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
+        android:layout_height="50dp"
         android:id="@+id/ip_field"
         android:hint="@string/hint_ip"
         android:background="@null"
-        android:layout_above="@+id/button_con"
+        android:textSize="40dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="126dp"
-        android:textSize="50dp" />
+        android:layout_marginTop="139dp" />
 
     <Button
-        android:layout_width="250dp"
-        android:layout_height="75dp"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:text="@string/connect_button"
         android:id="@+id/button_con"
         android:textColor="#ffffff"
         android:background="@drawable/connect"
-        android:textSize="50sp"
+        android:textSize="30dp"
         android:layout_marginBottom="94dp"
         android:layout_above="@+id/button_data"
         android:layout_alignParentLeft="true"
@@ -32,39 +31,29 @@
         android:layout_marginStart="110dp" />
 
     <Button
-        android:layout_width="125dp"
-        android:layout_height="75dp"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
         android:text="@string/on_button"
         android:id="@+id/button_on"
         android:textColor="#ffffff"
         android:background="@drawable/on"
-        android:textSize="50dp"
+        android:textSize="30dp"
         android:layout_alignTop="@+id/button_con"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="120dp"
         android:layout_marginEnd="120dp" />
 
-    <TextView
-        android:layout_width="325dp"
-        android:layout_height="75dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/app_name"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="50dp" />
-
     <Button
-        android:layout_width="150dp"
-        android:layout_height="75dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:text="@string/data_button"
         android:id="@+id/button_data"
         android:textColor="#ffffff"
         android:background="@drawable/data"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textSize="45dp" />
+        android:textSize="30dp" />
 
 
 </RelativeLayout>

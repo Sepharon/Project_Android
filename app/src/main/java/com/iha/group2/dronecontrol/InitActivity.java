@@ -146,7 +146,7 @@ public class InitActivity extends AppCompatActivity {
                 // Store IP to database
                 try {
                     values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
-                    getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI, values);
+                    getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_IP, values);
                 } catch (SQLException se) { //if it is repeated, an exception will occur and we don't want the app to crash
                     se.printStackTrace();
                 }
@@ -251,7 +251,7 @@ public class InitActivity extends AppCompatActivity {
     // Gets all entries from the SQL database, it stores it in a String[].
     public String[] getAllEntries(){
         //this URL refers to the content provider
-        String URL = "content://com.example.group13.provider.IPs/db";
+        String URL = "content://com.example.group13.provider.DB/ip";
         Uri notesText = Uri.parse(URL);
         //it creates a cursor with the result of the query
         Cursor c = getContentResolver().query(notesText, null, null, null, null);

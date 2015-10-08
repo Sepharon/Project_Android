@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -86,7 +84,7 @@ public class ListIPs extends ListActivity{
                      */
                     String[] ip = item.split(": ");
                     String[] args = new String[]{ip[1]};
-                    getContentResolver().delete(SQL_IP_Data_Base.CONTENT_URI, "IP=?", args);
+                    getContentResolver().delete(SQL_IP_Data_Base.CONTENT_URI_IP, "IP=?", args);
                     reload();
                 }
             }
@@ -107,7 +105,7 @@ public class ListIPs extends ListActivity{
     // IP: ip_from_database.
     public void getAllEntries(){
         //it refers to the content provider
-        String URL = "content://com.example.group13.provider.IPs/db";
+        String URL = "content://com.example.group13.provider.DB/ip";
 
         Uri notesText = Uri.parse(URL);
         //it creates a cursor that query the database and get all the values

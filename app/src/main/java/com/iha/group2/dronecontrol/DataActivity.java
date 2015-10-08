@@ -62,7 +62,6 @@ public class DataActivity extends AppCompatActivity {
             public File getFileStorageDir(String fileName) {
                 // Get the directory for the user's public pictures directory.
                 File file = new File(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES), fileName);
                 if (!file.mkdirs()) {
                     Log.e("Error : ", "Directory not created");
                 }
@@ -70,6 +69,7 @@ public class DataActivity extends AppCompatActivity {
             }
         });
 
+        Environment.DIRECTORY_PICTURES), fileName);
 
 
 
