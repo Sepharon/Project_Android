@@ -20,7 +20,7 @@
             android:id="@+id/button_save_txt"
             android:layout_gravity="right|bottom" />
 
-        <TextView
+        <ListView
             android:layout_width="426dp"
             android:layout_height="205dp"
             android:id="@+id/Datalist"
