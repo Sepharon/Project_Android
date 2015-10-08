@@ -25,6 +25,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /*REFERENCE:
 https://developer.android.com/training/system-ui/immersive.html
@@ -404,7 +407,7 @@ public class MapsActivity extends FragmentActivity {
         // Move camera to new position
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 1));
         // Change zoom factor if needed
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(14.0f).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(7.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         mMap.moveCamera(cameraUpdate);
     }
@@ -470,6 +473,9 @@ public class MapsActivity extends FragmentActivity {
                     }
                     break;
                 case 4:
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss:ms");
+                    String ts = sdf.format(new Date());
+
                     String GPS = result.split("-")[0];
                     String HUMIDITY = result.split("-")[1];
                     String SPEED = result.split("-")[2];
@@ -477,7 +483,7 @@ public class MapsActivity extends FragmentActivity {
 
                     values = new ContentValues();
 
-                    values.put(SQL_IP_Data_Base.DateTime, "date");
+                    values.put(SQL_IP_Data_Base.DateTime, ts);
                     values.put(SQL_IP_Data_Base.GPS, GPS);
                     values.put(SQL_IP_Data_Base.Humidity, HUMIDITY);
                     values.put(SQL_IP_Data_Base.Speed, SPEED);

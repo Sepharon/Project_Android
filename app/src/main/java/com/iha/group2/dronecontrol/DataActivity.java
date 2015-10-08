@@ -123,7 +123,9 @@ public class DataActivity extends ListActivity {
                         Toast.makeText(DataActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
 
-                    String[] args = {"date"};
+                    String[] parts = item.split("\n");
+                    String[] date = parts[0].split(": ");
+                    String[] args = new String[]{date[1]};
                     getContentResolver().delete(SQL_IP_Data_Base.CONTENT_URI_DATA, "DateTime=?", args);
                     reload();
                 }
