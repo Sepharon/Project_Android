@@ -89,6 +89,14 @@ public class UDP_Receiver extends Service {
                 }
                 drone.setStatus(false);
                 stopSelf();
+            // Weather data request from MapsActivity
+            case "Weather":
+                try {
+                    get_msg(ip, action, UDP_port);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             // Default response
             default:
                 Log.v("Service Receiver:", "Unknown Action " + action);
@@ -149,6 +157,9 @@ public class UDP_Receiver extends Service {
                 // Hand Shake message
                 case "alive":
                     broadcast_toInit(rec_msg, 0);
+                    break;
+                case "GPS-Humidity-Speed-Temp-":
+                    broadcast_result(rec_msg, 4);
                     break;
                 default:
                     broadcast_result(rec_msg, 0);

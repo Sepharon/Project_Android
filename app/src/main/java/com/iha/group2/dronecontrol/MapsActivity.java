@@ -39,7 +39,7 @@ public class MapsActivity extends FragmentActivity {
     //Some initializations
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     Marker marker;
-    boolean ask_camera=false;
+    //boolean ask_camera=false;
     String ip;
 
     Button forward;
@@ -308,7 +308,14 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
-
+    save.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (drone.getStatus()) {
+                receive_data("Weather");
+            }
+        }
+    });
 
         // It gets the current position of the drone on create the activity
         receive_data("GPS");
@@ -456,6 +463,17 @@ public class MapsActivity extends FragmentActivity {
                         restore=false;
                     }
                     break;
+                case 4:
+                    String GPS = result.split("-")[0];
+                    String HUMIDITY = result.split("-")[1];
+                    String SPEED = result.split("-")[2];
+                    String TEMP = result.split("-")[3];
+                    Log.v("Map Activity: ", result);
+                    Log.v("Map Activity: ", "GPS: " + GPS);
+                    Log.v("Map Activity: ", "HUMI: " + HUMIDITY);
+                    Log.v("Map Activity: ", "SPEED: " + SPEED);
+                    Log.v("Map Activity: ", "TEMP: " + TEMP);
+
                 default:
                     Log.v("Map Activity:","Unknown action = " +action);
             }

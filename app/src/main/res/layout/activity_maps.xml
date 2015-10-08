@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/backward"
-
+        android:background="@drawable/backward"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/left"
         android:layout_toEndOf="@+id/left"

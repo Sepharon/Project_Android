@@ -33,11 +33,10 @@ public class DataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data);
 
 
-
         Button save_button = (Button) findViewById(R.id.save_button);
 
 
-        save_button.setOnClickListener(new View.OnClickListener() {
+        /*save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Date date = new Date();
@@ -48,9 +47,10 @@ public class DataActivity extends AppCompatActivity {
                 }
 
             }
+        }
 
 
-            /* Checks if external storage is available for read and write */
+            Checks if external storage is available for read and write
             public boolean isExternalStorageWritable() {
                 String state = Environment.getExternalStorageState();
                 if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -61,7 +61,7 @@ public class DataActivity extends AppCompatActivity {
 
             public File getFileStorageDir(String fileName) {
                 // Get the directory for the user's public pictures directory.
-                File file = new File(Environment.getExternalStoragePublicDirectory(
+                //File file = new File(Environment.getExternalStoragePublicDirectory(
                 if (!file.mkdirs()) {
                     Log.e("Error : ", "Directory not created");
                 }
@@ -69,10 +69,7 @@ public class DataActivity extends AppCompatActivity {
             }
         });
 
-        Environment.DIRECTORY_PICTURES, fileName);
-
-
-
+        Environment.DIRECTORY_PICTURES, fileName);*/
     }
 }
 
