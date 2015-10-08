@@ -316,8 +316,8 @@ public class MapsActivity extends FragmentActivity {
             if (drone.getStatus()) {
                 receive_data("Weather");
                 Toast.makeText(MapsActivity.this, "Data saved on the app", Toast.LENGTH_SHORT).show();
-
             }
+            Toast.makeText(MapsActivity.this, "Error", Toast.LENGTH_SHORT).show();
         }
     });
 
