@@ -39,11 +39,11 @@ public class DataActivity extends ListActivity {
 
     List<String> list = new ArrayList<>();
     Button save_button;
-    TextView DataList;
+    ListView DataList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_data);
+
 
         //get entries from the database
         getAllEntries();
@@ -53,9 +53,11 @@ public class DataActivity extends ListActivity {
                 R.layout.activity_data, R.id.Datalist, list);
         setListAdapter(adapter);
 
+        setContentView(R.layout.activity_data);
+
 
         save_button = (Button) findViewById(R.id.button_save_txt);
-        DataList = (TextView) findViewById(R.id.Datalist);
+        DataList = (ListView) findViewById(R.id.Datalist);
 
 
         save_button.setOnClickListener(new View.OnClickListener() {
@@ -82,15 +84,14 @@ public class DataActivity extends ListActivity {
     }
 
 
-
-            //Checks if external storage is available for read and write
-            public boolean isExternalStorageWritable() {
-                String state = Environment.getExternalStorageState();
-                if (Environment.MEDIA_MOUNTED.equals(state)) {
-                    return true;
-                }
-                return false;
-            }
+   //Checks if external storage is available for read and write
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
 
 
     //This functions make a query to get all the entries from the SQLite Database and it stores it in a List in this way:
