@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_text">Aquesta aplicació ha sigut creada pel grup 13 pel projecte de ITSMAP.\n\nTots els membres són estudiants internacionals amb aquestes IDs:\n201501754\n201501579\n201501349\n\nAquesta aplicació és part d\'un altre gran projecte  pel curs ITIPRJ. Consisteix en controlar un drone  fent servir un dispositiu Android.\nEl principal propòsit d\'aquesta app és enviar missatges i tractar missatges rebuts del microcontrolador, el qual es responsable de monitoritzar el drone enviant senyals PWM depenen de la decisió de l\'usuari.\n\nAquesta app pot controlar el drone enviant missatges via WiFi utilitzant el protocol UDP, a més pot rebre la localització actual del drone per dibuixar el mapa, amb l\'ajuda de Google Maps, fent servir un marcador mostrant la posició actual. A més, la direcció, velocitat i rotació  del drone estan implimentats amb butons i el nivell (amunt i avall) d\'aquest hem fet servir el accelerometre del dispositiu.</string>
+    <string name="hint_ip">Escriu la IP de l\'Arduino</string>
+</resources>

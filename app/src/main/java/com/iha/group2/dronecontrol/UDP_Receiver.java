@@ -158,7 +158,8 @@ public class UDP_Receiver extends Service {
                 case "alive":
                     broadcast_toInit(rec_msg, 0);
                     break;
-                case "GPS-Humidity-Speed-Temp-":
+                //send weather data
+                case "Weather":
                     broadcast_result(rec_msg, 4);
                     break;
                 default:

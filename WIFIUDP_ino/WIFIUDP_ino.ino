@@ -15,8 +15,8 @@ https://www.arduino.cc/en/Tutorial/WiFiSendReceiveUDPString
 
 
 int status = WL_IDLE_STATUS;
-char ssid[] = "Xperia Z2_fb51"; //  your network SSID (name) 
-char pass[] = "8b2d2f30c285";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "Romesco wifi"; //  your network SSID (name) 
+char pass[] = "marinasilvia";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
 unsigned int localPort = 8888;      // local port to listen on
@@ -172,7 +172,7 @@ void loop() {
     else if (packetBuffer[0]=='W' && packetBuffer[1]=='e' && packetBuffer[2]=='a' && packetBuffer[3]=='t' && packetBuffer[4]=='h' && packetBuffer[5]=='e' && packetBuffer[6]=='r'){
       // send a reply, to the IP address and port that sent us the packet we received
       Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-      Udp.write("GPS-Humidity-Speed-Temp-\n");
+      Udp.write("Weather\n50.1-20.1-\n80\n5.1\n13\n");//GPS-Humidity-Speed-Temp
       Udp.endPacket();
       Serial.println("WEATHER");
     }

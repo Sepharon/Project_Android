@@ -11,7 +11,7 @@
         android:id="@+id/ip_field"
         android:hint="@string/hint_ip"
         android:background="@null"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="139dp" />
 
@@ -22,7 +22,7 @@
         android:id="@+id/button_con"
         android:textColor="#ffffff"
         android:background="@drawable/connect"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginBottom="94dp"
         android:layout_above="@+id/button_data"
         android:layout_alignParentLeft="true"
@@ -37,7 +37,7 @@
         android:id="@+id/button_on"
         android:textColor="#ffffff"
         android:background="@drawable/on"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_alignTop="@+id/button_con"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -53,7 +53,7 @@
         android:background="@drawable/data"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
 
 </RelativeLayout>

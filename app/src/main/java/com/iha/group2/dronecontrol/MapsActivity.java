@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Date;
 
 
@@ -94,6 +94,7 @@ public class MapsActivity extends FragmentActivity {
 
         //Get Drone IP
         ip=drone.getIP();
+        drone.setStatus(true);
 
         //get some buttons ID
         forward = (Button) findViewById(R.id.forward);
@@ -279,18 +280,19 @@ public class MapsActivity extends FragmentActivity {
             }
         });
 
-    save.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (drone.getStatus()) {
-                receive_data("Weather");
-                Toast.makeText(MapsActivity.this, "Data saved on the app", Toast.LENGTH_SHORT).show();
+
+        //This listener request for weather data
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drone.getStatus()) {
+                    receive_data("Weather");
+                    Toast.makeText(MapsActivity.this, "Data saved on the app", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MapsActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
             }
-            else {
-                Toast.makeText(MapsActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        }
-    });
+        });
 
         // It gets the current position of the drone on create the activity
         receive_data("GPS");
@@ -438,15 +440,23 @@ public class MapsActivity extends FragmentActivity {
                         restore=false;
                     }
                     break;
+                //weather data received
                 case 4:
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss:ms");
-                    String ts = sdf.format(new Date());
+                    /*
+                    It receives the data this way:
+                    Weather\n50.1-20.1-\n80\n5.1\n20\n (GPS/Humidity/Speed/Temperature)
+                    so we want to split to \n
+                     */
+                    //get current date and time
+                    String ts = DateFormat.getDateTimeInstance().format(new Date());
 
-                    String GPS = result.split("-")[0];
-                    String HUMIDITY = result.split("-")[1];
-                    String SPEED = result.split("-")[2];
-                    String TEMP = result.split("-")[3];
+                    //split the result
+                    String GPS = result.split("\n")[1];
+                    String HUMIDITY = result.split("\n")[2];
+                    String SPEED = result.split("\n")[3];
+                    String TEMP = result.split("\n")[4];
 
+                    //create new content values to store in the database
                     values = new ContentValues();
 
                     values.put(SQL_IP_Data_Base.DateTime, ts);
@@ -455,6 +465,7 @@ public class MapsActivity extends FragmentActivity {
                     values.put(SQL_IP_Data_Base.Speed, SPEED);
                     values.put(SQL_IP_Data_Base.Temperature, TEMP);
 
+                    //insert to the database
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_DATA, values);
                     Log.v("Map Activity: ", result);
                     Log.v("Map Activity: ", "GPS: " + GPS);

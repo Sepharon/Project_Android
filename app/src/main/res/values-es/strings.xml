@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_text">Ésta aplicación ha sido creada por el grupo 13 para el proyecto de ITSMAP.\n\nTodos los miembros son estudiantes internacionales con éstas IDs:\n201501754\n201501579\n201501349\n\nÉsta aplicación es parte de otro gran proyecto para el curso ITIPRJ. Consiste en controlar un drone con un dispositivo Android.\nEl principal proposito de esta app es enviar mensajes y tratar mensages recibidos del microcontrolador, el cual es responsable de monitorizar el drone enviando señales PWM dependiendo de la decisión del usuario.\n\nÉsta app puede controlar el drone enviando mensages via WiFi utilitzando el protocolo UDP, además puede recibir la localitzación actual del drone para dibujar el mapa, con la ayuda de Google Maps, con un marcador mostrando la posición actual. Además, la dirección, velocidad y rotación  del drone estan implimentados con botones y el nivel (arriba o abajo) de éste hemos utilizado el accelerometro del dispositivo.</string>
+    <string name="hint_ip">Escribe la IP del Arduino</string>
+</resources>
