@@ -8,15 +8,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -24,6 +20,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+This class extends a ListActivity.
+It shows the values stored in the database and it allows to save an item to a .txt file when you click it
+ */
 
 public class DataActivity extends ListActivity {
 
@@ -47,10 +48,7 @@ public class DataActivity extends ListActivity {
    //Checks if external storage is available for read and write
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return (Environment.MEDIA_MOUNTED.equals(state));
     }
 
 
@@ -63,14 +61,14 @@ public class DataActivity extends ListActivity {
         Uri notesText = Uri.parse(URL);
         //it creates a cursor that query the database and get all the values
         Cursor c = getContentResolver().query(notesText, null, null, null, null);
-        //loop to add to a list the values from the cursor that corresponds to the Data column
+        //loop to add to a list the values from the cursor that corresponds to the Data table
         if (c.moveToFirst()) {
             do {
                 list.add("Date: " + c.getString(c.getColumnIndexOrThrow("DateTime")) +
                         "\nGPS: " + c.getString(c.getColumnIndexOrThrow("GPS")) +
-                        "\nHumidity: " + c.getString(c.getColumnIndexOrThrow("Humidity")) +
-                        "\nSpeed: " + c.getString(c.getColumnIndexOrThrow("Speed")) +
-                        "\nTemperature: " + c.getString(c.getColumnIndexOrThrow("Temperature")));
+                        "\nHumidity: " + c.getString(c.getColumnIndexOrThrow("Humidity")) + "%"+
+                        "\nSpeed: " + c.getString(c.getColumnIndexOrThrow("Speed")) + "km/h"+
+                        "\nTemperature: " + c.getString(c.getColumnIndexOrThrow("Temperature")) +"ºC");
 
             } while (c.moveToNext());
         }
@@ -93,9 +91,9 @@ public class DataActivity extends ListActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) { //delete option
                     /*when you click, you will get
-                    item = "IP: 192.168.0.0"
-                    we want to split it by ": " to get IP or 192.168.0.0
-                    and then we want to delete from the database with the second value of the string (192.168.0.0)
+                    item = "Date: 2015-01-12\n GPS: 50.1-20.1-\n Humidity: 80%\n Speed: 5.1km\nTemperature: 20ºC\n"
+                    we want to split it by "\n" and then ": " to get the values
+                    then it stores the selected item to the file, delete it from the database and
                     finally, reload the activity to show the new items from the database
                      */
                     if (isExternalStorageWritable()) {
@@ -111,13 +109,14 @@ public class DataActivity extends ListActivity {
                             FileWriter filewriter = new FileWriter(file,true);
                             filewriter.write("******");
                             filewriter.write("\n");
-                            filewriter.write(item.toString());
+                            filewriter.write(item);
                             filewriter.write("\n");
                             filewriter.close();
                             Log.v("DataActivity:", "" + file.getAbsolutePath());
                             Log.v("DataActivity:","asdas");
-                            Log.v("DataActivity item:",""+ item.toString());
+                            Log.v("DataActivity item:",""+ item);
                         } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     } else {
                         Toast.makeText(DataActivity.this, "Error", Toast.LENGTH_SHORT).show();

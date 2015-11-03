@@ -22,7 +22,7 @@
         android:id="@+id/button_con"
         android:textColor="#ffffff"
         android:background="@drawable/connect"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_above="@+id/button_data"
         android:layout_toLeftOf="@+id/ip_field"
         android:layout_toStartOf="@+id/ip_field" />
@@ -34,7 +34,7 @@
         android:id="@+id/button_on"
         android:textColor="#ffffff"
         android:background="@drawable/on"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_marginTop="44dp"
         android:layout_below="@+id/ip_field"
         android:layout_toRightOf="@+id/ip_field"

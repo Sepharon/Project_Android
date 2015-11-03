@@ -17,7 +17,10 @@ http://developer.android.com/reference/android/webkit/WebView.html
 public class Streaming_camera extends AppCompatActivity {
 
     //Some initializations
-    static final String url = "http://10.37.1.129:8080/browserfs.html";
+
+    //url for the IP camera
+    static final String url = "http://192.168.0.105:8080/browserfs.html";
+
     RelativeLayout layout;
     WebView browser;
 
@@ -29,15 +32,14 @@ public class Streaming_camera extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         // Hide ActionBar
-        try{
+        try {
             actionBar.hide();
-        } catch (NullPointerException es){
+        } catch (NullPointerException es) {
             es.printStackTrace();
         }
-
         // Setting up WebView
         browser = (WebView) findViewById(R.id.webView);
-        layout = (RelativeLayout)findViewById(R.id.stream_layout);
+        layout = (RelativeLayout) findViewById(R.id.stream_layout);
         browser.setInitialScale(25);
         browser.getSettings().setLoadWithOverviewMode(true);
         browser.getSettings().setUseWideViewPort(true);
@@ -62,6 +64,7 @@ public class Streaming_camera extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //hide navigation bar
                             | View.SYSTEM_UI_FLAG_FULLSCREEN //hide status bar
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);}
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 }
