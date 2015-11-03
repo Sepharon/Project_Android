@@ -497,7 +497,7 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity: ", "TEMP: " + TEMP);
 
                 default:
-                    Log.v("Map Activity:","Unknown action = " +action);
+                    Log.v("Map Activity:","Unknown result = " +result);
             }
         }
     }

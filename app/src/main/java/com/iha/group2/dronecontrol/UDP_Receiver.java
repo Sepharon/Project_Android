@@ -147,23 +147,30 @@ public class UDP_Receiver extends Service {
             //this variable splits the messages received by \n because the buffer can contain others undesired characters
             String ms = rec_msg.split("\n")[0];
             Log.v("MESSAGEService", ""+ms);
+            String act = ms.split("!")[0];
+            Log.v("act = ",act);
             // Check which message we've received and react accordingly
-            switch (ms) {
+            switch (act) {
                 // If the message is stop, we stop the service and send a message.
                 case "Stop":
-                    broadcast_result(rec_msg, 1);
+                    broadcast_result(act, 1);
                     Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
                     break;
                 // Hand Shake message
                 case "alive":
-                    broadcast_toInit(rec_msg, 0);
+                    broadcast_toInit(act, 0);
                     break;
-                case "GPS-Humidity-Speed-Temp-":
-                    broadcast_result(rec_msg, 4);
+                case "Weather":
+                    String weather_value = ms.split("!")[1];
+                    broadcast_result(weather_value, 4);
+                    break;
+                case "GPS":
+                    String GPS_value = ms.split("!")[1];
+                    Log.v("GPS result: ", GPS_value);
+                    broadcast_result(GPS_value, 0);
                     break;
                 default:
-                    broadcast_result(rec_msg, 0);
-                    break;
+                    broadcast_result(rec_msg, 5);
             }
         }
         // In case of timeout

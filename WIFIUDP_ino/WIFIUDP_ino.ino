@@ -15,8 +15,8 @@ https://www.arduino.cc/en/Tutorial/WiFiSendReceiveUDPString
 
 
 int status = WL_IDLE_STATUS;
-char ssid[] = "AU-Gadget"; //  your network SSID (name) 
-char pass[] = "";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "AndroidAP"; //  your network SSID (name) 
+char pass[] = "holahola";    // your network password (use for WPA, or use as key for WEP)
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 
 unsigned int localPort = 8888;      // local port to listen on
@@ -50,7 +50,7 @@ void setup() {
     Serial.print("Attempting to connect to SSID: ");
     Serial.println(ssid);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:    
-    status = WiFi.begin(ssid);
+    status = WiFi.begin(ssid,pass);
   
     // wait 10 seconds for connection:
     delay(10000);
