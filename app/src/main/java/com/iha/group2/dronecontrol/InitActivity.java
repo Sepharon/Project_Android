@@ -28,7 +28,6 @@ then you can press ON to go to MapsActivity.
  */
 
 
-import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -56,6 +55,7 @@ public class InitActivity extends AppCompatActivity {
      */
     // Checks if connection has been established with Arduino
     boolean state = false;
+    boolean internet_connection = true;
     // Message to send to Arduino for the Handshake
     final String action = "connect";
 
@@ -140,7 +140,7 @@ public class InitActivity extends AppCompatActivity {
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Once clicked, it sends message to Anduino using a service
+                // Once clicked, it sends message to Arduino using a service
                 Toast.makeText(getApplicationContext(), "Sending message to Arduino", Toast.LENGTH_LONG).show();
 
                 // Store IP to database
@@ -152,29 +152,31 @@ public class InitActivity extends AppCompatActivity {
                 }
                 Log.v("Activity One:", "Starting service");
 
-                // Set Drone IP
-                drone.setIP(ip.getText().toString());
-
                 //before sending the message, it checks if the device is connected to a network
                 Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
                 intent.putExtra("value", "");
                 intent.putExtra("action", "Check");
                 startService(intent);
 
-                // This thread starts the service by sending the action "connect", this way it won't block the UI
-                t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                        intent.putExtra("value", "");
-                        intent.putExtra("action", action);
-                        startService(intent);
-                    }
-                });
-                t.start();
+                //Check network status
+                if (internet_connection) {
+                    // Set Drone IP
+                    drone.setIP(ip.getText().toString());
+                    // This thread starts the service by sending the action "connect", this way it won't block the UI
+                    t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
+                            intent.putExtra("value", "");
+                            intent.putExtra("action", action);
+                            startService(intent);
+                        }
+                    });
+                    t.start();
 
-                //If everything was OK, set status of the drone to connected
-                drone.setStatus(true);
+                    //If everything was OK, set status of the drone to connected
+                    drone.setStatus(true);
+                }
             }
         });
         data.setOnClickListener(new View.OnClickListener() {
@@ -232,12 +234,17 @@ public class InitActivity extends AppCompatActivity {
                     Toast.makeText(InitActivity.this, "Connected", Toast.LENGTH_LONG).show();
                     break;
                 // If it is not connected to a network it will display this message
-                case "NoInternet":
+                case "NoConnection":
                     Toast.makeText(InitActivity.this, "No internet connection", Toast.LENGTH_LONG).show();
+                    internet_connection=false;
+                    break;
+                case "Connection":
+                    internet_connection=true;
                     break;
                 // In case of timeout or other messages received
                 default:
                     Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
+                    drone.setStatus(false);
                     break;
             }
             Log.v("Activity one value: ", "" + state);

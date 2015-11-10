@@ -11,6 +11,7 @@
         android:id="@+id/ip_field"
         android:hint="@string/hint_ip"
         android:background="@null"
+        android:imeOptions="actionDone"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="76dp" />

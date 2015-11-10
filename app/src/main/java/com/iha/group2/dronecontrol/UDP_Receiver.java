@@ -69,6 +69,7 @@ public class UDP_Receiver extends Service {
                 }
                 else{
                     broadcast_result("Connection", 3);
+                    broadcast_toInit("Connection", 0);
                 }
                 break;
             // GPS data request from MapsActivity
