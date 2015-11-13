@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but are recommended.
@@ -44,7 +45,7 @@
 
         <provider
             android:name=".SQL_IP_Data_Base"
-            android:authorities="com.example.group13.provider.IPs"
+            android:authorities="com.example.group13.provider.DB"
             android:enabled="true"
             android:exported="true" >
         </provider>
@@ -56,7 +57,8 @@
         <activity
             android:name=".ListIPs"
             android:label="@string/title_activity_list_ips"
-            android:theme="@android:style/Theme.DeviceDefault.Light" >
+            android:theme="@android:style/Theme.DeviceDefault.Light"
+            android:screenOrientation="landscape">
         </activity>
 
         <meta-data
@@ -70,6 +72,15 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="broadcast" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".DataActivity"
+            android:label="@string/title_activity_data"
+            android:screenOrientation="landscape" >
         </activity>
 
         <service
@@ -82,7 +93,7 @@
             android:name=".Streaming_camera"
             android:label="@string/title_activity_streaming_camera"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:theme="@style/Theme.AppCompat.Light" >
         </activity>
 
         <service
@@ -90,6 +101,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
+        </activity>
     </application>
 
 </manifest>

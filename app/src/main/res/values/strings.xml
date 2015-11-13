@@ -1,15 +1,21 @@
 <resources>
-    <string name="app_name">Drone Control</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name" translatable="false">Drone Control</string>
+    <string name="hello_world" translatable="false">Hello world!</string>
+    <string name="action_settings" translatable="false">Settings</string>
     <string name="hint_ip">Write the Arduino IP here</string>
-    <string name="connect_button">Connect</string>
-    <string name="on_button">On</string>
-    <string name="up_button">Up</string>
-    <string name="down_button">Down</string>
-    <string name="streaming">Stream</string>
-    <string name="title_activity_drone_control">DroneControl</string>
-    <string name="title_activity_list_ips">ListIPs</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_streaming_camera">Streaming_camera</string>
+    <string name="connect_button" translatable="false">Connect</string>
+    <string name="data_button" translatable="false">Data</string>
+    <string name="on_button" translatable="false">On</string>
+    <string name="up_button" translatable="false">Up</string>
+    <string name="down_button" translatable="false">Down</string>
+    <string name="streaming" translatable="false">Stream</string>
+    <string name="title_activity_drone_control" translatable="false">Drone Control</string>
+    <string name="title_activity_list_ips" translatable="false">List IPs</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="title_activity_streaming_camera" translatable="false">Streaming</string>
+    <string name="title_activity_about" translatable="false">About</string>
+    <string name="title_activity_data" translatable="false">Weather data</string>
+    <string name="about_text">This application was made by Group 13 for the ITSMAP project.\n\nAll members are international students with these student number IDs:\n201501754\n201501579\n201501349\n\nThis application is part of another big project for the course ITIPRJ. It consists on the control of a Drone using an Android device.\nThe main purpose of this app is to send messages and handle received messages from a Microcontroller, which is responsible of monitoring the Drone by sending PWM signals depending on the user\'s decision.\n\nThis app can monitor the Drone by sending messages via WiFi using UDP protocol, it can also get the current location of the Drone in order to draw a map, with the help from Google Maps, using a marker showing the actual position. Moreover, direction, speed and rotation control of the Drone is implemented with Buttons and the level (up or down) of it we have used the accelerometer sensor from the device.</string>
+    <string name="action_about" translatable="false">About</string>
+    <string name="action_list" translatable="false">List IPs</string>
 </resources>

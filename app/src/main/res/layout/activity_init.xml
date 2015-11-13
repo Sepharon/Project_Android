@@ -11,33 +11,47 @@
         android:id="@+id/ip_field"
         android:hint="@string/hint_ip"
         android:background="@null"
+        android:imeOptions="actionDone"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="76dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:text="@string/connect_button"
         android:id="@+id/button_con"
-        android:layout_marginBottom="51dp"
-        android:layout_alignParentBottom="true"
+        android:textColor="#ffffff"
+        android:background="@drawable/connect"
+        android:textSize="20sp"
+        android:layout_above="@+id/button_data"
         android:layout_toLeftOf="@+id/ip_field"
         android:layout_toStartOf="@+id/ip_field" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
         android:text="@string/on_button"
         android:id="@+id/button_on"
-        android:layout_alignBottom="@+id/button_con"
+        android:textColor="#ffffff"
+        android:background="@drawable/on"
+        android:textSize="20sp"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/ip_field"
         android:layout_toRightOf="@+id/ip_field"
-        android:layout_toEndOf="@+id/ip_field" />
+        android:layout_toEndOf="@+id/ip_field"
+        android:layout_marginLeft="37dp"
+        android:layout_marginStart="37dp" />
 
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:text="@string/data_button"
+        android:id="@+id/button_data"
+        android:textColor="#ffffff"
+        android:background="@drawable/data"
+        android:layout_below="@+id/button_on"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
