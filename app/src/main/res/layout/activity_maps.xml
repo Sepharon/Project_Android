@@ -19,21 +19,19 @@
         android:layout_height="wrap_content"
         android:id="@+id/left"
         android:layout_gravity="left|bottom"
-        android:layout_above="@+id/backward"
-        android:layout_toRightOf="@+id/save_button"
-        android:layout_toEndOf="@+id/save_button"
-        android:background="@drawable/left"/>
+        android:layout_marginLeft="50dp"
+        android:layout_below="@+id/forward"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/forward"
-        android:layout_above="@+id/left"
-        android:layout_toRightOf="@+id/left"
-        android:layout_toEndOf="@+id/left"
-        android:background="@drawable/forward"
-        />
+        android:layout_above="@+id/right"
+        android:layout_toRightOf="@+id/rotate_left_bt"
+        android:layout_marginLeft="65dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -43,18 +41,20 @@
         android:layout_above="@+id/backward"
         android:layout_toRightOf="@+id/backward"
         android:layout_toEndOf="@+id/backward"
-        android:background="@drawable/right"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/backward"
-        android:background="@drawable/backward"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/left"
         android:layout_toEndOf="@+id/left"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -101,19 +101,73 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/rleft"
         android:id="@+id/rotate_left_bt"
-        android:layout_alignTop="@+id/forward"
-        android:layout_alignLeft="@+id/left"
-        android:layout_alignStart="@+id/left" />
+        android:layout_alignBottom="@+id/forward"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="15dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/rright"
         android:id="@+id/rotate_right_bt"
-        android:layout_alignTop="@+id/forward"
-        android:layout_alignRight="@+id/right"
-        android:layout_alignEnd="@+id/right" />
+        android:layout_alignTop="@+id/rotate_left_bt"
+        android:layout_marginLeft="220dp"
+        android:background="@android:color/transparent"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/joystick"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/take_photo"
+        android:layout_toLeftOf="@+id/take_photo"
+        android:layout_marginTop="100dp"
+        android:contentDescription="" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/altitude_string"
+        android:id="@+id/Altitude"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/more_button"
+        android:layout_toStartOf="@+id/more_button"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speed_string"
+        android:id="@+id/Speed"
+        android:layout_above="@+id/Altitude"
+        android:layout_alignLeft="@+id/Altitude"
+        android:layout_alignStart="@+id/Altitude"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/speed_value"
+        android:layout_above="@+id/Altitude"
+        android:layout_toRightOf="@+id/Altitude"
+        android:layout_alignTop="@+id/Speed"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Altitude_value"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/speed_value"
+        android:layout_alignStart="@+id/speed_value"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textStyle="bold" />
 </RelativeLayout>

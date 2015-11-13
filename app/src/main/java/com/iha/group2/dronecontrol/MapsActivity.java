@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -51,14 +54,14 @@ public class MapsActivity extends FragmentActivity {
     Button backward;
     Button right;
     Button left;
-    //Button up;
-    //Button down;
     Button less_v;
     Button more_v;
-    Button photo;
+    Button stream;
     Button save;
     Button RR;
     Button RL;
+    TextView speed_text;
+    TextView Altitude_text;
 
     IntentFilter filter;
     CountDownTimer t;
@@ -105,7 +108,7 @@ public class MapsActivity extends FragmentActivity {
         //up = (Button) findViewById(R.id.up_bt);
         //down = (Button) findViewById(R.id.down);
 
-        photo = (Button) findViewById(R.id.take_photo);
+        stream = (Button) findViewById(R.id.take_photo);
         save = (Button) findViewById(R.id.save_button);
 
         less_v = (Button)findViewById(R.id.less_button);
@@ -113,6 +116,11 @@ public class MapsActivity extends FragmentActivity {
 
         RR = (Button)findViewById(R.id.rotate_right_bt);
         RL = (Button)findViewById(R.id.rotate_left_bt);
+
+        // Get textview
+
+        speed_text = (TextView)findViewById(R.id.speed_value);
+        Altitude_text = (TextView)findViewById(R.id.Altitude_value);
 
         //this one will be used for full screen mode
         layout = (RelativeLayout)findViewById(R.id.map_layout);
@@ -262,7 +270,7 @@ public class MapsActivity extends FragmentActivity {
         that can be running, it cancels the counters for the GPS and network check
          */
 
-        photo.setOnClickListener(new View.OnClickListener() {
+        stream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
@@ -407,17 +415,23 @@ public class MapsActivity extends FragmentActivity {
             switch (action) {
                 // GPS result
                 case 0:
-                    /* Way to send data = 50.2-45.0-
+                    /* Way to send data = GPS!50.2-45.0-Altitude-Speed
                     Thus we need to split the messages
                     with '-'
                     */
                     String lat = result.split("-")[0];
                     String lng = result.split("-")[1];
+                    String alt = result.split("-")[2];
+                    String speed = result.split("-")[3];
                     Log.v("Map Activity: ", result);
                     Log.v("Map Activity: ", "lat: " + lat);
                     Log.v("Map Activity: ", "lng: " + lng);
+                    Log.v("Map Activity: ", "Alt: " + alt);
+                    Log.v("Map Activity: ", "Speed (knots): " + speed);
                     // Create new marker in the new position
                     setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
+                    speed_text.setText(((float) (Float.parseFloat(speed)*0.514444))+" m/s");
+                    Altitude_text.setText(alt+" m");
                     break;
                 // Stop result
                 case 1:
