@@ -45,7 +45,7 @@ public class UDP_Receiver extends Service {
         drone = Drone.getInstance();
         // Get IP from drone class
         ip = drone.getIP();
-        Log.v("UDP_receiver", ip);
+        //Log.v("UDP_receiver", ip);
         // Get action
         final String action = intent.getStringExtra("action");
         Log.v("actionUDP", ""+action);

@@ -415,14 +415,14 @@ public class MapsActivity extends FragmentActivity {
             switch (action) {
                 // GPS result
                 case 0:
-                    /* Way to send data = GPS!50.2-45.0-Altitude-Speed
+                    /* Way to send data = GPS!Lat;Lng;Altitude;Speed;
                     Thus we need to split the messages
-                    with '-'
+                    with ';'
                     */
-                    String lat = result.split("-")[0];
-                    String lng = result.split("-")[1];
-                    String alt = result.split("-")[2];
-                    String speed = result.split("-")[3];
+                    String lat = result.split(";")[0];
+                    String lng = result.split(";")[1];
+                    String alt = result.split(";")[2];
+                    String speed = result.split(";")[3];
                     Log.v("Map Activity: ", result);
                     Log.v("Map Activity: ", "lat: " + lat);
                     Log.v("Map Activity: ", "lng: " + lng);
@@ -458,15 +458,18 @@ public class MapsActivity extends FragmentActivity {
                 case 4:
                     /*
                     It receives the data this way:
-                    Weather!Temps-GPS-Hour (GPS/Humidity/Speed/Temperature)
+                    Weather!GPS;Hour;Temp; (GPS/Humidity/Speed/Temperature)
                     so we want to split to -
                      */
                     Log.v("Map Activity: ", result);
                     //split the result
-                    String TEMP = result.split("-")[0];
-                    String LAT = result.split("-")[1];
-                    String LNG = result.split("-")[2];
-                    String HOUR = result.split("-")[3];
+
+                    String LAT = result.split(";")[0];
+                    String LNG = result.split(";")[1];
+                    String HOUR = result.split(";")[2];
+                    String TEMP = result.split(";")[3];
+
+                    Log.v("HOLAAAA", result);
                     String ts="";
                     for (int i=0;i<HOUR.length();i++){
                         ts+=HOUR.charAt(i);
@@ -480,8 +483,11 @@ public class MapsActivity extends FragmentActivity {
 
                     values.put(SQL_IP_Data_Base.DateTime, ts);
                     values.put(SQL_IP_Data_Base.GPS, LAT+", "+LNG);
-                    values.put(SQL_IP_Data_Base.Temperature, (Float.parseFloat(TEMP))+"");
-
+                    try {
+                        values.put(SQL_IP_Data_Base.Temperature, (Float.parseFloat(TEMP)) + "");
+                    } catch (NumberFormatException es){
+                        values.put(SQL_IP_Data_Base.Temperature, "NS ");
+                    }
                     //insert to the database
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_DATA, values);
                     Log.v("Map Activity: ", result);
