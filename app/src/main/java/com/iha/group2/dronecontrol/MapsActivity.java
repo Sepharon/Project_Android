@@ -306,7 +306,7 @@ public class MapsActivity extends FragmentActivity {
         receive_data("GPS");
 
         // This counter asks for GPS data every 20 seconds
-        t = new CountDownTimer(20000,1000){
+        t = new CountDownTimer(10000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
                 //if (!ask_camera /*&& connected*/ ) {
@@ -458,34 +458,33 @@ public class MapsActivity extends FragmentActivity {
                 case 4:
                     /*
                     It receives the data this way:
-                    Weather\n50.1-20.1-\n80\n5.1\n20\n (GPS/Humidity/Speed/Temperature)
-                    so we want to split to \n
+                    Weather!Temps-GPS-Hour (GPS/Humidity/Speed/Temperature)
+                    so we want to split to -
                      */
-                    //get current date and time
-                    String ts = DateFormat.getDateTimeInstance().format(new Date());
-
+                    Log.v("Map Activity: ", result);
                     //split the result
-                    String GPS = result.split("\n")[1];
-                    String HUMIDITY = result.split("\n")[2];
-                    String SPEED = result.split("\n")[3];
-                    String TEMP = result.split("\n")[4];
+                    String TEMP = result.split("-")[0];
+                    String LAT = result.split("-")[1];
+                    String LNG = result.split("-")[2];
+                    String HOUR = result.split("-")[3];
+                    String ts="";
+                    for (int i=0;i<HOUR.length();i++){
+                        ts+=HOUR.charAt(i);
+                        if (i==1 | i==3) ts+=":";
+                        else if (i==5) break;
+
+                    }
 
                     //create new content values to store in the database
                     values = new ContentValues();
 
                     values.put(SQL_IP_Data_Base.DateTime, ts);
-                    values.put(SQL_IP_Data_Base.GPS, GPS);
-                    values.put(SQL_IP_Data_Base.Humidity, HUMIDITY);
-                    values.put(SQL_IP_Data_Base.Speed, SPEED);
-                    values.put(SQL_IP_Data_Base.Temperature, TEMP);
+                    values.put(SQL_IP_Data_Base.GPS, LAT+","+LNG);
+                    values.put(SQL_IP_Data_Base.Temperature, (Float.parseFloat(TEMP)/16)+"");
 
                     //insert to the database
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_DATA, values);
                     Log.v("Map Activity: ", result);
-                    Log.v("Map Activity: ", "GPS: " + GPS);
-                    Log.v("Map Activity: ", "HUMI: " + HUMIDITY);
-                    Log.v("Map Activity: ", "SPEED: " + SPEED);
-                    Log.v("Map Activity: ", "TEMP: " + TEMP);
 
                 default:
                     Log.v("Map Activity:","Unknown result = " +result);

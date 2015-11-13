@@ -81,13 +81,10 @@ public class SQL_IP_Data_Base extends ContentProvider {
 
     static final String DateTime = "DateTime";
     static final String GPS = "GPS";
-    static final String Humidity = "Humidity";
-    static final String Speed = "Speed";
     static final String Temperature = "Temperature";
-
     static final String TABLE_NAMEDATA = "Data";
     public static String CREATE_DATA_TABLE = "CREATE TABLE " + TABLE_NAMEDATA
-            + "(_id2 INTEGER PRIMARY KEY, DateTime TEXT, GPS TEXT, Humidity TEXT, Speed TEXT, Temperature TEXT)";
+            + "(_id2 INTEGER PRIMARY KEY, DateTime TEXT, GPS TEXT, Temperature TEXT)";
 
 
 

@@ -66,8 +66,6 @@ public class DataActivity extends ListActivity {
             do {
                 list.add("Date: " + c.getString(c.getColumnIndexOrThrow("DateTime")) +
                         "\nGPS: " + c.getString(c.getColumnIndexOrThrow("GPS")) +
-                        "\nHumidity: " + c.getString(c.getColumnIndexOrThrow("Humidity")) + "%"+
-                        "\nSpeed: " + c.getString(c.getColumnIndexOrThrow("Speed")) + "km/h"+
                         "\nTemperature: " + c.getString(c.getColumnIndexOrThrow("Temperature")) +"ºC");
 
             } while (c.moveToNext());
