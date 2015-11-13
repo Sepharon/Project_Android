@@ -2,6 +2,7 @@
 <items version="2" >
 
     <item
+<<<<<<< Updated upstream
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -84,15 +85,100 @@
         revision="23.0.1"
         sha1="325788a04b436a0bccbc5b4c54cf0f12ebdcbd2d">
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/release/classes-91e46d728b950763681ef97c49ba9bbd6435dd4f.jar" />
-    </item>
-    <item
-        jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/classes.jar"
+=======
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
-        <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/release/classes-d8dc07eb86bb691e564e65027f79a1182ac0097e.jar" />
+        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-99f196327a2158eba4e57b5fa490b3b61c143696.jar" />
     </item>
     <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-aff08d9d3bcec2484c1fd3c677480a443652ce0b.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-84d111128ea11ce2a723f00aeb54d16b0b7d7fb2.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcb5b75baf05d92e61d5706737200ee55949f97b">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-3eceb63d2c01b9afc00c02f1491e05a57c836379.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-3ea3f35d86b77dddd1829de2c5d3dbc37daf969c.jar" />
+    </item>
+    <item
+        jar="/home/sergi/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-918536679e5f7992151ddc3ec6b59deedb9170e0.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3c729e6d76a36c5dc27e6a4c4009296f49eaa88a">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-9ada4783d77b2e575c3f31b33e9b1ef951be8b00.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="82825756edeeb3b56b15e73b2edd56e93da5a444">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-b40e04b5f7c31bbce00cde8c2cafcc0344ac75ae.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d61920aba361832a9545a43fa8c9453eb02f18f7">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-d0a2edf4450b40826c3cdc222e53733d07f5d8d6.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3178362320bcf51228835b60ff978efadfd1f783">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-e2a05b006492d74c33679f974cba4fdd1d879b4d.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="95758a2905669affbffc5ddd262921d375674fad">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-b0aa82d9b6a96cf37388f4e804834ac1cc36db48.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d93480da1d303122ee67dc3bc23e6297bdef9951">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-263d2068f8bff1243a6dbc07aa3192875fbfefb4.jar" />
+>>>>>>> Stashed changes
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="97f3b099801a9ad9d70e835b9125273e986eb68d">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-b407dda6675b7f94cd1623d994c27aca1fdaa901.jar" />
+    </item>
+    <item
+<<<<<<< Updated upstream
         jar="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -196,6 +282,111 @@
         revision="23.0.1"
         sha1="9cf8c0ef60847621c7ad00b4f78dbfc9daba4af2">
         <dex dex="/home/silvia/Android Studio/Projects/Project_Android/app/build/intermediates/pre-dexed/release/classes-05caeb511cd506641291d250bd8fee1360878590.jar" />
+=======
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d294caf562c4c678b2ef351662a0ca6f1a4d06c0">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-55c25747087d7a6b543c2ef378b547cad45d2e03.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-9bc64627730a18a41b48cf146ab0cc3d45dcf047.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b92002cb2f0e11a226ac5bac6dff1dc2a9d0b774">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-47fcd1d1711b97f7072ccb8e2d7821e8c941ec9c.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="993834cb17d07d51b92db89d2c330243592ebf77">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-502988204306d6a2ee80efa482ef72358accd05a.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="17449c47df35c754b257532052f1270c444f7993">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-fd5854ec03a4dac39cbb8f179f6af02e86a4c7c8.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-3d5141e855038335db554a51e6c77119c02c418c.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="482de223655d06253cc6a4955d653f8994169500">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-a543cd940e6a86f47eec550b8838272fa17deaee.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="997773777cf3904c11d6764fe3b7668538220e49">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-a5c33b5b8ba7b8acce122bb6ceb2c5375672bc5e.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3b05c18f60969ecc2ba49c0409c4b96be2d9cb0c">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-d1707f3946b9de237651d83b516ac26fa641d1b2.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-694b1d59b1bbf6c3e98099f0140391629d9637e9.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="9cf8c0ef60847621c7ad00b4f78dbfc9daba4af2">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-362629d263c2c1544465f1a079464f1120617527.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="325788a04b436a0bccbc5b4c54cf0f12ebdcbd2d">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-a9884540b05898f88625ce76fe441b9b82eb287c.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="041d93cf0533591c29d1d7263b2fa114dbfb20bd">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-51f86611becaccd82fa0f10c470a378776c42a7d.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3aed37c38c56679602255dd72ef356da5d327cda">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-da884f3eac1cacbb255a2ac5492589a552bfaf24.jar" />
+    </item>
+    <item
+        jar="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2a7e47da654546f9457deb6132364f1bf33a1857">
+        <dex dex="/home/sergi/aarhus_sp/Drone Project/Drone Project/app/build/intermediates/pre-dexed/debug/classes-052235cf74529f9e991e370414b17b87248b8350.jar" />
+>>>>>>> Stashed changes
     </item>
 
 </items>

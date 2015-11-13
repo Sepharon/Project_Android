@@ -2,7 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapActivity" >
+    tools:context=".MapsActivity"
+    android:id="@+id/map_layout"
+    android:screenOrientation="landscape"
+    >
 
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
@@ -16,29 +19,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/left"
         android:layout_gravity="left|bottom"
-        android:layout_marginBottom="57dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginLeft="50dp"
+        android:layout_below="@+id/forward"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/forward"
-        android:layout_above="@+id/left"
-        android:layout_toRightOf="@+id/left"
-        android:layout_toEndOf="@+id/left" />
+        android:layout_above="@+id/right"
+        android:layout_toRightOf="@+id/rotate_left_bt"
+        android:layout_marginLeft="65dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/right"
-        android:layout_below="@+id/forward"
-        android:layout_toRightOf="@+id/forward"
-        android:layout_toEndOf="@+id/forward" />
+        android:layout_above="@+id/backward"
+        android:layout_toRightOf="@+id/backward"
+        android:layout_toEndOf="@+id/backward"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -46,43 +51,25 @@
         android:layout_height="wrap_content"
         android:id="@+id/backward"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/left"
-        android:layout_toEndOf="@+id/left" />
+        android:layout_toEndOf="@+id/left"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/up_bt"
-        android:layout_alignTop="@+id/right"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:text="UP" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/down"
-        android:layout_below="@+id/up_bt"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:text="DOWN" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/streaming"
+        android:background="@drawable/stream"
         android:id="@+id/take_photo"
-        android:layout_alignBottom="@+id/down"
+        android:layout_below="@+id/right"
         android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SAVE"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/save"
         android:id="@+id/save_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -90,40 +77,55 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:onClick="less_velocity"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/less"
         android:id="@+id/less_button"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/save_button" />
+        android:layout_alignRight="@+id/left"
+        android:layout_alignEnd="@+id/left" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/more"
         android:id="@+id/more_button"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="31dp"
+        android:layout_marginEnd="31dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RL"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/rotate_left_bt"
-        android:layout_above="@+id/left"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignBottom="@+id/forward"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="15dp"
+        android:background="@android:color/transparent"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RR"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/rotate_right_bt"
-        android:layout_alignTop="@+id/forward"
-        android:layout_toRightOf="@+id/right"
-        android:layout_toEndOf="@+id/right" />
+        android:layout_alignTop="@+id/rotate_left_bt"
+        android:layout_marginLeft="220dp"
+        android:background="@android:color/transparent"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/joystick"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/take_photo"
+        android:layout_toLeftOf="@+id/take_photo"
+        android:layout_marginTop="100dp"
+        android:contentDescription="@string/joystick" />
 </RelativeLayout>

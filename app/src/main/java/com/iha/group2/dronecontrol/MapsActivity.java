@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity {
                 send_data("L",ip,"");
             }
         });
-        up.setOnClickListener(new View.OnClickListener() {
+/*        up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 send_data("U",ip,"");
@@ -114,7 +114,7 @@ public class MapsActivity extends FragmentActivity {
                 send_data("D", ip, "");
             }
         });
-
+*/
         less_v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +130,7 @@ public class MapsActivity extends FragmentActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< Updated upstream
                 Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
                 stopService(in);
                 Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
@@ -150,6 +151,9 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 send_data("RL", ip, "");
+=======
+                stream();
+>>>>>>> Stashed changes
             }
         });
         // Might need to this in the beginning
