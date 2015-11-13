@@ -423,7 +423,7 @@ public class MapsActivity extends FragmentActivity {
                     String lng = result.split(";")[1];
                     String alt = result.split(";")[2];
                     String speed = result.split(";")[3];
-                    Log.v("Map Activity: ", result);
+                    Log.v("HOLAAAA", result);
                     Log.v("Map Activity: ", "lat: " + lat);
                     Log.v("Map Activity: ", "lng: " + lng);
                     Log.v("Map Activity: ", "Alt: " + alt);
