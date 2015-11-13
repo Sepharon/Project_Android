@@ -479,8 +479,8 @@ public class MapsActivity extends FragmentActivity {
                     values = new ContentValues();
 
                     values.put(SQL_IP_Data_Base.DateTime, ts);
-                    values.put(SQL_IP_Data_Base.GPS, LAT+","+LNG);
-                    values.put(SQL_IP_Data_Base.Temperature, (Float.parseFloat(TEMP)/16)+"");
+                    values.put(SQL_IP_Data_Base.GPS, LAT+", "+LNG);
+                    values.put(SQL_IP_Data_Base.Temperature, (Float.parseFloat(TEMP))+"");
 
                     //insert to the database
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_DATA, values);
