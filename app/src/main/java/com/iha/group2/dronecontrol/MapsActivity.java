@@ -217,7 +217,7 @@ public class MapsActivity extends FragmentActivity {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
                         isPressed = true;
-                        moving("RR");
+                        moving("SR");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
                         Log.v("forwardButton", "actionReleased");
                         isPressed = false;
@@ -234,7 +234,7 @@ public class MapsActivity extends FragmentActivity {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
                         isPressed = true;
-                        moving("RL");
+                        moving("SL");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
                         Log.v("forwardButton", "actionReleased");
                         isPressed = false;
@@ -251,7 +251,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
-                    send_data("LV");
+                    send_data("DV");
                 }else {
                     Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
@@ -261,7 +261,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
-                    send_data("MV");
+                    send_data("IV");
                 }
             }
         });
