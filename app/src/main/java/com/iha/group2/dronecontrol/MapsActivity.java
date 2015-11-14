@@ -383,7 +383,7 @@ public class MapsActivity extends FragmentActivity {
         // Move camera to new position
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 1));
         // Change zoom factor if needed
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(7.0f).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(20.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         mMap.moveCamera(cameraUpdate);
     }
