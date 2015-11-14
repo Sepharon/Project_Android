@@ -423,7 +423,6 @@ public class MapsActivity extends FragmentActivity {
                     String lng = result.split(";")[1];
                     String alt = result.split(";")[2];
                     String speed = result.split(";")[3];
-                    Log.v("HOLAAAA", result);
                     Log.v("Map Activity: ", "lat: " + lat);
                     Log.v("Map Activity: ", "lng: " + lng);
                     Log.v("Map Activity: ", "Alt: " + alt);
@@ -468,9 +467,10 @@ public class MapsActivity extends FragmentActivity {
                     String LNG = result.split(";")[1];
                     String HOUR = result.split(";")[2];
                     String TEMP = result.split(";")[3];
-
-                    Log.v("HOLAAAA", result);
+                    double celsius_temp = Float.parseFloat(TEMP)*0.0625;
                     String ts="";
+                    // We receive the time in the following format : HHMMSS
+                    // thus we want to get HH:MM:SS
                     for (int i=0;i<HOUR.length();i++){
                         ts+=HOUR.charAt(i);
                         if (i==1 | i==3) ts+=":";
@@ -484,7 +484,8 @@ public class MapsActivity extends FragmentActivity {
                     values.put(SQL_IP_Data_Base.DateTime, ts);
                     values.put(SQL_IP_Data_Base.GPS, LAT+", "+LNG);
                     try {
-                        values.put(SQL_IP_Data_Base.Temperature, (Float.parseFloat(TEMP)) + "");
+                        if (celsius_temp == -0.06) values.put(SQL_IP_Data_Base.Temperature,"No data, check the sensor");
+                        else values.put(SQL_IP_Data_Base.Temperature,celsius_temp+"");
                     } catch (NumberFormatException es){
                         values.put(SQL_IP_Data_Base.Temperature, "NS ");
                     }

@@ -63,9 +63,9 @@ def servidor():
                     # sys.stdout.write(data)
                     promp_him(data)
                     if data == "GPS":
-                        s.sendto("GPS!54.322-32.123-2.3-4.5-",addr)
+                        s.sendto("GPS!54.322;32.123;2.3;4.5;",addr)
                     elif data == "Weather":
-                        s.sendto("Weather!45.3-54.322-32.123-2.3-4.5-",addr)
+                        s.sendto("Weather!54.322;32.123;091123;400.3",addr)
                     elif data == "Stop":
                         s.sendto("OK",addr)
              
