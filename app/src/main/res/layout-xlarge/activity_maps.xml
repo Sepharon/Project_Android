@@ -59,8 +59,8 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/stream"
         android:id="@+id/take_photo"
         android:layout_centerHorizontal="true"
@@ -131,12 +131,14 @@
         android:text="@string/altitude_string"
         android:id="@+id/Altitude"
         android:textStyle="bold"
-        android:layout_marginRight="34dp"
+        android:layout_marginRight="100dp"
         android:layout_marginEnd="34dp"
         android:layout_alignBottom="@+id/take_photo"
         android:layout_toLeftOf="@+id/more_button"
         android:layout_toStartOf="@+id/more_button"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textSize="24sp"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -146,7 +148,9 @@
         android:textStyle="bold"
         android:layout_alignTop="@+id/take_photo"
         android:layout_alignLeft="@+id/Altitude"
-        android:layout_alignStart="@+id/Altitude" />
+        android:layout_alignStart="@+id/Altitude"
+        android:textSize="24sp"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -157,7 +161,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/Speed"
         android:layout_toRightOf="@+id/Speed"
-        android:layout_toEndOf="@+id/Speed" />
+        android:layout_toEndOf="@+id/Speed"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:layout_marginLeft="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -169,5 +176,7 @@
         android:layout_toEndOf="@+id/Altitude"
         android:layout_alignTop="@+id/Altitude"
         android:layout_alignLeft="@+id/speed_value"
-        android:layout_alignStart="@+id/speed_value" />
+        android:layout_alignStart="@+id/speed_value"
+        android:textColor="#ffffff"
+        android:textSize="24sp" />
 </RelativeLayout>

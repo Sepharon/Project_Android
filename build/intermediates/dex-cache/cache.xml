@@ -2,200 +2,207 @@
 <items version="2" >
 
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="97f3b099801a9ad9d70e835b9125273e986eb68d">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-a3f1d5b369af5dcfe8974a50f6bdff3a447b36b2.jar" />
+        revision="23.0.2"
+        sha1="58adcfbe2c8393765e84c5489d01bba6a5159eb2">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-96ffd715994488e2347c26283cbbad5f22eabb99.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jar="C:\Users\Silvia\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-2afa9f439a48b6a55f950972cf5f42bcce1ff5e3.jar" />
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\support-annotations-23.1.1-9a98d2b2da7d4b6594aa97b810232305a44af9d5.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="041d93cf0533591c29d1d7263b2fa114dbfb20bd">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-54b1508c0d73d9b6c57058095993d15539203e82.jar" />
+        revision="23.0.2"
+        sha1="77f9593d979f4347344be233bd0d888315f79517">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-a87a92ec3b07752e98f048ae3f00ae50d2b116b0.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="3b05c18f60969ecc2ba49c0409c4b96be2d9cb0c">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-a8f225eb26d9a4b6b79bb620815170b35ba6bd07.jar" />
+        revision="23.0.2"
+        sha1="eb576427887e497cd958a475475f9206e38dc314">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-a1f8b353020c729a8d4a878dd07a19003120d73c.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="993834cb17d07d51b92db89d2c330243592ebf77">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-4d6e2ee0796ac91d4dbdbee213524ff8a7f0282b.jar" />
+        revision="23.0.2"
+        sha1="af6ee25641df3142059c0828517aa7ee6eba08d6">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-3c3171f5de86b627dcbd94866e660205012b6597.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-1ec2f4903ec87eca4a334dd2e893082ffc9514b3.jar" />
+        revision="23.0.2"
+        sha1="ea34579b1be157cd792376362157e9c54ebb4cd7">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-217cfe446a49fd262d98b6333bdf84ab6c4a68a4.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="325788a04b436a0bccbc5b4c54cf0f12ebdcbd2d">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-48c29ca5560bc87d0b8aa0265ba61b50e3da175b.jar" />
+        revision="23.0.2"
+        sha1="0c3e81d3eb86b86d194b5cdb6a4de78203f6f7fd">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-3b5e0e293bbb0bc588edb86bd52099a394190fd5.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="d93480da1d303122ee67dc3bc23e6297bdef9951">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-e0359e81fcaa3e8f853b76305a6952e21030e207.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/support-annotations-23.0.1-918536679e5f7992151ddc3ec6b59deedb9170e0.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-91e32166d18437a74877c9599aaffc73644b0fe9.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="95758a2905669affbffc5ddd262921d375674fad">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-c6ccf2793703615bcea6ddc185fcf69790085a0f.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
+        revision="23.0.2"
         sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-46fd000c0fa4b4d6b89c79fb7a2ba6b94f5b3926.jar" />
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-335b998a049dd2066b8af5b0d1d20a6291eacce6.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="2a7e47da654546f9457deb6132364f1bf33a1857">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-f92bb40e2f7cb45264d214755c2263d6b21494b1.jar" />
+        revision="23.0.2"
+        sha1="744c49c02a27569cc4cc049685d3649e4ef439f2">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-fba70a7e8f693f3370b6bfc5f13515fc9f9e5fba.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="82825756edeeb3b56b15e73b2edd56e93da5a444">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-c1dc3a58ea49063e7accf327a454f6954358dd5b.jar" />
+        revision="23.0.2"
+        sha1="345a1b5cf5b144ce18ba6962bc66a7e2f26c1c1b">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-94548a8eb0c14d3ce4eb592492f734fdeb9b6698.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="d294caf562c4c678b2ef351662a0ca6f1a4d06c0">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-005dd27252b1b34b54c6bb8775906df2a92ee7d8.jar" />
+        revision="23.0.2"
+        sha1="4b8df1b1e51fe14b0e89b3845dc2e215a024a09f">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-1d644a7220c0beac4881a255d2aa5c5a8e36cab3.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-d70af92ae1fb77649201876e7fdd16d310429361.jar" />
+        revision="23.0.2"
+        sha1="2c6fcd6267cbac6509a2e72a61127534a1d616cf">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-53d5b2ab918bd562b898fd0b3b476f17294a7882.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="997773777cf3904c11d6764fe3b7668538220e49">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-219804befef28b939808407e715146992aca9ccd.jar" />
+        revision="23.0.2"
+        sha1="0af4f577b4a21eb9be2a7f52e33b077b67e6d9f8">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-299001b10fe1aefe413bc80b2fa04a6090a851ea.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="d61920aba361832a9545a43fa8c9453eb02f18f7">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-9e9a5942a1692099c564ec3346105edbba758bde.jar" />
+        revision="23.0.2"
+        sha1="cb4af597d079ffdc0984a3ec2c03cbf6a1b9f869">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-cfa03f58e282e38f527f11567bbe65d63fb69737.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
+        revision="23.0.2"
+        sha1="724ce977487ab3a215d4d2eb47d8dccd9f30013f">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-3b8c08f0bbedaa85561a8f74bbb1272207796448.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="01a90bbb9495a8bbf6f3cfdf12f1b35caaa9524b">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-17a18f41f8647cb365764c5375a70f5995469a6d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b000ecceb9877fefcdc7ab1959ff03df91551656">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-585cb8b039cdab7a65d2504f63eb32e1bd822b4b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="71eda10e33212e44245524b5087366ff8d805825">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-6c1f4c49b64eed0a8e7415782dbb3987093268c4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0a1897426566e408a5c20a3d931f77d89771d07f">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-fb7cdff8de8e7b0437948bc9e30d6fceb21b39ba.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="697679619b00837e3d09e9988a2e1e2a9009d502">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-ec135807d6265715cc4167cb9361188c54adf311.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="9aedc597d74c6d77258ce5236e9abff0c3cc65e3">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-6b27df615207f65d590b40df3cd6223b85095b15.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-6f1b47421b2f6f742b394dd830dc8affe98414cd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="fd76d95678a6b2b8a49bb8a9fb5bcef7aedb70e7">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-573cef9b670c7a3cde319a5ac1615275fb43174b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
         sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/internal_impl-22.2.0-df2a798a5433b75c1e154a392e5b0e749061e8a0.jar" />
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\internal_impl-22.2.0-2e116e20c9000af11ad9dc453e8495ebf2051176.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="3c729e6d76a36c5dc27e6a4c4009296f49eaa88a">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-78577fd2ee59405ba5b1d76682003f7d57518fbc.jar" />
+        revision="23.0.2"
+        sha1="27775d59b16610ac76f1b83693fedd9520396332">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-06e1a6e8aa2234122680921e0d8791cfa80828ae.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="9cf8c0ef60847621c7ad00b4f78dbfc9daba4af2">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-dbb293834102a2e6090c65cea265fa3a92cf8896.jar" />
+        revision="23.0.2"
+        sha1="9c9bdb4b2497465a6cf7d5e8f57c5298f828a380">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-82c4ab02c7a41f13cc990d034cdd366601f8037c.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="17449c47df35c754b257532052f1270c444f7993">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-03ed7748cafb40c748aa833e3f58a069e5263442.jar" />
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-51179a6b49c1a3fa6f0cd4b98b4f33ab07619a6c.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.3.0\jars\classes.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="3178362320bcf51228835b60ff978efadfd1f783">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-69237891667066b50e6d9e5a6512d72a74431b04.jar" />
+        revision="23.0.2"
+        sha1="6d9ed9a288364688e7fcf6704776284dac1eb42e">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\classes-1c14ba88f03c06d6a924a21f602e186e6d0dda1b.jar" />
     </item>
     <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.1.0/jars/classes.jar"
+        jar="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
         jumboMode="false"
-        revision="23.0.1"
-        sha1="3aed37c38c56679602255dd72ef356da5d327cda">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-991a14b8e6c5c59bd11dfd0d6b91f08e2767868a.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/internal_impl-23.0.1-0120c62c63a9f9f7c6e0d785939d50eadd2d9448.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="dcb5b75baf05d92e61d5706737200ee55949f97b">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-a1d496d4dc8f0d0837db60a97cbfd8ff76446b46.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="482de223655d06253cc6a4955d653f8994169500">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-732e6b620036220dd1c9bdbef8701473ee344926.jar" />
-    </item>
-    <item
-        jar="/home/sergi/Drone Project/Drone Project/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="b92002cb2f0e11a226ac5bac6dff1dc2a9d0b774">
-        <dex dex="/home/sergi/Drone Project/Drone Project/app/build/intermediates/pre-dexed/release/classes-6e39339e722651621bcc6efc5d11dda1fd5afd8b.jar" />
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Silvia\Documents\Project_Android\app\build\intermediates\pre-dexed\release\internal_impl-23.1.1-359595e2279238f322e2704ab789f7f874d5d13b.jar" />
     </item>
 
 </items>

@@ -43,6 +43,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -74,6 +75,9 @@ public class InitActivity extends AppCompatActivity {
     //Drone class
     Drone drone;
 
+    WebView gif;
+    WebView gif2;
+
 
     /* Functions starts
     it registers our Receiver, gets all Views, gets all entries from the SQL database for
@@ -102,6 +106,18 @@ public class InitActivity extends AppCompatActivity {
         on = (Button) findViewById(R.id.button_on);
         data = (Button) findViewById(R.id.button_data);
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
+        gif = (WebView)findViewById(R.id.webView2);
+        gif2 = (WebView)findViewById(R.id.webView3);
+        try {
+            gif.loadUrl("https://i.imgur.com/l54Uwb7.gif");
+        } catch (NullPointerException es){
+            es.printStackTrace();
+        }
+        try {
+            gif2.loadUrl("https://i.imgur.com/RVXjx3d.gif");
+        } catch (NullPointerException es){
+            es.printStackTrace();
+        }
 
 
         // New content values to store data in database

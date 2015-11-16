@@ -45,7 +45,7 @@
         android:layout_below="@+id/forward"
         android:layout_alignRight="@+id/rotate_right_bt"
         android:layout_alignEnd="@+id/rotate_right_bt"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="32dp"
         android:layout_marginEnd="25dp"
         android:layout_above="@+id/backward" />
 
@@ -63,8 +63,8 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
         android:background="@drawable/stream"
         android:id="@+id/take_photo"
         android:layout_below="@+id/right"
@@ -140,11 +140,13 @@
         android:text="@string/altitude_string"
         android:id="@+id/Altitude"
         android:textStyle="bold"
-        android:layout_marginRight="34dp"
+        android:textColor="#ffffff"
+        android:layout_marginRight="60dp"
         android:layout_marginEnd="34dp"
-        android:layout_alignBottom="@+id/take_photo"
         android:layout_toLeftOf="@+id/more_button"
-        android:layout_toStartOf="@+id/more_button" />
+        android:layout_toStartOf="@+id/more_button"
+        android:layout_below="@+id/Speed"
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -152,30 +154,27 @@
         android:text="@string/speed_string"
         android:id="@+id/Speed"
         android:textStyle="bold"
+        android:textColor="#ffffff"
         android:layout_alignTop="@+id/take_photo"
         android:layout_alignLeft="@+id/Altitude"
-        android:layout_alignStart="@+id/Altitude" />
+        android:layout_alignStart="@+id/Altitude"
+        android:layout_marginRight="15dp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:id="@+id/speed_value"
         android:textStyle="bold"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
         android:layout_alignTop="@+id/Speed"
-        android:layout_toRightOf="@+id/Speed"
-        android:layout_toEndOf="@+id/Speed" />
+        android:layout_alignParentRight="true" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:id="@+id/Altitude_value"
         android:textStyle="bold"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/Altitude"
+        android:textColor="#ffffff"
         android:layout_alignTop="@+id/Altitude"
-        android:layout_alignLeft="@+id/speed_value"
-        android:layout_alignStart="@+id/speed_value" />
+        android:layout_alignParentRight="true" />
 </RelativeLayout>
