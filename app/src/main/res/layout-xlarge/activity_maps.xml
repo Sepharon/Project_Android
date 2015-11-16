@@ -19,47 +19,43 @@
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:id="@+id/left"
-        android:layout_gravity="left|bottom"
         android:background="@android:color/transparent"
-        android:layout_below="@+id/forward"
-        android:layout_toLeftOf="@+id/backward"
-        android:layout_toStartOf="@+id/backward"
-        android:layout_above="@+id/backward" />
+        android:layout_above="@+id/backward"
+        android:layout_alignParentBottom="false"
+        android:layout_marginLeft="200dp"
+        android:layout_marginBottom="10dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/forward"
         android:background="@android:color/transparent"
-        android:layout_above="@+id/right"
-        android:layout_toRightOf="@+id/rotate_right_bt" />
+        android:layout_above="@+id/left"
+        android:layout_marginLeft="260dp"
+        android:layout_marginBottom="10dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:id="@+id/right"
         android:background="@android:color/transparent"
-        android:layout_marginLeft="71dp"
-        android:layout_marginStart="71dp"
         android:layout_above="@+id/backward"
-        android:layout_toRightOf="@+id/forward"
-        android:layout_toEndOf="@+id/forward" />
+        android:layout_marginLeft="370dp"
+        android:layout_marginBottom="10dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/backward"
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/right"
-        android:layout_alignEnd="@+id/right"
-        android:layout_alignLeft="@+id/rotate_right_bt"
-        android:layout_alignStart="@+id/rotate_right_bt" />
+        android:layout_marginLeft="260dp"
+        android:layout_marginBottom="80dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -67,13 +63,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/stream"
         android:id="@+id/take_photo"
-        android:layout_below="@+id/right"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/save"
         android:id="@+id/save_button"
         android:layout_alignParentTop="true"
@@ -82,18 +78,18 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/less"
         android:id="@+id/less_button"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/left"
-        android:layout_alignEnd="@+id/left" />
+        android:layout_toRightOf="@+id/save_button"
+        android:layout_marginLeft="20dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/more"
         android:id="@+id/more_button"
         android:layout_alignParentTop="true"
@@ -104,34 +100,30 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
         android:id="@+id/rotate_left_bt"
-        android:layout_alignBottom="@+id/forward"
-        android:layout_marginBottom="25dp"
-        android:layout_marginLeft="15dp"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/forward"
+        android:layout_marginLeft="120dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
         android:id="@+id/rotate_right_bt"
-        android:layout_marginLeft="220dp"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"
+        android:layout_marginLeft="420dp"
+        android:layout_above="@+id/forward" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:id="@+id/imageView"
         android:src="@drawable/joystick"
-        android:contentDescription=""
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/rotate_left_bt"
-        android:layout_toLeftOf="@+id/take_photo"
-        android:layout_toStartOf="@+id/take_photo"
-        android:layout_alignParentBottom="true" />
+        android:contentDescription="joystick"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="100dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -143,7 +135,8 @@
         android:layout_marginEnd="34dp"
         android:layout_alignBottom="@+id/take_photo"
         android:layout_toLeftOf="@+id/more_button"
-        android:layout_toStartOf="@+id/more_button" />
+        android:layout_toStartOf="@+id/more_button"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
