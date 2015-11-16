@@ -251,7 +251,7 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
-                    send_data("DV");
+                    send_data("VD");
                 }else {
                     Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
@@ -561,12 +561,15 @@ public class MapsActivity extends FragmentActivity {
        t_move = new Thread(new Runnable() {
            @Override
            public void run() {
+               Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
+               stopService(intent);
                while(isPressed) {
                    Log.v("thread t_move", "moving");
                    send_data(movement);
                    SystemClock.sleep(500);
 
                }
+               startService(intent);
            }
        }); t_move.start();
 
