@@ -144,7 +144,9 @@ public class InitActivity extends AppCompatActivity {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
-                    send_to_arduino("","ON");
+                    Intent intent = new Intent(getBaseContext(), UDPconnection.class);
+                    intent.putExtra("value", "ON");
+                    startService(intent);
                     // Start MapsActivity
                     Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
                     startActivity(second_act);
