@@ -38,7 +38,7 @@ def client():
             #user entered a message
             else :
                 msg = sys.stdin.readline()
-                s.send(msg+"dfgjgfgjgdfhjffhjdjjddf")
+                s.send(msg)
 #                promp_me(msg)
 
 def servidor():
@@ -59,21 +59,26 @@ def servidor():
                     print '\nDisconnected from chat server'
                     sys.exit()
                 else :
-                    #print data
-                    # sys.stdout.write(data)
                     promp_him(data)
                     if data == "GPS":
                         s.sendto("GPS!54.322;32.123;2.3;4.5;",addr)
+                        promp_me("GPS!54.322;32.123;2.3;4.5;")
                     elif data == "Weather":
                         s.sendto("Weather!54.322;32.123;091123;400.3",addr)
+                        promp_me("Weather!54.322;32.123;091123;400.3")
                     elif data == "Stop":
                         s.sendto("OK",addr)
-             
-            #user entered a message
-            else :
-                msg = sys.stdin.readline()
-                s.sendto(msg,addr)
- #               promp_me(msg)
+                        promp_me("OK")
+#                    elif data == "connect":
+#                        s.sendto("alive",addr)
+#                        promp_me("alive") 
+                    elif data == "connect":
+                        msg = sys.stdin.readline()
+                        s.send(msg,addr)
+                    else :
+                        msg = sys.stdin.readline()
+                        s.sendto(msg,addr)
+ #               promp_me(msg)<
 
 
 

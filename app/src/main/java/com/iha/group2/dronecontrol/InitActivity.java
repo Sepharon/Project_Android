@@ -108,6 +108,8 @@ public class InitActivity extends AppCompatActivity {
         ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
         gif = (WebView)findViewById(R.id.webView2);
         gif2 = (WebView)findViewById(R.id.webView3);
+
+
         try {
             gif.loadUrl("https://i.imgur.com/l54Uwb7.gif");
         } catch (NullPointerException es){
