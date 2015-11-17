@@ -144,6 +144,7 @@ public class MapsActivity extends FragmentActivity {
                 if (drone.getStatus()) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
+                        if (t_move != null) t_move.interrupt();
                         isPressed = true;
                         moving("F");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -161,6 +162,7 @@ public class MapsActivity extends FragmentActivity {
                 if (drone.getStatus()) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
+                        if (t_move != null) t_move.interrupt();
                         isPressed = true;
                         moving("B");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -178,6 +180,7 @@ public class MapsActivity extends FragmentActivity {
                 if (drone.getStatus()) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
+                        if (t_move != null) t_move.interrupt();
                         isPressed = true;
                         moving("R");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -195,6 +198,7 @@ public class MapsActivity extends FragmentActivity {
                 if (drone.getStatus()) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
+                        if (t_move != null) t_move.interrupt();
                         isPressed = true;
                         moving("L");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -213,6 +217,7 @@ public class MapsActivity extends FragmentActivity {
                 if (drone.getStatus()) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
+                        if (t_move != null) t_move.interrupt();
                         isPressed = true;
                         moving("SR");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -230,6 +235,7 @@ public class MapsActivity extends FragmentActivity {
                 if (drone.getStatus()) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         Log.v("forwardButton", "actionDOWN");
+                        if (t_move != null) t_move.interrupt();
                         isPressed = true;
                         moving("SL");
                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -380,9 +386,10 @@ public class MapsActivity extends FragmentActivity {
         // Move camera to new position
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 1));
         // Change zoom factor if needed
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(20.0f).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(pos).zoom(14.0f).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         mMap.moveCamera(cameraUpdate);
+
     }
 
     // Sends data without expecting incoming messages
@@ -555,16 +562,16 @@ public class MapsActivity extends FragmentActivity {
     it is interrupted or isPressed equals false, that means that the user is no longer pressing that button
      */
     private void moving(final String movement){
+
+       if (t_move!=null) t_move.interrupt();
        t_move = new Thread(new Runnable() {
            @Override
            public void run() {
                Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
                stopService(intent);
                while(isPressed) {
-                   Log.v("thread t_move", "moving");
                    send_data(movement);
-                   SystemClock.sleep(500);
-
+                   SystemClock.sleep(100);
                }
                startService(intent);
            }
