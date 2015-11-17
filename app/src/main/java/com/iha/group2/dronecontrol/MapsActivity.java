@@ -105,9 +105,6 @@ public class MapsActivity extends FragmentActivity {
         right = (Button) findViewById(R.id.right);
         left = (Button) findViewById(R.id.left);
 
-        //up = (Button) findViewById(R.id.up_bt);
-        //down = (Button) findViewById(R.id.down);
-
         stream = (Button) findViewById(R.id.take_photo);
         save = (Button) findViewById(R.id.save_button);
 

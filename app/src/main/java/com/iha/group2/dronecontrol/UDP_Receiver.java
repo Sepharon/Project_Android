@@ -33,7 +33,7 @@ public class UDP_Receiver extends Service {
 
     Drone drone;
     String ip;
-
+    DatagramSocket socket;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -49,7 +49,6 @@ public class UDP_Receiver extends Service {
         // Get action
         final String action = intent.getStringExtra("action");
         Log.v("actionUDP", ""+action);
-        String msg;
         // Do something depending on the action.
         switch (action) {
             // Handshake message from InitActivity
@@ -87,6 +86,7 @@ public class UDP_Receiver extends Service {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                socket.close();
                 drone.setStatus(false);
                 stopSelf();
             // Weather data request from MapsActivity
@@ -103,6 +103,14 @@ public class UDP_Receiver extends Service {
         }
         return START_STICKY;
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        socket.close();
+        stopSelf();
+    }
+
 
 
     //It sends data and processes the received message
@@ -121,7 +129,7 @@ public class UDP_Receiver extends Service {
         InetAddress IPAddress = InetAddress.getByName(ip);
 
         // Create new socket
-        final DatagramSocket socket = new DatagramSocket();
+        socket = new DatagramSocket();
 
         Log.v("Service Receiver:", "Sending connection packet");
 

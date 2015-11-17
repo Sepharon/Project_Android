@@ -144,6 +144,7 @@ public class InitActivity extends AppCompatActivity {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
+                    send_to_arduino("","ON");
                     // Start MapsActivity
                     Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
                     startActivity(second_act);
@@ -169,10 +170,8 @@ public class InitActivity extends AppCompatActivity {
                 Log.v("Activity One:", "Starting service");
 
                 //before sending the message, it checks if the device is connected to a network
-                Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                intent.putExtra("value", "");
-                intent.putExtra("action", "Check");
-                startService(intent);
+
+                send_to_arduino("","Check");
 
                 //Check network status
                 if (internet_connection) {
@@ -182,10 +181,7 @@ public class InitActivity extends AppCompatActivity {
                     t = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
-                            intent.putExtra("value", "");
-                            intent.putExtra("action", action);
-                            startService(intent);
+                            send_to_arduino("",action);
                         }
                     });
                     t.start();
@@ -310,6 +306,13 @@ public class InitActivity extends AppCompatActivity {
             c.close();
             return new String[] {};
         }
+    }
+
+    private void send_to_arduino(String value,String action){
+        Intent intent = new Intent(getBaseContext(), UDP_Receiver.class);
+        intent.putExtra("value", value);
+        intent.putExtra("action", action);
+        startService(intent);
     }
 
     // onResume method, we get all entries from the database again, we setup the adapter and we register our receiver

@@ -28,7 +28,7 @@ public class UDPconnection extends Service {
 
     Drone drone;
     String ip;
-
+    DatagramSocket client_socket;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -52,24 +52,29 @@ public class UDPconnection extends Service {
                 e.printStackTrace();
             }
         }
-        stopSelf();
         return START_STICKY;
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        client_socket.close();
+        stopSelf();
+    }
 
     //It sends the message to the Arduino (or UDP server)
     public void send_msg (final String msg, final String Ip) throws IOException {
         final int msg_length = msg.length();
         final byte[] message = msg.getBytes();
         // Create a socket
-        DatagramSocket client_socket = new DatagramSocket();
+        client_socket = new DatagramSocket();
         InetAddress IPAddress = InetAddress.getByName(Ip);
         // Create UDP packet
         DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, movement_port);
         // Send packet
         Log.v("Service:", "Sending packet");
         client_socket.send(p);
-        Log.v("Service:","Packet sent");
+        Log.v("Service:", "Packet sent");
         // Close connection
         client_socket.close();
     }
