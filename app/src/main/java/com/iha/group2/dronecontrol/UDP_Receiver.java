@@ -114,13 +114,12 @@ public class UDP_Receiver extends Service {
 
 
     //It sends data and processes the received message
-    public String get_msg (final String ip, final String msg, final int port) throws IOException{
+    public void get_msg (final String ip, final String msg, final int port) throws IOException{
         /*
         Variables declaration
          */
         // Received message will be written here
-        byte[] receive_data = new byte[64];
-        String rec_msg = "";
+
         // Get message length
         int msg_length = msg.length();
         // Get bytes from message
@@ -140,59 +139,67 @@ public class UDP_Receiver extends Service {
 
         Log.v("Service Receiver:", "Receiving packet");
         // Preparing packet to receive data
-        DatagramPacket receive_pkt = new DatagramPacket(receive_data,receive_data.length);
+
 
         // Timeout
         socket.setSoTimeout(timeout);
 
         // We wait until we receive a packet or timeout happens
-        try {
-            Log.v("Service Receiver:", "Waiting for data");
-            socket.receive(receive_pkt);
-            Log.v("Service Receiver:", "Data received");
-            rec_msg = new String(receive_pkt.getData());
-            Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
-            socket.close();
-            //this variable splits the messages received by \n because the buffer can contain others undesired characters
-            String ms = rec_msg.split("\n")[0];
-            Log.v("MESSAGEService", ""+ms);
-            String act = ms.split("!")[0];
-            Log.v("act = ",act);
-            // Check which message we've received and react accordingly
-            switch (act) {
-                // If the message is stop, we stop the service and send a message.
-                case "Stop":
-                    broadcast_result(act, 1);
-                    Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
-                    break;
-                // Hand Shake message
-                case "alive":
-                    broadcast_toInit(act, 0);
-                    break;
-                case "Weather":
-                    String weather_value = ms.split("!")[1];
-                    broadcast_result(weather_value, 4);
-                    break;
-                case "GPS":
-                    String GPS_value = ms.split("!")[1];
-                    Log.v("GPS result: ", GPS_value);
-                    broadcast_result(GPS_value, 0);
-                    break;
-                default:
-                    broadcast_result(rec_msg, 5);
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    byte[] receive_data = new byte[64];
+                    DatagramPacket receive_pkt = new DatagramPacket(receive_data,receive_data.length);
+                    String rec_msg;
+                    Log.v("Service Receiver:", "Waiting for data");
+                    try {
+                        socket.receive(receive_pkt);
+                        Log.v("Service Receiver:", "Data received");
+                    }
+                    // In case of timeout
+                    catch (IOException e) {
+                        Log.v("Service Receiver:", "Timeout");
+                        // Set status to not connected
+                        drone.setStatus(false);
+                        // Close connection
+                        socket.close();
+                        if (msg.equals("connect")) broadcast_toInit("error",0);
+                    }
+                    rec_msg = new String(receive_pkt.getData());
+                    Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
+                    //this variable splits the messages received by \n because the buffer can contain others undesired characters
+                    String ms = rec_msg.split("\n")[0];
+                    Log.v("MESSAGEService", ""+ms);
+                    String act = ms.split("!")[0];
+                    Log.v("act = ",act);
+                    // Check which message we've received and react accordingly
+                    switch (act) {
+                        // If the message is stop, we stop the service and send a message.
+                        case "Stop":
+                            broadcast_result(act, 1);
+                            Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
+                            break;
+                        // Hand Shake message
+                        case "alive":
+                            broadcast_toInit(act, 0);
+                            break;
+                        case "Weather":
+                            String weather_value = ms.split("!")[1];
+                            broadcast_result(weather_value, 4);
+                            break;
+                        case "GPS":
+                            String GPS_value = ms.split("!")[1];
+                            Log.v("GPS result: ", GPS_value);
+                        broadcast_result(GPS_value, 0);
+                        break;
+                    default:
+                        broadcast_result(rec_msg, 5);
+                }
             }
-        }
-        // In case of timeout
-        catch (SocketTimeoutException e) {
-            Log.v("Service Receiver:", "Timeout");
-            // Set status to not connected
-            drone.setStatus(false);
-            // Close connection
-            socket.close();
-            if (msg.equals("connect")) broadcast_toInit("error",0);
-        }
+        });
+        t.start();
         Log.v("Client:", "Out of loop");
-        return rec_msg;
     }
 
     // Broadcast the result to MapsActivity
