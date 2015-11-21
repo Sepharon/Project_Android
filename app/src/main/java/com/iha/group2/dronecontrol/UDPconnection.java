@@ -41,6 +41,7 @@ public class UDPconnection extends Service {
         drone= Drone.getInstance();
         ip = drone.getIP();
         // Get the value that we want to send
+
         final String v = intent.getStringExtra("value");
         Log.v("Service ip: ",ip);
         Log.v("Service value: ",v);

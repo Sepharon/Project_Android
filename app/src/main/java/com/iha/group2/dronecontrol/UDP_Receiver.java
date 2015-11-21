@@ -34,6 +34,7 @@ public class UDP_Receiver extends Service {
     Drone drone;
     String ip;
     DatagramSocket socket;
+    Thread t;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -145,8 +146,12 @@ public class UDP_Receiver extends Service {
         socket.setSoTimeout(timeout);
 
         // We wait until we receive a packet or timeout happens
-
-            Thread t = new Thread(new Runnable() {
+        /*if (t != null) try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        t = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     byte[] receive_data = new byte[64];
@@ -178,7 +183,7 @@ public class UDP_Receiver extends Service {
                         // If the message is stop, we stop the service and send a message.
                         case "Stop":
                             broadcast_result(act, 1);
-                            Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
                             break;
                         // Hand Shake message
                         case "alive":

@@ -375,11 +375,9 @@ public class MapsActivity extends FragmentActivity {
     private void setUpMap(float lat , float lng) {
         LatLng pos = new LatLng(lat,lng);
         // Needed since first time there's no marker
-        try {
+        if (marker != null) {
             // Remove current marker
             marker.remove();
-        }catch (Exception e){
-            e.printStackTrace();
         }
         // Create new marker
         marker = mMap.addMarker(new MarkerOptions().position(pos).title("Drone"));
