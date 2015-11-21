@@ -32,11 +32,7 @@ public class Streaming_camera extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         // Hide ActionBar
-        try {
-            actionBar.hide();
-        } catch (NullPointerException es) {
-            es.printStackTrace();
-        }
+        if (actionBar != null) actionBar.hide();
         // Setting up WebView
         browser = (WebView) findViewById(R.id.webView);
         layout = (RelativeLayout) findViewById(R.id.stream_layout);

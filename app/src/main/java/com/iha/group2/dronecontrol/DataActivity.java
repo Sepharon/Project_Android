@@ -29,7 +29,7 @@ It shows the values stored in the database and it allows to save an item to a .t
 public class DataActivity extends ListActivity {
 
     List<String> list = new ArrayList<>();
-
+    boolean file_created;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -100,16 +100,17 @@ public class DataActivity extends ListActivity {
                             File file = new File(path,"weatherdata.txt"); // définir l'arborescence
 
                             if (!file.exists()) {
-                                file.createNewFile();
+                                file_created = file.createNewFile();
                                 Log.v("Data","file created");
                             }
-
-                            FileWriter filewriter = new FileWriter(file,true);
-                            filewriter.write("******");
-                            filewriter.write("\n");
-                            filewriter.write(item);
-                            filewriter.write("\n");
-                            filewriter.close();
+                            if (file_created) {
+                                FileWriter filewriter = new FileWriter(file, true);
+                                filewriter.write("******");
+                                filewriter.write("\n");
+                                filewriter.write(item);
+                                filewriter.write("\n");
+                                filewriter.close();
+                            }
                             Log.v("DataActivity:", "" + file.getAbsolutePath());
                             Log.v("DataActivity:","asdas");
                             Log.v("DataActivity item:",""+ item);

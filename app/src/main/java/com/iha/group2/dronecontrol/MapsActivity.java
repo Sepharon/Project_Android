@@ -26,11 +26,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.util.Date;
-
 
 /*REFERENCE:
 https://developer.android.com/training/system-ui/immersive.html
