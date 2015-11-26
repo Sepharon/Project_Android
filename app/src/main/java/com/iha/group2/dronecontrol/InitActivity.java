@@ -39,6 +39,8 @@ import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -93,31 +95,34 @@ public class InitActivity extends AppCompatActivity {
         this.registerReceiver(receiver, filter);
 
 
-
         // UDP necessary
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         // Get instance for Drone class
-        drone= Drone.getInstance();
+        drone = Drone.getInstance();
 
         // Selecting buttons and text input
         connect = (Button) findViewById(R.id.button_con);
         on = (Button) findViewById(R.id.button_on);
         data = (Button) findViewById(R.id.button_data);
-        ip = (AutoCompleteTextView)findViewById(R.id.ip_field);
-        gif = (WebView)findViewById(R.id.webView2);
-        gif2 = (WebView)findViewById(R.id.webView3);
+        ip = (AutoCompleteTextView) findViewById(R.id.ip_field);
+        gif = (WebView) findViewById(R.id.webView2);
+        gif2 = (WebView) findViewById(R.id.webView3);
+        ip.addTextChangedListener(textwatcher);
 
-
+        on.setEnabled(false);
+        connect.setEnabled(false);
+        on.setClickable(false);
+        connect.setClickable(false);
         try {
             gif.loadUrl("https://i.imgur.com/l54Uwb7.gif");
-        } catch (NullPointerException es){
+        } catch (NullPointerException es) {
             es.printStackTrace();
         }
         try {
             gif2.loadUrl("https://i.imgur.com/RVXjx3d.gif");
-        } catch (NullPointerException es){
+        } catch (NullPointerException es) {
             es.printStackTrace();
         }
 
@@ -131,8 +136,7 @@ public class InitActivity extends AppCompatActivity {
             // set our adapter
             myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, ips);
             ip.setAdapter(myAdapter);
-        }
-        catch (NullPointerException es){
+        } catch (NullPointerException es) {
             es.printStackTrace();
         }
 
@@ -175,7 +179,7 @@ public class InitActivity extends AppCompatActivity {
 
                 //before sending the message, it checks if the device is connected to a network
 
-                send_to_arduino("","Check");
+                send_to_arduino("", "Check");
 
                 //Check network status
                 if (internet_connection) {
@@ -185,25 +189,43 @@ public class InitActivity extends AppCompatActivity {
                     t = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            send_to_arduino("",action);
+                            send_to_arduino("", action);
                         }
                     });
                     t.start();
 
                     //If everything was OK, set status of the drone to connected
                     drone.setStatus(true);
+                    on.setEnabled(true);
+                    on.setClickable(true);
+
                 }
             }
         });
         data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent third_act = new Intent(InitActivity.this, DataActivity.class);
-                    startActivity(third_act);
+                Intent third_act = new Intent(InitActivity.this, DataActivity.class);
+                startActivity(third_act);
 
             }
         });
     }
+
+    private TextWatcher textwatcher = new TextWatcher() {
+
+        public void afterTextChanged(Editable s) {
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            connect.setEnabled(true);
+            connect.setClickable(true);
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -323,6 +345,10 @@ public class InitActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        on.setEnabled(false);
+        connect.setEnabled(false);
+        on.setClickable(false);
+        connect.setClickable(false);
         try {
             String[] ips = getAllEntries();
             // Set our adapter

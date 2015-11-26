@@ -307,13 +307,11 @@ public class MapsActivity extends FragmentActivity {
         t = new CountDownTimer(10000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                //if (!ask_camera /*&& connected*/ ) {
                  // Ask GPS data
                  receive_data("GPS");
                  // Start counter again
                  start();
-                //}
-            }
+                }
         }.start();
 
         // This counter checks if the device is connected to a network every 10 seconds
@@ -416,7 +414,7 @@ public class MapsActivity extends FragmentActivity {
                     Thus we need to split the messages
                     with ';'
                     */
-                    String lat = result.split(";")[0];
+                   String lat = result.split(";")[0];
                     String lng = result.split(";")[1];
                     String alt = result.split(";")[2];
                     String speed = result.split(";")[3];
@@ -564,7 +562,7 @@ public class MapsActivity extends FragmentActivity {
                stopService(intent);
                while(isPressed) {
                    send_data(movement);
-                   SystemClock.sleep(100);
+                   SystemClock.sleep(500);
                }
                startService(intent);
            }

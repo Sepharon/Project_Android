@@ -48,7 +48,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
         // We want to get data from the accelerometer
         Sensor mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         // We want short delay between updates
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         drone = Drone.getInstance();
         try {
