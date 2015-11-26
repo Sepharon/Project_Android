@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /*REFERENCE:
 http://developer.android.com/training/basics/network-ops/connecting.html
@@ -112,7 +113,7 @@ public class UDP_Receiver extends Service {
 
 
     //It sends data and processes the received message
-    public void get_msg (final String ip, final String msg, final int port) throws IOException{
+    public int get_msg (final String ip, final String msg, final int port) throws IOException{
         /*
         Variables declaration
          */
@@ -122,9 +123,16 @@ public class UDP_Receiver extends Service {
         int msg_length = msg.length();
         // Get bytes from message
         byte[] message = msg.getBytes();
+        InetAddress IPAddress;
         // Get IP address
-        InetAddress IPAddress = InetAddress.getByName(ip);
+        try {
+            IPAddress = InetAddress.getByName(ip);
+        }catch(UnknownHostException e){
 
+            Log.v("Servie Receiver","oashidaisuhdas");
+            broadcast_toInit("Invalid_IP", 0);
+            return 1;
+        }
         // Create new socket
         socket = new DatagramSocket();
 
@@ -202,6 +210,7 @@ public class UDP_Receiver extends Service {
         });
         t.start();
         Log.v("Client:", "Out of loop");
+        return 1;
     }
 
     // Broadcast the result to MapsActivity

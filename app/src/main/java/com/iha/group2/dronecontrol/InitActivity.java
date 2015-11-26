@@ -59,6 +59,7 @@ public class InitActivity extends AppCompatActivity {
     // Checks if connection has been established with Arduino
     boolean state = false;
     boolean internet_connection = true;
+    boolean connect_button_enable = false;
     // Message to send to Arduino for the Handshake
     final String action = "connect";
 
@@ -111,10 +112,6 @@ public class InitActivity extends AppCompatActivity {
         gif2 = (WebView) findViewById(R.id.webView3);
         ip.addTextChangedListener(textwatcher);
 
-        on.setEnabled(false);
-        connect.setEnabled(false);
-        on.setClickable(false);
-        connect.setClickable(false);
         try {
             gif.loadUrl("https://i.imgur.com/l54Uwb7.gif");
         } catch (NullPointerException es) {
@@ -165,41 +162,45 @@ public class InitActivity extends AppCompatActivity {
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Once clicked, it sends message to Arduino using a service
-                Toast.makeText(getApplicationContext(), "Sending message to Arduino", Toast.LENGTH_LONG).show();
+                if (connect_button_enable) {
+                    // Once clicked, it sends message to Arduino using a service
+                    Toast.makeText(InitActivity.this, "Sending message to Arduino", Toast.LENGTH_LONG).show();
 
-                // Store IP to database
-                try {
-                    values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
-                    getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_IP, values);
-                } catch (SQLException se) { //if it is repeated, an exception will occur and we don't want the app to crash
-                    se.printStackTrace();
+                    // Store IP to database
+                    try {
+                        values.put(SQL_IP_Data_Base.IP, ip.getText().toString());
+                        getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_IP, values);
+                    } catch (SQLException se) { //if it is repeated, an exception will occur and we don't want the app to crash
+                        se.printStackTrace();
+                    }
+                    Log.v("Activity One:", "Starting service");
+
+                    //before sending the message, it checks if the device is connected to a network
+
+                    send_to_arduino("", "Check");
+
+                    //Check network status
+                    if (internet_connection) {
+                        // Set Drone IP
+                        drone.setIP(ip.getText().toString());
+                        // This thread starts the service by sending the action "connect", this way it won't block the UI
+                        t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                send_to_arduino("", action);
+                            }
+                        });
+                        t.start();
+
+                        //If everything was OK, set status of the drone to connected
+                        drone.setStatus(true);
+                        on.setEnabled(true);
+                        on.setClickable(true);
+
+                    }
                 }
-                Log.v("Activity One:", "Starting service");
-
-                //before sending the message, it checks if the device is connected to a network
-
-                send_to_arduino("", "Check");
-
-                //Check network status
-                if (internet_connection) {
-                    // Set Drone IP
-                    drone.setIP(ip.getText().toString());
-                    // This thread starts the service by sending the action "connect", this way it won't block the UI
-                    t = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            send_to_arduino("", action);
-                        }
-                    });
-                    t.start();
-
-                    //If everything was OK, set status of the drone to connected
-                    drone.setStatus(true);
-                    on.setEnabled(true);
-                    on.setClickable(true);
-
-                }
+                else
+                    Toast.makeText(InitActivity.this, "You need to write and IP first", Toast.LENGTH_LONG).show();
             }
         });
         data.setOnClickListener(new View.OnClickListener() {
@@ -221,8 +222,7 @@ public class InitActivity extends AppCompatActivity {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            connect.setEnabled(true);
-            connect.setClickable(true);
+            connect_button_enable = true;
         }
     };
 
@@ -279,9 +279,11 @@ public class InitActivity extends AppCompatActivity {
                 case "Connection":
                     internet_connection=true;
                     break;
+                case "Invalid_IP":
+                    Toast.makeText(InitActivity.this, "You need to write an IP", Toast.LENGTH_LONG).show();
                 // In case of timeout or other messages received
                 default:
-                    Toast.makeText(InitActivity.this, "Error: Timeout", Toast.LENGTH_LONG).show();
+                    Toast.makeText(InitActivity.this, "Error: Can not connect to the arduino", Toast.LENGTH_LONG).show();
                     drone.setStatus(false);
                     break;
             }
@@ -345,10 +347,7 @@ public class InitActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        on.setEnabled(false);
-        connect.setEnabled(false);
-        on.setClickable(false);
-        connect.setClickable(false);
+        connect_button_enable = false;
         try {
             String[] ips = getAllEntries();
             // Set our adapter

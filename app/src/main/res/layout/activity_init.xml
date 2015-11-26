@@ -22,21 +22,18 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:text="@string/connect_button"
-        android:clickable="false"
         android:id="@+id/button_con"
         android:textColor="#ffffff"
         android:background="@drawable/connect"
         android:textSize="18sp"
         android:layout_below="@+id/ip_field"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="100dp"
-        android:enabled="false" />
+        android:layout_marginLeft="100dp" />
 
     <Button
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:text="@string/on_button"
-        android:clickable="false"
         android:id="@+id/button_on"
         android:textColor="#ffffff"
         android:background="@drawable/on"
