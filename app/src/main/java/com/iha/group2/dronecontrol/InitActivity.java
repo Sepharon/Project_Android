@@ -113,7 +113,7 @@ public class InitActivity extends AppCompatActivity {
         ip.addTextChangedListener(textwatcher);
 
         try {
-            gif.loadUrl("https://i.imgur.com/l54Uwb7.gif");
+            gif.loadUrl("http://i.imgur.com/rUNrbA2.gif");
         } catch (NullPointerException es) {
             es.printStackTrace();
         }
@@ -200,7 +200,7 @@ public class InitActivity extends AppCompatActivity {
                     }
                 }
                 else
-                    Toast.makeText(InitActivity.this, "You need to write and IP first", Toast.LENGTH_LONG).show();
+                    Toast.makeText(InitActivity.this, "You need to write an IP first", Toast.LENGTH_LONG).show();
             }
         });
         data.setOnClickListener(new View.OnClickListener() {
