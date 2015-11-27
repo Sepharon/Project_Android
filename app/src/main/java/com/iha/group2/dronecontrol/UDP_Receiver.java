@@ -106,7 +106,7 @@ public class UDP_Receiver extends Service {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        socket.close();
+        if (socket != null) socket.close();
         stopSelf();
     }
 
@@ -128,8 +128,6 @@ public class UDP_Receiver extends Service {
         try {
             IPAddress = InetAddress.getByName(ip);
         }catch(UnknownHostException e){
-
-            Log.v("Servie Receiver","oashidaisuhdas");
             broadcast_toInit("Invalid_IP", 0);
             return 1;
         }

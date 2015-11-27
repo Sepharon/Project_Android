@@ -347,7 +347,7 @@ public class InitActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        connect_button_enable = false;
+        if (ip.getText().length() == 0) connect_button_enable = false;
         try {
             String[] ips = getAllEntries();
             // Set our adapter
