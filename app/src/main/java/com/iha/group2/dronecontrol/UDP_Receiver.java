@@ -149,11 +149,7 @@ public class UDP_Receiver extends Service {
         socket.setSoTimeout(timeout);
 
         // We wait until we receive a packet or timeout happens
-        /*if (t != null) try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+
         t = new Thread(new Runnable() {
                 @Override
                 public void run() {

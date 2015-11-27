@@ -97,22 +97,21 @@ public class DataActivity extends ListActivity {
                     if (isExternalStorageWritable()) {
                         try {
                             File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                            File file = new File(path,"weatherdata.txt"); // définir l'arborescence
+                            File file = new File(path,"weatherdata.txt");
 
                             if (!file.exists()) {
                                 file_created = file.createNewFile();
                                 Log.v("Data","file created");
                             }
-                            if (file_created) {
-                                FileWriter filewriter = new FileWriter(file, true);
-                                filewriter.write("******");
-                                filewriter.write("\n");
-                                filewriter.write(item);
-                                filewriter.write("\n");
-                                filewriter.close();
-                            }
+
+                            FileWriter filewriter = new FileWriter(file, true);
+                            filewriter.write("******");
+                            filewriter.write("\n");
+                            filewriter.write(item);
+                            filewriter.write("\n");
+                            filewriter.close();
+
                             Log.v("DataActivity:", "" + file.getAbsolutePath());
-                            Log.v("DataActivity:","asdas");
                             Log.v("DataActivity item:",""+ item);
                         } catch (Exception e) {
                             e.printStackTrace();
