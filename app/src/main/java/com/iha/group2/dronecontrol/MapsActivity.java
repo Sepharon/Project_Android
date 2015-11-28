@@ -272,9 +272,10 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (drone.getStatus()) {
-//                    t.cancel();
+                    t.cancel();
                     t_internet.cancel();
                     //ask_camera = true;
+                    send_data("Halt");
                     Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
                     stopService(in);
                     Intent intent2 = new Intent(MapsActivity.this, Sensor_Data.class);
@@ -301,16 +302,16 @@ public class MapsActivity extends FragmentActivity {
         });
 
         // It gets the current position of the drone on create the activity
-        //receive_data("GPS");
+        receive_data("GPS");
 
         // This counter asks for GPS data every 20 seconds
-        /*t = new CountDownTimer(10000,1000){
+        t = new CountDownTimer(10000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
                  receive_data("GPS");
                  start();
                 }
-        }.start();*/
+        }.start();
 
         // This counter checks if the device is connected to a network every 10 seconds
         t_internet = new CountDownTimer(10000,1000){
@@ -412,7 +413,7 @@ public class MapsActivity extends FragmentActivity {
                     Thus we need to split the messages
                     with ';'
                     */
-                    /*String lat = result.split(";")[0];
+                    String lat = result.split(";")[0];
                     String lng = result.split(";")[1];
                     String alt = result.split(";")[2];
                     String speed = result.split(";")[3];
@@ -424,7 +425,7 @@ public class MapsActivity extends FragmentActivity {
                     setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
                     speed_text.setText(((float) (Float.parseFloat(speed)*0.514444))+" m/s");
                     Altitude_text.setText(alt+" m");
-                    break;*/
+                    break;
                 // Stop result
                 case 1:
                     Toast.makeText(MapsActivity.this, "UDP connection closed", Toast.LENGTH_SHORT).show();
@@ -512,9 +513,9 @@ public class MapsActivity extends FragmentActivity {
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
         startService(intent);
         // Ask GPS data
-        //receive_data("GPS");
+        receive_data("GPS");
         // Start counters again
-        //t.start();
+        t.start();
         t_internet.start();
         // Set up map
         setUpMapIfNeeded();
@@ -535,7 +536,7 @@ public class MapsActivity extends FragmentActivity {
         drone.setStatus(false);
         //connected=false;
         //Cancel counters
-        //t.cancel();
+        t.cancel();
         t_internet.cancel();
         // Stop services
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
