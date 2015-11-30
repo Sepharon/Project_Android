@@ -43,7 +43,7 @@ public class UDPconnection extends Service {
         ip = drone.getIP();
         // Get the value that we want to send
 
-        if ((v = intent.getStringExtra("value")) == null){
+        if ((v = intent.getStringExtra("value")) == null) {
             return START_STICKY;
         }
         Log.v("Service ip: ",ip);
