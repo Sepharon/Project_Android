@@ -63,7 +63,7 @@ public class MapsActivity extends FragmentActivity {
     CountDownTimer t_internet;
     private MyReceiver receiver;
     //boolean connected;
-    boolean restore;
+    boolean restore = false;
     Thread t_move;
     Thread con;
     boolean isPressed;
