@@ -195,8 +195,8 @@ public class UDP_Receiver extends Service {
                         case "GPS":
                             String GPS_value = ms.split("!")[1];
                             Log.v("GPS result: ", GPS_value);
-                        broadcast_result(GPS_value, 0);
-                        break;
+                            broadcast_result(GPS_value, 0);
+                            break;
                     default:
                         broadcast_result(rec_msg, 5);
                 }
