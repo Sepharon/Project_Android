@@ -79,7 +79,7 @@ public class DataActivity extends ListActivity {
         //get the item clicked
         final String item = (String) getListAdapter().getItem(position);
         //options that would appear when you click
-        CharSequence options[] = new CharSequence[]{"Save"};
+        CharSequence options[] = new CharSequence[]{"Save", "Delete"};
 
         //new Dialog
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -87,9 +87,9 @@ public class DataActivity extends ListActivity {
         alertDialogBuilder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) { //delete option
+                if (which == 0) { //save option
                     /*when you click, you will get
-                    item = "Date: 2015-01-12\n GPS: 50.1-20.1-\n Humidity: 80%\n Speed: 5.1km\nTemperature: 20ºC\n"
+                    item = "Date: 2015-01-12\n GPS: 50.1-20.1-\nTemperature: 20ºC\n"
                     we want to split it by "\n" and then ": " to get the values
                     then it stores the selected item to the file, delete it from the database and
                     finally, reload the activity to show the new items from the database
@@ -119,7 +119,9 @@ public class DataActivity extends ListActivity {
                     } else {
                         Toast.makeText(DataActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
-
+                    Toast.makeText(DataActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
+                }
+                else if (which==1){ //delete
                     String[] parts = item.split("\n");
                     String[] date = parts[0].split(": ");
                     String[] args = new String[]{date[1]};
