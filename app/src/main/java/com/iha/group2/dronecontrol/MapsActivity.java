@@ -65,7 +65,9 @@ public class MapsActivity extends FragmentActivity {
     //boolean connected;
     boolean restore;
     Thread t_move;
+    Thread con;
     boolean isPressed;
+    boolean waiting_time = false;
 
     RelativeLayout layout;
 
@@ -302,10 +304,10 @@ public class MapsActivity extends FragmentActivity {
         });
 
         // It gets the current position of the drone on create the activity
-        receive_data("GPS");
+        //receive_data("GPS");
 
         // This counter asks for GPS data every 20 seconds
-        t = new CountDownTimer(10000,1000){
+        t = new CountDownTimer(5000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
                  receive_data("GPS");
@@ -488,6 +490,39 @@ public class MapsActivity extends FragmentActivity {
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_DATA, values);
                     Log.v("Map Activity: ", result);
                     drone.setStatus(true);
+                    break;
+                case 6:
+                    drone.setStatus(false);
+                    if (con == null) {
+                        Toast.makeText(MapsActivity.this, "Internet connection lost", Toast.LENGTH_SHORT).show();
+                        Log.v("Maps Activity: ", "Wifi shield sucks");
+                        con = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                t.cancel();
+                                t_internet.cancel();
+                                Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
+                                stopService(intent);
+                                while (!drone.getStatus()) {
+                                    receive_data("lostC");
+                                    SystemClock.sleep(1000);
+                                }
+
+                            }
+                        });
+                        con.start();
+                    }
+                    break;
+                case 7:
+                    drone.setStatus(true);
+                    Toast.makeText(MapsActivity.this, "Internet connection restored", Toast.LENGTH_SHORT).show();
+                    Log.v("MapsActivity","connection restored");
+                    Intent in = new Intent(getBaseContext(), Sensor_Data.class);
+                    startService(in);
+                    t.start();
+                    t_internet.start();
+                    break;
+
                 default:
                     Log.v("Map Activity:","Unknown result = " +result);
             }
@@ -537,6 +572,7 @@ public class MapsActivity extends FragmentActivity {
         drone.setStatus(false);
         //connected=false;
         //Cancel counters
+        if (con != null) con.interrupt();
         t.cancel();
         t_internet.cancel();
         // Stop services

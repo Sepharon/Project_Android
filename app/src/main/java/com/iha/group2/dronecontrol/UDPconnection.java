@@ -38,11 +38,14 @@ public class UDPconnection extends Service {
     //It calls the function send_msg to send the message depending on the "value" to the "ip" written
     public int onStartCommand(final Intent intent, int flags, int startId) {
         // Use drone instance to get IP
+        String v;
         drone= Drone.getInstance();
         ip = drone.getIP();
         // Get the value that we want to send
 
-        final String v = intent.getStringExtra("value");
+        if ((v = intent.getStringExtra("value")) == null){
+            return START_STICKY;
+        }
         Log.v("Service ip: ",ip);
         Log.v("Service value: ",v);
         // Check if drone is connected.

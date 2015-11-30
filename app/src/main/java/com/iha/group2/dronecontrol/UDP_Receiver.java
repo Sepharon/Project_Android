@@ -96,7 +96,14 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
-            // Default response
+            case "lostC":
+                try {
+                    get_msg(ip,action,UDP_port);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+                // Default response
             default:
                 Log.v("Service Receiver:", "Unknown Action " + action);
         }
@@ -160,13 +167,16 @@ public class UDP_Receiver extends Service {
                     try {
                         socket.receive(receive_pkt);
                         Log.v("Service Receiver:", "Data received");
+                        socket.close();
                     }
                     // In case of timeout
                     catch (IOException e) {
-                        Log.v("Service Receiver:", "Timeout");
+                        Log.v("Service Receiver:", "Timeout " + msg);
                         // Set status to not connected
-                        drone.setStatus(false);
+                        //drone.setStatus(false);
                         // Close connection
+                        Log.v("Connection status: ","Lost");
+                        //broadcast_result("LostConnection", 6);
                         socket.close();
                         if (msg.equals("connect")) broadcast_toInit("error",0);
                     }
@@ -196,6 +206,10 @@ public class UDP_Receiver extends Service {
                             String GPS_value = ms.split("!")[1];
                             Log.v("GPS result: ", GPS_value);
                             broadcast_result(GPS_value, 0);
+                            break;
+                        case "lostC":
+                            Log.v("Connection status: ","Restored");
+                            broadcast_result("restored",7);
                             break;
                     default:
                         broadcast_result(rec_msg, 5);
