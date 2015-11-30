@@ -425,6 +425,7 @@ public class MapsActivity extends FragmentActivity {
                     setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
                     speed_text.setText(((float) (Float.parseFloat(speed)*0.514444))+" m/s");
                     Altitude_text.setText(alt+" m");
+                    drone.setStatus(true);
                     break;
                 // Stop result
                 case 1:
@@ -486,7 +487,7 @@ public class MapsActivity extends FragmentActivity {
                     //insert to the database
                     getContentResolver().insert(SQL_IP_Data_Base.CONTENT_URI_DATA, values);
                     Log.v("Map Activity: ", result);
-
+                    drone.setStatus(true);
                 default:
                     Log.v("Map Activity:","Unknown result = " +result);
             }
