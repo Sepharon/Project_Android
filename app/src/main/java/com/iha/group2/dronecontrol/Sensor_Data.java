@@ -49,7 +49,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
         // We want to get data from the accelerometer
         Sensor mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         // We want short delay between updates
-        mSensorManager.registerListener(this, mSensor,1000 /*SensorManager.SENSOR_DELAY_UI*/);
+        mSensorManager.registerListener(this, mSensor,100000 /*SensorManager.SENSOR_DELAY_UI*/);
 
         drone = Drone.getInstance();
         try {
@@ -107,7 +107,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
         }
         else if (res == 1) {
             //D
-            u_d = "U";
+            u_d = "D";
             intent.putExtra("value",u_d);
             //intent.putExtra("ip", ip);
             intent.putExtra("action","");
@@ -115,7 +115,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
         }
         else {
             //N
-            u_d = "U";
+            u_d = "N";
             intent.putExtra("value",u_d);
             //intent.putExtra("ip", ip);
             intent.putExtra("action","");
