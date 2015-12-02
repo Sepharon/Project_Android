@@ -27,7 +27,7 @@ public class UDPconnection extends Service {
     static final int movement_port = 8888;
 
     Drone drone;
-    String ip;
+    String ip = " ";
     DatagramSocket client_socket;
 
     @Override
@@ -40,12 +40,11 @@ public class UDPconnection extends Service {
         // Use drone instance to get IP
         String v;
         drone= Drone.getInstance();
-        ip = drone.getIP();
+        if (drone.getIP() != null)  ip = drone.getIP();
         // Get the value that we want to send
 
-        if ((v = intent.getStringExtra("value")) == null) {
-            return START_STICKY;
-        }
+        if (intent == null) return START_STICKY;
+        v = intent.getStringExtra("value");
         Log.v("Service ip: ",ip);
         Log.v("Service value: ",v);
         // Check if drone is connected.

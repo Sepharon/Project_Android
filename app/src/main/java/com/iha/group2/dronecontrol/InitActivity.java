@@ -147,12 +147,10 @@ public class InitActivity extends AppCompatActivity {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
-                    Intent intent = new Intent(getBaseContext(), UDPconnection.class);
-                    intent.putExtra("value", "ON");
-                    startService(intent);
-                    // Start MapsActivity
-                    Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
-                    startActivity(second_act);
+                    Intent i = new Intent(getBaseContext(), UDP_Receiver.class);
+                    i.putExtra("action", "ON");
+                    startService(i);
+
                 }
                 // Otherwise show message
                 else
@@ -282,6 +280,11 @@ public class InitActivity extends AppCompatActivity {
                 case "Invalid_IP":
                     Toast.makeText(InitActivity.this, "You need to write an IP", Toast.LENGTH_LONG).show();
                 // In case of timeout or other messages received
+                    break;
+                case "ON":
+                    Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
+                    startActivity(second_act);
+                    break;
                 default:
                     Toast.makeText(InitActivity.this, "Error: Can not connect to the arduino", Toast.LENGTH_LONG).show();
                     drone.setStatus(false);

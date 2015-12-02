@@ -45,6 +45,9 @@ def servidor():
                         elif data == "Stop":
                             s.sendto("OK",addr)
                             print "\nOK\n"
+                        elif data == "ON":
+                            s.sendto("ON\n",addr)
+                            print "\nON\n"
                         elif data == "connect":
                             print "alive"
                             s.sendto("alive\n",addr)

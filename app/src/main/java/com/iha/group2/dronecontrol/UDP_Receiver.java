@@ -22,7 +22,6 @@ http://developer.android.com/reference/java/net/DatagramSocket.html
 /*This class extends a Service
 It sends a message to Arduino (or UDP server) and then it receives an answer from it
  */
-
 public class UDP_Receiver extends Service {
 
     // Some initializations
@@ -40,13 +39,15 @@ public class UDP_Receiver extends Service {
 
     // Start function from service
     public int onStartCommand(final Intent intent, int flags, int startId) {
+        String action;
         // Get drone instance
         drone = Drone.getInstance();
         // Get IP from drone class
-        ip = drone.getIP();
+        if (drone.getIP() != null)  ip = drone.getIP();
         //Log.v("UDP_receiver", ip);
         // Get action
-        final String action = intent.getStringExtra("action");
+        if (intent == null) return START_STICKY;
+        action = intent.getStringExtra("action");
         Log.v("actionUDP", ""+action);
         // Do something depending on the action.
         switch (action) {
@@ -96,6 +97,13 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
+            case "ON":
+                try{
+                    get_msg(ip, action, UDP_port);
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "lostC":
                 try {
                     get_msg(ip,action,UDP_port);
@@ -139,7 +147,7 @@ public class UDP_Receiver extends Service {
             return 1;
         }
         // Create new socket
-        socket = new DatagramSocket();
+        if (socket == null) socket = new DatagramSocket();
 
         Log.v("Service Receiver:", "Sending connection packet");
 
@@ -151,8 +159,6 @@ public class UDP_Receiver extends Service {
         Log.v("Service Receiver:", "Receiving packet");
         // Preparing packet to receive data
 
-
-        // Timeout
         socket.setSoTimeout(timeout);
 
         // We wait until we receive a packet or timeout happens
@@ -161,26 +167,27 @@ public class UDP_Receiver extends Service {
                 @Override
                 public void run() {
                     byte[] receive_data = new byte[64];
-                    DatagramPacket receive_pkt = new DatagramPacket(receive_data,receive_data.length);
-                    String rec_msg;
+
+                    String rec_msg = " ";
                     Log.v("Service Receiver:", "Waiting for data");
                     try {
-                        socket.receive(receive_pkt);
+
+                        DatagramPacket socket_msg = new DatagramPacket(receive_data,receive_data.length);
+                        socket.receive(socket_msg);
                         Log.v("Service Receiver:", "Data received");
-                        socket.close();
-                    }
-                    // In case of timeout
+                        rec_msg = new String(socket_msg.getData());
+                        //socket.close();
+                        }
+                        // In case of timeout
                     catch (IOException e) {
                         Log.v("Service Receiver:", "Timeout " + msg);
-                        // Set status to not connected
-                        //drone.setStatus(false);
                         // Close connection
-                        Log.v("Connection status: ","Lost");
+                        // Log.v("Connection status: ", "Lost");
                         //broadcast_result("LostConnection", 6);
-                        socket.close();
-                        if (msg.equals("connect")) broadcast_toInit("error",0);
-                    }
-                    rec_msg = new String(receive_pkt.getData());
+                        //socket.close();
+                        if (msg.equals("connect") || msg.equals("ON")) broadcast_toInit("error", 0);
+                     }
+                    Log.v("Service asdfas",rec_msg);
                     Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
                     //this variable splits the messages received by \n because the buffer can contain others undesired characters
                     String ms = rec_msg.split("\n")[0];
@@ -200,12 +207,17 @@ public class UDP_Receiver extends Service {
                             break;
                         case "Weather":
                             String weather_value = ms.split("!")[1];
+                            Log.v("weather result:",weather_value);
                             broadcast_result(weather_value, 4);
                             break;
                         case "GPS":
                             String GPS_value = ms.split("!")[1];
                             Log.v("GPS result: ", GPS_value);
                             broadcast_result(GPS_value, 0);
+                            break;
+                        case "ON":
+                            broadcast_toInit(act,0);
+                            Log.v("ON result"," correct");
                             break;
                         case "lostC":
                             Log.v("Connection status: ","Restored");

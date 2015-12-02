@@ -67,7 +67,7 @@ public class MapsActivity extends FragmentActivity {
     Thread t_move;
     Thread con;
     boolean isPressed;
-    boolean waiting_time = false;
+    boolean camera_activity_halt = false;
 
     RelativeLayout layout;
 
@@ -277,6 +277,7 @@ public class MapsActivity extends FragmentActivity {
                     t.cancel();
                     t_internet.cancel();
                     //ask_camera = true;
+                    camera_activity_halt = true;
                     send_data("Halt");
                     Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
                     stopService(in);
@@ -307,11 +308,11 @@ public class MapsActivity extends FragmentActivity {
         //receive_data("GPS");
 
         // This counter asks for GPS data every 20 seconds
-        t = new CountDownTimer(5000,1000){
+        t = new CountDownTimer(10000,1000){
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
-                 receive_data("GPS");
-                 start();
+                receive_data("GPS");
+                start();
                 }
         }.start();
 
@@ -320,6 +321,7 @@ public class MapsActivity extends FragmentActivity {
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
                 // Check connection
+
                 receive_data("Check");
                 start();
             }
@@ -425,9 +427,10 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity: ", "Speed (knots): " + speed);
                     // Create new marker in the new position
                     setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
-                    speed_text.setText(((float) (Float.parseFloat(speed)*0.514444))+" m/s");
+                    speed_text.setText(((float) (Float.parseFloat(speed) * 0.514444)) + " m/s");
                     Altitude_text.setText(alt+" m");
                     drone.setStatus(true);
+
                     break;
                 // Stop result
                 case 1:
@@ -464,8 +467,13 @@ public class MapsActivity extends FragmentActivity {
                     String LNG = result.split(";")[1];
                     String HOUR = result.split(";")[2];
                     String TEMP = result.split(";")[3];
-                    double celsius_temp = Float.parseFloat(TEMP)*0.0625;
-                    String ts="";
+                    double celsius_temp = 0;
+                    try {
+                         celsius_temp= Float.parseFloat(TEMP) * 0.0625;
+                    }catch(NumberFormatException e){
+                        e.printStackTrace();
+                    }
+                        String ts="";
                     // We receive the time in the following format : HHMMSS
                     // thus we want to get HH:MM:SS
                     for (int i=0;i<HOUR.length();i++){
@@ -477,11 +485,11 @@ public class MapsActivity extends FragmentActivity {
 
                     //create new content values to store in the database
                     values = new ContentValues();
-
+                    Log.v("MapsActivity","timestamp: " + ts);
                     values.put(SQL_IP_Data_Base.DateTime, ts);
                     values.put(SQL_IP_Data_Base.GPS, LAT+", "+LNG);
                     try {
-                        if (celsius_temp == -0.06) values.put(SQL_IP_Data_Base.Temperature,"No data, check the sensor");
+                        if (celsius_temp == -0.0625) values.put(SQL_IP_Data_Base.Temperature,"No data, check the sensor");
                         else values.put(SQL_IP_Data_Base.Temperature,celsius_temp+"");
                     } catch (NumberFormatException es){
                         values.put(SQL_IP_Data_Base.Temperature, "NS ");
@@ -542,6 +550,7 @@ public class MapsActivity extends FragmentActivity {
         // Assume connection is established.
         //connected=true;
         //ask_camera=false;
+        camera_activity_halt = false;
         drone.setStatus(true);
         //Check network connection
         receive_data("Check");
@@ -567,7 +576,7 @@ public class MapsActivity extends FragmentActivity {
         super.onPause();
         Log.v("MapsActivity2", "onPause");
         // Tell arduino no more data is coming
-        receive_data("Stop");
+        if (!camera_activity_halt) receive_data("Stop");
         // Connection set to false, no more data is going to be sent
         drone.setStatus(false);
         //connected=false;
@@ -580,8 +589,33 @@ public class MapsActivity extends FragmentActivity {
         stopService(intent);
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
+        Intent ing = new Intent(getBaseContext(),UDPconnection.class);
+        stopService(ing);
         // Unregister receiver
         this.unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        // Tell arduino no more data is coming
+        if (!camera_activity_halt) receive_data("Stop");
+        // Connection set to false, no more data is going to be sent
+        drone.setStatus(false);
+        //connected=false;
+        //Cancel counters
+        if (con != null) con.interrupt();
+        t.cancel();
+        t_internet.cancel();
+        // Stop services
+        Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
+        stopService(intent);
+        Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
+        stopService(in);
+        Intent ing = new Intent(getBaseContext(),UDPconnection.class);
+        stopService(ing);
+        // Unregister receiver
+//        this.unregisterReceiver(receiver);
     }
 
 
