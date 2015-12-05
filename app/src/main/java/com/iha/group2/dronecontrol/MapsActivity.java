@@ -426,7 +426,14 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity: ", "Alt: " + alt);
                     Log.v("Map Activity: ", "Speed (knots): " + speed);
                     // Create new marker in the new position
-                    setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
+                    try {
+                        setUpMap(Float.parseFloat(lat), Float.parseFloat(lng));
+                    }catch(NumberFormatException e){
+                        e.printStackTrace();
+                        Log.v("Maps Activity: ","GPS N error");
+
+                    }
+                    // Go from knots to m/s
                     speed_text.setText(((float) (Float.parseFloat(speed) * 0.514444)) + " m/s");
                     Altitude_text.setText(alt+" m");
                     drone.setStatus(true);
@@ -467,22 +474,37 @@ public class MapsActivity extends FragmentActivity {
                     String LNG = result.split(";")[1];
                     String HOUR = result.split(";")[2];
                     String TEMP = result.split(";")[3];
-                    double celsius_temp = 0;
+                    double celsius_temp;
                     try {
                          celsius_temp= Float.parseFloat(TEMP) * 0.0625;
                     }catch(NumberFormatException e){
                         e.printStackTrace();
+                        celsius_temp = -0.0625;
+                        Log.v("Maps Activity: ","N in floats error");
                     }
-                        String ts="";
+                    String ts="";
                     // We receive the time in the following format : HHMMSS
                     // thus we want to get HH:MM:SS
                     for (int i=0;i<HOUR.length();i++){
+                        // if the value is not between a '0' or a '9' it means we have interferences
+                        if (HOUR.charAt(i)> 0x39 || HOUR.charAt(i) < 0x30){
+                            ts = "00:00:00";
+                            break;
+                        }
                         ts+=HOUR.charAt(i);
                         if (i==1 | i==3) ts+=":";
                         else if (i==5) break;
 
                     }
+                    try {
+                        setUpMap(Float.parseFloat(LAT), Float.parseFloat(LNG));
+                    }catch(NumberFormatException e){
+                        e.printStackTrace();
+                        Log.v("Maps Activity: ","GPS N error");
+                        LAT = "0.00";
+                        LNG = "0.00";
 
+                    }
                     //create new content values to store in the database
                     values = new ContentValues();
                     Log.v("MapsActivity","timestamp: " + ts);
@@ -503,7 +525,6 @@ public class MapsActivity extends FragmentActivity {
                     drone.setStatus(false);
                     if (con == null) {
                         Toast.makeText(MapsActivity.this, "Internet connection lost", Toast.LENGTH_SHORT).show();
-                        Log.v("Maps Activity: ", "Wifi shield sucks");
                         con = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -597,6 +618,7 @@ public class MapsActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed(){
+        // Needed
         super.onBackPressed();
         // Tell arduino no more data is coming
         if (!camera_activity_halt) receive_data("Stop");
@@ -614,8 +636,6 @@ public class MapsActivity extends FragmentActivity {
         stopService(in);
         Intent ing = new Intent(getBaseContext(),UDPconnection.class);
         stopService(ing);
-        // Unregister receiver
-//        this.unregisterReceiver(receiver);
     }
 
 
@@ -657,6 +677,4 @@ public class MapsActivity extends FragmentActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
-
-
 }

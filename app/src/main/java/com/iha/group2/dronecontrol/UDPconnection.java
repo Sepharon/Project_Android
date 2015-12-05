@@ -70,7 +70,7 @@ public class UDPconnection extends Service {
         final int msg_length = msg.length();
         final byte[] message = msg.getBytes();
         // Create a socket
-        client_socket = new DatagramSocket();
+        if (client_socket == null) client_socket = new DatagramSocket();
         InetAddress IPAddress = InetAddress.getByName(Ip);
         // Create UDP packet
         DatagramPacket p = new DatagramPacket(message, msg_length, IPAddress, movement_port);
@@ -78,7 +78,5 @@ public class UDPconnection extends Service {
         Log.v("Service:", "Sending packet");
         client_socket.send(p);
         Log.v("Service:", "Packet sent");
-        // Close connection
-        client_socket.close();
     }
 }
