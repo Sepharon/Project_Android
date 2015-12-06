@@ -97,7 +97,6 @@ public class Sensor_Data extends Service implements SensorEventListener {
         // Get movement
         res = calculate_movement(actual_value);
         // Depending on the movement we send Up, Down or Normal
-        //SystemClock.sleep(500);
         if (res == 2) {
             u_d = "U";
             intent.putExtra("value",u_d);

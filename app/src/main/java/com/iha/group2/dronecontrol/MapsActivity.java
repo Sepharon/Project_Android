@@ -59,15 +59,17 @@ public class MapsActivity extends FragmentActivity {
     TextView Altitude_text;
 
     IntentFilter filter;
+    private MyReceiver receiver;
+
     CountDownTimer t;
     CountDownTimer t_internet;
-    private MyReceiver receiver;
-    //boolean connected;
+
     boolean restore = false;
-    Thread t_move;
-    Thread con;
     boolean isPressed;
     boolean camera_activity_halt = false;
+
+    Thread t_move;
+    Thread con;
 
     RelativeLayout layout;
 
@@ -119,7 +121,6 @@ public class MapsActivity extends FragmentActivity {
         //this one will be used for full screen mode
         layout = (RelativeLayout)findViewById(R.id.map_layout);
 
-        //connected=true;
         restore = false;
 
         Log.v("Drone Control ip: ", ip);
@@ -262,6 +263,8 @@ public class MapsActivity extends FragmentActivity {
             public void onClick(View v) {
                 if (drone.getStatus()) {
                     send_data("IV");
+                }else {
+                    Toast.makeText(MapsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -276,7 +279,7 @@ public class MapsActivity extends FragmentActivity {
                 if (drone.getStatus()) {
                     t.cancel();
                     t_internet.cancel();
-                    //ask_camera = true;
+
                     camera_activity_halt = true;
                     send_data("Halt");
                     Intent in = new Intent(MapsActivity.this, UDP_Receiver.class);
@@ -285,6 +288,7 @@ public class MapsActivity extends FragmentActivity {
                     stopService(intent2);
                     Intent intent = new Intent(MapsActivity.this, Streaming_camera.class);
                     startActivity(intent);
+                    // No IP camera available
                     //receive_data("camera", ip);
                 }
             }
@@ -321,7 +325,6 @@ public class MapsActivity extends FragmentActivity {
             public void onTick (long millisUntilFinished){}
             public void onFinish(){
                 // Check connection
-
                 receive_data("Check");
                 start();
             }
@@ -437,7 +440,6 @@ public class MapsActivity extends FragmentActivity {
                     speed_text.setText(((float) (Float.parseFloat(speed) * 0.514444)) + " m/s");
                     Altitude_text.setText(alt+" m");
                     drone.setStatus(true);
-
                     break;
                 // Stop result
                 case 1:
@@ -521,6 +523,8 @@ public class MapsActivity extends FragmentActivity {
                     Log.v("Map Activity: ", result);
                     drone.setStatus(true);
                     break;
+
+                // Deprecated
                 case 6:
                     drone.setStatus(false);
                     if (con == null) {
@@ -542,6 +546,7 @@ public class MapsActivity extends FragmentActivity {
                         con.start();
                     }
                     break;
+                // Deprecated
                 case 7:
                     drone.setStatus(true);
                     Toast.makeText(MapsActivity.this, "Internet connection restored", Toast.LENGTH_SHORT).show();
@@ -568,11 +573,10 @@ public class MapsActivity extends FragmentActivity {
         Log.v("MapsActivity2", "onResume");
         // Register received again
         this.registerReceiver(receiver, filter);
-        // Assume connection is established.
-        //connected=true;
-        //ask_camera=false;
+
         camera_activity_halt = false;
         drone.setStatus(true);
+
         //Check network connection
         receive_data("Check");
         // Start service class
@@ -597,10 +601,10 @@ public class MapsActivity extends FragmentActivity {
         super.onPause();
         Log.v("MapsActivity2", "onPause");
         // Tell arduino no more data is coming
+        // We do this because when clicking the stream button we do not want to send "Stop" since that stops the motors
         if (!camera_activity_halt) receive_data("Stop");
         // Connection set to false, no more data is going to be sent
         drone.setStatus(false);
-        //connected=false;
         //Cancel counters
         if (con != null) con.interrupt();
         t.cancel();
@@ -616,6 +620,7 @@ public class MapsActivity extends FragmentActivity {
         this.unregisterReceiver(receiver);
     }
 
+    // Nedded since pressing the back button to go to InitActivity would not stop the services
     @Override
     public void onBackPressed(){
         // Needed
@@ -624,7 +629,6 @@ public class MapsActivity extends FragmentActivity {
         if (!camera_activity_halt) receive_data("Stop");
         // Connection set to false, no more data is going to be sent
         drone.setStatus(false);
-        //connected=false;
         //Cancel counters
         if (con != null) con.interrupt();
         t.cancel();

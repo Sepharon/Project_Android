@@ -97,6 +97,7 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
+            // This message arms the motors on the drone.
             case "ON":
                 try{
                     get_msg(ip, action, UDP_port);
@@ -104,6 +105,7 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
+            // Deprecated
             case "lostC":
                 try {
                     get_msg(ip,action,UDP_port);
@@ -132,19 +134,18 @@ public class UDP_Receiver extends Service {
         /*
         Variables declaration
          */
-        // Received message will be written here
-
         // Get message length
         int msg_length = msg.length();
         // Get bytes from message
         byte[] message = msg.getBytes();
         InetAddress IPAddress;
         // Get IP address
+        // Check if what the user wrote is an IP, if not send a message.
         try {
             IPAddress = InetAddress.getByName(ip);
         }catch(UnknownHostException e){
             broadcast_toInit("Invalid_IP", 0);
-            return 1;
+            return 0;
         }
         // Create new socket
         if (socket == null) socket = new DatagramSocket();
@@ -176,18 +177,12 @@ public class UDP_Receiver extends Service {
                         socket.receive(socket_msg);
                         Log.v("Service Receiver:", "Data received");
                         rec_msg = new String(socket_msg.getData());
-                        //socket.close();
                         }
                         // In case of timeout
                     catch (IOException e) {
                         Log.v("Service Receiver:", "Timeout " + msg);
-                        // Close connection
-                        // Log.v("Connection status: ", "Lost");
-                        //broadcast_result("LostConnection", 6);
-                        //socket.close();
                         if (msg.equals("connect") || msg.equals("ON")) broadcast_toInit("error", 0);
                      }
-                    Log.v("Service asdfas",rec_msg);
                     Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
                     //this variable splits the messages received by \n because the buffer can contain others undesired characters
                     String ms = rec_msg.split("\n")[0];
@@ -199,7 +194,6 @@ public class UDP_Receiver extends Service {
                         // If the message is stop, we stop the service and send a message.
                         case "Stop":
                             broadcast_result(act, 1);
-//                            Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
                             break;
                         // Hand Shake message
                         case "alive":
@@ -219,12 +213,13 @@ public class UDP_Receiver extends Service {
                             broadcast_toInit(act,0);
                             Log.v("ON result"," correct");
                             break;
+                        // Deprecated
                         case "lostC":
                             Log.v("Connection status: ","Restored");
                             broadcast_result("restored",7);
                             break;
-                    default:
-                        broadcast_result(rec_msg, 5);
+                        default:
+                            broadcast_result(rec_msg, 5);
                 }
             }
         });

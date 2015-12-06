@@ -210,7 +210,8 @@ public class InitActivity extends AppCompatActivity {
             }
         });
     }
-
+    // This is used to check if the user wrote something on the edit text. If not, the user is not
+    // able to click connect
     private TextWatcher textwatcher = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
@@ -279,12 +280,12 @@ public class InitActivity extends AppCompatActivity {
                     break;
                 case "Invalid_IP":
                     Toast.makeText(InitActivity.this, "You need to write an IP", Toast.LENGTH_LONG).show();
-                // In case of timeout or other messages received
                     break;
                 case "ON":
                     Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
                     startActivity(second_act);
                     break;
+                // In case of timeout or other messages received
                 default:
                     Toast.makeText(InitActivity.this, "Error: Can not connect to the arduino", Toast.LENGTH_LONG).show();
                     drone.setStatus(false);
@@ -373,11 +374,7 @@ public class InitActivity extends AppCompatActivity {
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
         //needed, or else app crashes
-        try {
-            t.interrupt();
-        } catch (NullPointerException es){
-            es.printStackTrace();
-        }
+        if (t!=null) t.interrupt();
         // Unregister receiver
         this.unregisterReceiver(receiver);
 

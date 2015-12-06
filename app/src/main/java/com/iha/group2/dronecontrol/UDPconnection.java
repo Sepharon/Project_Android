@@ -42,7 +42,7 @@ public class UDPconnection extends Service {
         drone= Drone.getInstance();
         if (drone.getIP() != null)  ip = drone.getIP();
         // Get the value that we want to send
-
+        // Check for errors in the intent.
         if (intent == null) return START_STICKY;
         v = intent.getStringExtra("value");
         Log.v("Service ip: ",ip);
@@ -61,7 +61,7 @@ public class UDPconnection extends Service {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        client_socket.close();
+        if (client_socket != null) client_socket.close();
         stopSelf();
     }
 
