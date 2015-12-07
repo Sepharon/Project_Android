@@ -5,6 +5,8 @@ import Queue
 import subprocess
 import atexit
 
+# In order to use this file you just have to call it with no extra option (python arduino_emulator.py)
+
 PORT = 8888
 
 def _exit():
