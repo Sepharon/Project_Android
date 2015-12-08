@@ -147,12 +147,10 @@ public class InitActivity extends AppCompatActivity {
                 // If we clicked connected first and everything was OK...
                 if (state) {
                     state = false;
-                    Intent intent = new Intent(getBaseContext(), UDPconnection.class);
-                    intent.putExtra("value", "ON");
-                    startService(intent);
-                    // Start MapsActivity
-                    Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
-                    startActivity(second_act);
+                    Intent i = new Intent(getBaseContext(), UDP_Receiver.class);
+                    i.putExtra("action", "ON");
+                    startService(i);
+
                 }
                 // Otherwise show message
                 else
@@ -212,7 +210,8 @@ public class InitActivity extends AppCompatActivity {
             }
         });
     }
-
+    // This is used to check if the user wrote something on the edit text. If not, the user is not
+    // able to click connect
     private TextWatcher textwatcher = new TextWatcher() {
 
         public void afterTextChanged(Editable s) {
@@ -281,6 +280,11 @@ public class InitActivity extends AppCompatActivity {
                     break;
                 case "Invalid_IP":
                     Toast.makeText(InitActivity.this, "You need to write an IP", Toast.LENGTH_LONG).show();
+                    break;
+                case "ON":
+                    Intent second_act = new Intent(InitActivity.this, MapsActivity.class);
+                    startActivity(second_act);
+                    break;
                 // In case of timeout or other messages received
                 default:
                     Toast.makeText(InitActivity.this, "Error: Can not connect to the arduino", Toast.LENGTH_LONG).show();
@@ -370,11 +374,7 @@ public class InitActivity extends AppCompatActivity {
         Intent in = new Intent(getBaseContext(),UDP_Receiver.class);
         stopService(in);
         //needed, or else app crashes
-        try {
-            t.interrupt();
-        } catch (NullPointerException es){
-            es.printStackTrace();
-        }
+        if (t!=null) t.interrupt();
         // Unregister receiver
         this.unregisterReceiver(receiver);
 

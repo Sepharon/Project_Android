@@ -13,6 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 
 /*
@@ -47,8 +48,8 @@ public class Sensor_Data extends Service implements SensorEventListener {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         // We want to get data from the accelerometer
         Sensor mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        // We want short delay between updates
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        // We want short delay between updates 0.6S delay
+        mSensorManager.registerListener(this, mSensor/*,SensorManager.SENSOR_DELAY_UI*/,1000000,1000000);
 
         drone = Drone.getInstance();
         try {
@@ -104,6 +105,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
             startService(intent);
         }
         else if (res == 1) {
+            //D
             u_d = "D";
             intent.putExtra("value",u_d);
             //intent.putExtra("ip", ip);
@@ -111,6 +113,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
             startService(intent);
         }
         else {
+            //N
             u_d = "N";
             intent.putExtra("value",u_d);
             //intent.putExtra("ip", ip);

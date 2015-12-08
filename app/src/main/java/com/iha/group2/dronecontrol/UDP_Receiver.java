@@ -22,7 +22,6 @@ http://developer.android.com/reference/java/net/DatagramSocket.html
 /*This class extends a Service
 It sends a message to Arduino (or UDP server) and then it receives an answer from it
  */
-
 public class UDP_Receiver extends Service {
 
     // Some initializations
@@ -40,13 +39,15 @@ public class UDP_Receiver extends Service {
 
     // Start function from service
     public int onStartCommand(final Intent intent, int flags, int startId) {
+        String action;
         // Get drone instance
         drone = Drone.getInstance();
         // Get IP from drone class
-        ip = drone.getIP();
+        if (drone.getIP() != null)  ip = drone.getIP();
         //Log.v("UDP_receiver", ip);
         // Get action
-        final String action = intent.getStringExtra("action");
+        if (intent == null) return START_STICKY;
+        action = intent.getStringExtra("action");
         Log.v("actionUDP", ""+action);
         // Do something depending on the action.
         switch (action) {
@@ -96,6 +97,15 @@ public class UDP_Receiver extends Service {
                     e.printStackTrace();
                 }
                 break;
+            // This message arms the motors on the drone.
+            case "ON":
+                try{
+                    get_msg(ip, action, UDP_port);
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            // Deprecated
             case "lostC":
                 try {
                     get_msg(ip,action,UDP_port);
@@ -124,22 +134,21 @@ public class UDP_Receiver extends Service {
         /*
         Variables declaration
          */
-        // Received message will be written here
-
         // Get message length
         int msg_length = msg.length();
         // Get bytes from message
         byte[] message = msg.getBytes();
         InetAddress IPAddress;
         // Get IP address
+        // Check if what the user wrote is an IP, if not send a message.
         try {
             IPAddress = InetAddress.getByName(ip);
         }catch(UnknownHostException e){
             broadcast_toInit("Invalid_IP", 0);
-            return 1;
+            return 0;
         }
         // Create new socket
-        socket = new DatagramSocket();
+        if (socket == null) socket = new DatagramSocket();
 
         Log.v("Service Receiver:", "Sending connection packet");
 
@@ -151,8 +160,6 @@ public class UDP_Receiver extends Service {
         Log.v("Service Receiver:", "Receiving packet");
         // Preparing packet to receive data
 
-
-        // Timeout
         socket.setSoTimeout(timeout);
 
         // We wait until we receive a packet or timeout happens
@@ -161,26 +168,21 @@ public class UDP_Receiver extends Service {
                 @Override
                 public void run() {
                     byte[] receive_data = new byte[64];
-                    DatagramPacket receive_pkt = new DatagramPacket(receive_data,receive_data.length);
-                    String rec_msg;
+
+                    String rec_msg = " ";
                     Log.v("Service Receiver:", "Waiting for data");
                     try {
-                        socket.receive(receive_pkt);
+
+                        DatagramPacket socket_msg = new DatagramPacket(receive_data,receive_data.length);
+                        socket.receive(socket_msg);
                         Log.v("Service Receiver:", "Data received");
-                        socket.close();
-                    }
-                    // In case of timeout
+                        rec_msg = new String(socket_msg.getData());
+                        }
+                        // In case of timeout
                     catch (IOException e) {
                         Log.v("Service Receiver:", "Timeout " + msg);
-                        // Set status to not connected
-                        //drone.setStatus(false);
-                        // Close connection
-                        Log.v("Connection status: ","Lost");
-                        //broadcast_result("LostConnection", 6);
-                        socket.close();
-                        if (msg.equals("connect")) broadcast_toInit("error",0);
-                    }
-                    rec_msg = new String(receive_pkt.getData());
+                        if (msg.equals("connect") || msg.equals("ON")) broadcast_toInit("error", 0);
+                     }
                     Log.v("Service Receiver", "Data received: " + rec_msg.split("\n")[0]);
                     //this variable splits the messages received by \n because the buffer can contain others undesired characters
                     String ms = rec_msg.split("\n")[0];
@@ -192,7 +194,6 @@ public class UDP_Receiver extends Service {
                         // If the message is stop, we stop the service and send a message.
                         case "Stop":
                             broadcast_result(act, 1);
-//                            Toast.makeText(getApplicationContext(),"Stop",Toast.LENGTH_LONG).show();
                             break;
                         // Hand Shake message
                         case "alive":
@@ -200,6 +201,7 @@ public class UDP_Receiver extends Service {
                             break;
                         case "Weather":
                             String weather_value = ms.split("!")[1];
+                            Log.v("weather result:",weather_value);
                             broadcast_result(weather_value, 4);
                             break;
                         case "GPS":
@@ -207,12 +209,17 @@ public class UDP_Receiver extends Service {
                             Log.v("GPS result: ", GPS_value);
                             broadcast_result(GPS_value, 0);
                             break;
+                        case "ON":
+                            broadcast_toInit(act,0);
+                            Log.v("ON result"," correct");
+                            break;
+                        // Deprecated
                         case "lostC":
                             Log.v("Connection status: ","Restored");
                             broadcast_result("restored",7);
                             break;
-                    default:
-                        broadcast_result(rec_msg, 5);
+                        default:
+                            broadcast_result(rec_msg, 5);
                 }
             }
         });

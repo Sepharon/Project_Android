@@ -5,6 +5,8 @@ import Queue
 import subprocess
 import atexit
 
+# In order to use this file you just have to call it with no extra option (python arduino_emulator.py)
+
 PORT = 8888
 
 def _exit():
@@ -45,6 +47,9 @@ def servidor():
                         elif data == "Stop":
                             s.sendto("OK",addr)
                             print "\nOK\n"
+                        elif data == "ON":
+                            s.sendto("ON\n",addr)
+                            print "\nON\n"
                         elif data == "connect":
                             print "alive"
                             s.sendto("alive\n",addr)
