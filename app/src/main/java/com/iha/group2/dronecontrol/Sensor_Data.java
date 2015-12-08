@@ -31,6 +31,7 @@ public class Sensor_Data extends Service implements SensorEventListener {
     // Threshold values to check the movement.
     float threshold_high = 1.5f;
     float threshold_low = -1.5f;
+    float value = 0;
     boolean first = true;
 
     String ip;
@@ -50,7 +51,11 @@ public class Sensor_Data extends Service implements SensorEventListener {
         Sensor mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         // We want short delay between updates 0.6S delay
         mSensorManager.registerListener(this, mSensor/*,SensorManager.SENSOR_DELAY_UI*/,1000000,1000000);
-
+        if (intent!=null) {
+            value = intent.getFloatExtra("start_value",0);
+            Log.v("sensor_",value+"");
+            if (value != 0) initial_value = value;
+        }
         drone = Drone.getInstance();
         try {
             ip = drone.getIP();
@@ -87,9 +92,11 @@ public class Sensor_Data extends Service implements SensorEventListener {
         // Get ready to send data
         Intent intent = new Intent(getBaseContext(),UDPconnection.class);
 
-        if (first){
+        if (initial_value == 0){
             // Set the first value as the initial_value.
             initial_value = x;
+            Log.v("Sensor_",""+initial_value);
+            broadcast_result(""+initial_value,7);
             first = false;
         }
         // Substract current value and initial_value
@@ -145,5 +152,12 @@ public class Sensor_Data extends Service implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+    public void broadcast_result(String msg,int act){
+        Intent broadcast = new Intent();
+        broadcast.setAction("broadcast");
+        broadcast.putExtra("action",act);
+        broadcast.putExtra("result", msg);
+        sendBroadcast(broadcast);
     }
 }

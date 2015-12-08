@@ -72,7 +72,7 @@ public class MapsActivity extends FragmentActivity {
     Thread con;
 
     RelativeLayout layout;
-
+    float initial_value = 0;
     //Drone class
     Drone drone;
 
@@ -332,6 +332,7 @@ public class MapsActivity extends FragmentActivity {
 
         // Start Sensors_Data service
         Intent intent = new Intent(getBaseContext(), Sensor_Data.class);
+        intent.putExtra("start_value",0);
         startService(intent);
     }
 
@@ -548,13 +549,7 @@ public class MapsActivity extends FragmentActivity {
                     break;
                 // Deprecated
                 case 7:
-                    drone.setStatus(true);
-                    Toast.makeText(MapsActivity.this, "Internet connection restored", Toast.LENGTH_SHORT).show();
-                    Log.v("MapsActivity","connection restored");
-                    Intent in = new Intent(getBaseContext(), Sensor_Data.class);
-                    startService(in);
-                    t.start();
-                    t_internet.start();
+                    initial_value = Float.parseFloat(result);
                     break;
 
                 default:
@@ -581,6 +576,7 @@ public class MapsActivity extends FragmentActivity {
         receive_data("Check");
         // Start service class
         Intent intent = new Intent(getBaseContext(),Sensor_Data.class);
+        intent.putExtra("start_value",initial_value);
         startService(intent);
         // Ask GPS data
         receive_data("GPS");
@@ -658,6 +654,7 @@ public class MapsActivity extends FragmentActivity {
                    send_data(movement);
                    SystemClock.sleep(500);
                }
+               intent.putExtra("start_value",initial_value);
                startService(intent);
            }
        }); t_move.start();
